@@ -34,6 +34,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="ClickNWin\" />
+    <Folder Include="ClickNWin\Images\" />
     <Folder Include="ClickNWin\static\" />
     <Folder Include="ClickNWin\static\content\" />
     <Folder Include="ClickNWin\static\fonts\" />

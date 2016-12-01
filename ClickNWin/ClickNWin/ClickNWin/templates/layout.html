@@ -23,8 +23,12 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li><a href="{{ url_for('home') }}">Home</a></li>
-                    <li><a href="{{url_for('register')}}">Register</a></li>
+                    
                 </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="{{url_for('home')}}">Register</a></li>
+                    <li><a href="{{url_for('home')}}">Log In</a></li>
+                </ul> 
             </div>
         </div>
     </div>
@@ -33,11 +37,11 @@
         {% block content %}{% endblock %}
         <hr />
         <footer>
-            <p>&copy; {{ year }} - My Flask Application</p>
+            <p>&copy; {{ year }} - IT Carlow</p>
         </footer>
     </div>
 
-    <script src="/static/scripts/jquery-1.10.2.js"></script>
+    <script src="/static/scripts/jquery-1.10.2.js"></script>    
     <script src="/static/scripts/bootstrap.js"></script>
     <script src="/static/scripts/respond.js"></script>
     {% block scripts %}{% endblock %}
