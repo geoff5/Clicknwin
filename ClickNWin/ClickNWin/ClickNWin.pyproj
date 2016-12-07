@@ -42,6 +42,8 @@
     <Folder Include="ClickNWin\templates\" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="ClickNWin\static\scripts\SiteScripts.js" />
+    <Content Include="ClickNWin\templates\register.html" />
     <Content Include="requirements.txt" />
     <Content Include="ClickNWin\static\content\bootstrap.css" />
     <Content Include="ClickNWin\static\content\bootstrap.min.css" />

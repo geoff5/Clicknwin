@@ -7,12 +7,10 @@ from flask import render_template
 from ClickNWin import app
 
 @app.route('/')
-@app.route('/home')
+@app.route('/home', methods=['POST'])
 def home():
-    """Renders the home page."""
-    return render_template(
-        'index.html',
-        title='Home Page',
-        year=datetime.now().year,
-    )
+    return render_template('index.html', title='ClickNWin', year=datetime.now().year)
 
+@app.route('/register')
+def register():
+    return render_template('register.html', title='ClickNWin', year = datetime.now().year)

@@ -2,9 +2,12 @@
 
 {% block content %}
 
-<h1 align="centre">Welcome to ClickNWin - The Online Scratch Card Site</h1>
-<h3 align="centre">Online Gaming at its Finest</h3>
+<h1 align="center">Welcome to ClickNWin - The Online Scratch Card Site</h1>
+<h3 align="center">Online Gaming at its Finest</h3>
 
-<!--<img src="../static/DollarSign.jpg" style="height:300px;width:400px;" />-->
+<body>
+    <a href="{{url_for('home')}}">Log in</a> or <a href="{{url_for('register')}}">Register</a> to use the site's features
+
+</body>
 
 {% endblock %}
