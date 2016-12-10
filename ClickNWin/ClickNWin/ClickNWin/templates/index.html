@@ -3,11 +3,18 @@
 {% block content %}
 
 <h1 align="center">Welcome to ClickNWin - The Online Scratch Card Site</h1>
-<h3 align="center">Online Gaming at its Finest</h3>
+<h3 align="center">Online Gaming at its Finest</h3><br /><br />
 
 <body>
-    <a href="{{url_for('login')}}">Log in</a> or <a href="{{url_for('register')}}">Register</a> to use the site's features
-
+    <div class="container">
+        
+        <div class="row row-centered">
+            <div class="col-md-4"></div>
+            <div class="col-md-4 col-centered mainp">
+                <p class="loginphome"><a href="{{url_for('login')}}">Log in</a> or <a href="{{url_for('register')}}">Register</a> to use the site's features</p>
+            </div>
+        </div>
+    </div>
 </body>
 
 {% endblock %}

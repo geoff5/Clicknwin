@@ -1,0 +1,17 @@
+﻿{% extends "loginLayout.html" %}
+
+{% block content %}
+
+<div class="accountTab" style="float:left;">
+    <h3 style="font-weight:bold;">Account Options</h3><br /><br />
+    <a href="{{url_for('loginHome')}}">My Cards</a><br /><br />
+    <a href="{{url_for('loginHome')}}">Update Account Details</a><br /><br />
+    <a href="{{url_for('loginHome')}}">Top Up Funds</a><br /><br />
+    <a href="{{url_for('loginHome')}}">Update Payment Methods</a>
+</div>
+<div style="float:left; width:400px;">
+    <h1 align="center">Account Information</h1>
+</div>
+
+
+{% endblock %}

@@ -9,8 +9,8 @@
 
 /* Set padding to keep content from hitting the edges */
 .body-content {
-    padding-left: 15px;
-    padding-right: 15px;
+    padding-left: 5px;
+    padding-right: 5px;
 }
 
 /* Set width on the form input elements since they're 100% wide by default */
@@ -48,11 +48,29 @@ input[type="checkbox"].input-validation-error {
     display: none;
 }
 
-#loginphome{
+p.loginphome{
     font-size:large;
 }
 
 footer{
     position:absolute;
     top: 550px;
+}
+
+div.accountTab{
+    border-right:solid 1px #000000;
+    border-bottom:solid 1px #000000;
+    height:300px;
+    width:130px;
+}
+
+div.mainp{
+    font-weight:900; 
+    text-shadow: 0px 0px 3px white; 
+    color:black
+}
+label.form-label{
+    font-weight:900; 
+    text-shadow: 0px 0px 3px white; 
+    color:black
 }

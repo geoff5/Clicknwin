@@ -22,3 +22,7 @@ def login():
 @app.route('/loginHome', methods=['POST', 'GET'])
 def loginHome():
     return render_template('loginHome.html', title='ClickNWin', year = datetime.now().year)
+
+@app.route('/myAccount', methods=['POST', 'GET'])
+def myAccount():
+    return render_template('myAccount.html',title='ClickNWin', year = datetime.now().year)  

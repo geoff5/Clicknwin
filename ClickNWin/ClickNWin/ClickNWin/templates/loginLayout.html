@@ -28,7 +28,7 @@
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <li><a href="">Geoff</a></li>
-                    <li><a href="{{url_for('home')}}">My Account</a></li>
+                    <li><a href="{{url_for('myAccount')}}">My Account</a></li>
                 </ul>
             </div>
         </div>
@@ -38,7 +38,6 @@
 
     <div class="container body-content">
         {% block content %}{% endblock %}
-        <hr />
         <footer>
             <p>&copy; {{ year }} - IT Carlow</p>
         </footer>
