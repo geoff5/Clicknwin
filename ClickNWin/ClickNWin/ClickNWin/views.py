@@ -14,3 +14,7 @@ def home():
 @app.route('/register')
 def register():
     return render_template('register.html', title='ClickNWin', year = datetime.now().year)
+
+@app.route('/login')
+def login():
+    return render_template('login.html', title='ClickNWin', year = datetime.now().year)
