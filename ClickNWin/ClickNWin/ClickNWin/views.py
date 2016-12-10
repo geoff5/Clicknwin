@@ -7,7 +7,7 @@ from flask import render_template
 from ClickNWin import app
 
 @app.route('/')
-@app.route('/home', methods=['POST'])
+@app.route('/home', methods=['POST', 'GET'])
 def home():
     return render_template('index.html', title='ClickNWin', year=datetime.now().year)
 
@@ -18,3 +18,7 @@ def register():
 @app.route('/login')
 def login():
     return render_template('login.html', title='ClickNWin', year = datetime.now().year)
+
+@app.route('/loginHome', methods=['POST', 'GET'])
+def loginHome():
+    return render_template('loginHome.html', title='ClickNWin', year = datetime.now().year)
