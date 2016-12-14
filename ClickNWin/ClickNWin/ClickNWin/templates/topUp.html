@@ -1,0 +1,30 @@
+﻿{% extends "loginLayout.html" %}
+
+{% block content %}
+
+<h1>Top Up Funds</h1>
+
+<div class="container">
+    <form class="form-inline" method="post" action="/home">
+        <div class="row">
+            <label class="col-md-2 col-form-label form-label">Select a Card</label>
+            <div class="col-md-4">
+                <select required>
+                    <option>Card ending in 1234</option>
+                    <option>Card ending in 5678</option>
+                </select>
+            </div>
+        </div>
+        <div class="row">
+            <label class="col-md-2 col-form-label form-label">Select a Card</label>
+            <div class="col-md-4">
+                <input type="text" id="cvv" required />
+            </div>
+        </div>
+
+</form>
+</div>
+
+
+
+{% endblock %}

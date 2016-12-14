@@ -10,7 +10,7 @@
     <script src="../static/scripts/SiteScripts.js"></script>
 </head>
 
-<body>
+<body onload="getBalance()">
     <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
@@ -27,7 +27,7 @@
                     <li><a href="{{ url_for('home') }}">Buy Card</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a>Balance - €0.00</a></li>
+                    <li><a>Balance - €<span id="balance">0.00</span></a></li>
                     <li class="dropdown">
                         <a class="dropdown-toggle" data-toggle="dropdown" href="#"> My Account
                             <span class="caret"></span></a>
