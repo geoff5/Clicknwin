@@ -27,8 +27,19 @@
                     <li><a href="{{ url_for('home') }}">Buy Card</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href="">Geoff</a></li>
-                    <li><a href="{{url_for('myAccount')}}">My Account</a></li>
+                    <li><a>Balance - €0.00</a></li>
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#"> My Account
+                            <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="{{url_for('myCards')}}">My Cards</a></li>
+                            <li><a href="{{url_for('loginHome')}}">Update Account Details</a></li>
+                            <li><a href="{{url_for('loginHome')}}">Top Up Funds</a></li>
+                            <li><a href="{{url_for('loginHome')}}">Update Payment Methods</a></li>
+                                
+
+                        </a>
+                        
                 </ul>
             </div>
         </div>

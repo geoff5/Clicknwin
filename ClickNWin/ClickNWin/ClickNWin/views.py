@@ -23,6 +23,6 @@ def login():
 def loginHome():
     return render_template('loginHome.html', title='ClickNWin', year = datetime.now().year)
 
-@app.route('/myAccount', methods=['POST', 'GET'])
-def myAccount():
-    return render_template('myAccount.html',title='ClickNWin', year = datetime.now().year)  
+@app.route('/myCards', methods=['POST', 'GET'])
+def myCards():
+    return render_template('myCards.html',title='ClickNWin', year = datetime.now().year)  

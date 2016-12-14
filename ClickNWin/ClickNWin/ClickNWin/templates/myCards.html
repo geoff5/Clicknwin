@@ -1,0 +1,41 @@
+﻿{% extends "loginLayout.html" %}
+
+{% block content %}
+
+
+    <h1 align="center">My Cards</h1><br /><br />
+    <div style="background-color:gray;opacity:0.8;">
+    <table class="table cardsTable">
+        <thead>
+            <tr>
+                <td>Bought On</td>
+                <td>Price</td>
+                <td>Bought By</td>
+                <td>Redeem Link</td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>16/07/2016</td>
+                <td>€2</td>
+                <td>Geoff</td>
+                <td><a href ="{{url_for('myCards')}}">Redeem</a></td>
+            </tr>
+            <tr>
+                <td>21/09/2016</td>
+                <td>€2</td>
+                <td>Me</td>
+                <td><a href="{{url_for('myCards')}}">Redeem</a></td>
+            </tr>
+            <tr>
+                <td>22/09/2016</td>
+                <td>€2</td>
+                <td>Me</td>
+                <td><a href="{{url_for('myCards')}}">Redeem</a></td>
+            </tr>
+        </tbody>
+    </table>
+    </div>
+
+
+{% endblock %}

@@ -67,10 +67,17 @@ div.accountTab{
 div.mainp{
     font-weight:900; 
     text-shadow: 0px 0px 3px white; 
-    color:black
+    color:darkblue;
 }
 label.form-label{
     font-weight:900; 
     text-shadow: 0px 0px 3px white; 
-    color:black
+    color:darkblue;
 }
+
+table.cardsTable{
+    font-weight:900; 
+    text-shadow: 0px 0px 3px white; 
+    color:darkblue;
+}
+
