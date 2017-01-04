@@ -5,12 +5,12 @@
 <h1 align="center">Register an account with ClickNWin</h1>
 <br><br><br />
 <div class="container">
-    <form class="form-inline" action="/loginHome" method="post">
+    <form class="form-inline" action="/loggedIn" method="post">
 
         <div class="row">
             <label class="col-md-2 col-form-label">Username</label>
             <div class="col-md-4">
-                <input type="text" required id="username" name="username" />
+                <input type="text" required id="username" name="username" value="{{request.form['username']}}" />
             </div>
         </div>
         <br />

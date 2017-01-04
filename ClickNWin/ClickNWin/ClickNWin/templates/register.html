@@ -5,17 +5,17 @@
 <h1 align="center">Register an account with ClickNWin</h1>
 <br><br><br /> 
 <div class="container">
-    <form class="form-inline" method="post" action="/home" onsubmit="return formValidation()">
+    <form class="form-inline" method="post" action="/registered" onsubmit="return formValidation()">
 
         <div class="row">
             <label class="col-md-2 col-form-label form-label">First Name</label>
             <div class="col-md-4">
-                <input type="text" required id="firstname" name="firstname" />
+                <input type="text" required id="firstname" name="firstname" value="{{request.form['firstname']}}" />
             </div>
             
                 <label class="col-md-2 col-form-label form-label">Email</label>
             <div class="col-md-4">
-                <input type="email" required id="email" name="email" />
+                <input type="email" required id="email" name="email" value="{{request.form['email']}}" />
             </div>
         </div>
         <br />
@@ -23,23 +23,23 @@
             <label class="col-md-2 col-form-label form-label">Surname</label>
 
             <div class="col-md-4">
-                <input type="text" required id="lastname" name="lastname" />
+                <input type="text" required id="lastname" name="lastname" value="{{request.form['lastname']}}" />
             </div>
 
             <label class="col-md-2 col-form-label form-label">Phone Number</label>
             <div class="col-md-4">
-                <input type="tel" id="phone" name="phone" />
+                <input type="tel" id="phone" name="phone" value="{{request.form['phone']}}" />
             </div>
         </div>
         <br />
         <div class="row">
             <label class="col-md-2 col-form-label form-label">Username</label>
             <div class="col-md-4">
-                <input type="text" required id="username" name="username" />
+                <input type="text" required id="username" name="username" value="{{request.form['username']}}" />
             </div>
             <label class="col-md-2 col-form-label form-label">Date of Birth</label>
             <div class="col-md-4">
-                <input type="date" required id="dob" name="dob" />
+                <input type="date" required id="dob" name="dob" value="{{request.form['dob']}}" />
             </div>
         </div>
         <br />

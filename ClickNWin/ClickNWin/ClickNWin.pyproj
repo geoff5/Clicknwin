@@ -28,6 +28,9 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="ClickNWin\database.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="runserver.py" />
     <Compile Include="ClickNWin\__init__.py" />
     <Compile Include="ClickNWin\views.py" />
@@ -43,11 +46,13 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="ClickNWin\static\scripts\SiteScripts.js" />
+    <Content Include="ClickNWin\templates\loggedIn.html" />
     <Content Include="ClickNWin\templates\login.html" />
     <Content Include="ClickNWin\templates\loginHome.html" />
     <Content Include="ClickNWin\templates\loginLayout.html" />
     <Content Include="ClickNWin\templates\myCards.html" />
     <Content Include="ClickNWin\templates\register.html" />
+    <Content Include="ClickNWin\templates\registered.html" />
     <Content Include="ClickNWin\templates\topUp.html" />
     <Content Include="requirements.txt" />
     <Content Include="ClickNWin\static\content\bootstrap.css" />
