@@ -4,7 +4,7 @@ Routes and views for the flask application.
 
 from datetime import datetime
 from functools import wraps
-from flask import render_template, session, request, redirect, flash
+from flask import render_template, session, request, redirect
 from ClickNWin import app, database
 
 def isLoggedIn(func):
@@ -19,6 +19,7 @@ def isLoggedIn(func):
 @app.route('/')
 @app.route('/home', methods=['POST', 'GET'])
 def home():
+    session['failLogin'] = "false"
     return render_template('index.html', title='ClickNWin', year=datetime.now().year)
 
 @app.route('/register')
@@ -27,17 +28,17 @@ def register():
 
 @app.route('/login')
 def login():
-    return render_template('login.html', title='ClickNWin', year = datetime.now().year)
+    return render_template('login.html', title='ClickNWin', year = datetime.now().year, fail = session['failLogin'])
 
 @app.route('/loginHome', methods=['POST', 'GET'])
 @isLoggedIn
 def loginHome():
-    return render_template('loginHome.html', title='ClickNWin', year = datetime.now().year)
+    return render_template('loginHome.html', title='ClickNWin', year = datetime.now().year, balance=database.getBalance(session['user']))
 
 @app.route('/myCards', methods=['POST', 'GET'])
 @isLoggedIn
 def myCards():
-    return render_template('myCards.html',title='ClickNWin', year = datetime.now().year)  
+    return render_template('myCards.html',title='ClickNWin', year = datetime.now().year, balance=database.getBalance(session['user']))  
 
 @app.route('/registered', methods=['POST', 'GET'])
 def registered():
@@ -58,6 +59,8 @@ def loggedIn():
     
     if success:
         session['isloggedIn'] = True
-        return render_template('loggedIn.html',title='ClickNWin', year = datetime.now().year)
-    return render_template('login.html', title='ClickNWin', year = datetime.now().year)
-    
+        session['user'] = request.form['username']
+        session['failLogin'] = "false"
+        return redirect('/loginHome')
+    session['failLogin'] =  "true"
+    return redirect('/login')

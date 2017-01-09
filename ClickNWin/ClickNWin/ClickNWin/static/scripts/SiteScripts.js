@@ -18,12 +18,10 @@
     
 }
 
-function getBalance()
+function failedLogin(fail)
 {
-    var bal = document.getElementById("balance").innerText;
-    bal = parseFloat(bal);
-    bal += 1;
-    bal = bal.toFixed(2);
-    bal = bal.toString();
-    document.getElementById("balance").innerText = bal;
+    if (fail == true)
+    {
+        document.getElementById("loginFail").innerText = "Username or Password is incorrect. Please try again."
+    }
 }

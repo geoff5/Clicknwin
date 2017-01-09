@@ -24,9 +24,9 @@ def add_user(user):
         return False
     
     _SQL = """INSERT INTO users
-            (username, password, firstname, lastname, email, phone, birthdate)
+            (username, password, firstname, lastname, email, phone, birthdate, balance)
             values
-            (%s, %s, %s, %s, %s, %s, %s)"""
+            (%s, %s, %s, %s, %s, %s, %s, 0.00)"""
     with DBcm.UseDatabase(config) as database:
         database.execute(_SQL, (user['username'], user['password'], user['firstname'], user['lastname'], user['email'],
                         user['phone'], user['dob']))
@@ -44,3 +44,11 @@ def login(username, password):
         return False
 
     return True
+
+def getBalance(username):
+    _SQL = """SELECT balance FROM users WHERE username = '{username}';""".format(username = username)
+    with DBcm.UseDatabase(config) as database:
+        database.execute(_SQL)
+        balance = database.fetchall()
+
+    return balance[0][0]
