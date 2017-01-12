@@ -1,0 +1,35 @@
+﻿{% extends "loginLayout.html" %}
+
+{% block content %}
+<body onload="populateDates()">
+    <h1 align="center">Add a New Payment Card to your Account</h1>
+    <form class="form-inline" action="/cardAdded" method="post">
+        <div class="row">
+            <img class="col-md-2" src="../../static/credit-card-logos.png" height="70" width="100" />
+        </div>
+        <div class="row">
+            <label class="col-md-1 col-form-label form-label">Card Type</label>
+            <div class="col-md-2">
+                <select>
+                    <option>Visa</option>
+                    <option>MasterCard</option>
+                    <option>American Express</option>
+                    <option>Maestro</option>
+                </select>
+            </div>
+        </div><br />
+        <div class="row">
+            <label class="col-md-1 col-form-label form-label">Card Number</label>
+            <div class="col-md-2">
+                <input type="text" id="cardNumber" onblur="validateCardNo(this.value)" onfocus="clearMessage('invalidCard');" /><br />
+                <span id="invalidCard"></span>
+            </div>
+        </div><br />
+        <div class="row">
+
+        </div>
+    </form>
+</body>
+
+{% endblock %}
+    

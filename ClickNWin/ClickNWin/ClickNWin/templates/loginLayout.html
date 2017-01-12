@@ -27,19 +27,19 @@
                     <li><a href="{{ url_for('home') }}">Buy Card</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a>Balance - €<span id="balance">{{balance}}</span></a></li>
+                    <li><a>Balance: €<span id="balance">{{balance}}</span></a></li>
                     <li class="dropdown">
-                        <a class="dropdown-toggle" data-toggle="dropdown" href="#"> My Account
-                            <span class="caret"></span></a>
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                            My Account
+                            <span class="caret"></span>
+                        </a>
                         <ul class="dropdown-menu">
                             <li><a href="{{url_for('myCards')}}">My Cards</a></li>
                             <li><a href="{{url_for('loginHome')}}">Update Account Details</a></li>
                             <li><a href="{{url_for('loginHome')}}">Top Up Funds</a></li>
-                            <li><a href="{{url_for('loginHome')}}">Update Payment Methods</a></li>
-                                
-
-                        </a>
-                        
+                            <li><a href="{{url_for('addPaymentCard')}}">Update Payment Methods</a></li>
+                        </ul>
+                    <li><a href="{{ url_for('logout') }}">Log Out</a></li>
                 </ul>
             </div>
         </div>

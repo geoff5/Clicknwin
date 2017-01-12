@@ -54,6 +54,7 @@
     <Content Include="ClickNWin\templates\register.html" />
     <Content Include="ClickNWin\templates\registered.html" />
     <Content Include="ClickNWin\templates\topUp.html" />
+    <Content Include="ClickNWin\templates\addPaymentCard.html" />
     <Content Include="requirements.txt" />
     <Content Include="ClickNWin\static\content\bootstrap.css" />
     <Content Include="ClickNWin\static\content\bootstrap.min.css" />

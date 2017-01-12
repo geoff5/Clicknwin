@@ -10,16 +10,16 @@ from ClickNWin import app, database
 def isLoggedIn(func):
     @wraps(func)
     def wrapped_function(*args, **kwargs):
-        if 'isloggedIn' in session:
+        if 'isLoggedIn' in session:
+            print(session['isLoggedIn'])
             return func(*args, **kwargs)
-        return render_template('index.html', title='ClickNWin', year=datetime.now().year)
+        return redirect('/home')
     return wrapped_function
 
 
 @app.route('/')
 @app.route('/home', methods=['POST', 'GET'])
 def home():
-    session['failLogin'] = "false"
     return render_template('index.html', title='ClickNWin', year=datetime.now().year)
 
 @app.route('/register')
@@ -28,7 +28,11 @@ def register():
 
 @app.route('/login')
 def login():
-    return render_template('login.html', title='ClickNWin', year = datetime.now().year, fail = session['failLogin'])
+    isFail = False
+    if 'failLogin' in session:
+        isFail = session['failLogin']
+        print(isFail)
+    return render_template('login.html', title='ClickNWin', year = datetime.now().year, fail = isFail)
 
 @app.route('/loginHome', methods=['POST', 'GET'])
 @isLoggedIn
@@ -58,9 +62,21 @@ def loggedIn():
     success = database.login(username, password)
     
     if success:
-        session['isloggedIn'] = True
+        session['isLoggedIn'] = True
         session['user'] = request.form['username']
         session['failLogin'] = "false"
         return redirect('/loginHome')
     session['failLogin'] =  "true"
-    return redirect('/login')
+    return render_template('login.html',  year = datetime.now().year, fail=session['failLogin'])
+
+@app.route('/addPaymentCard', methods=['POST', 'GET'])
+@isLoggedIn
+def addPaymentCard():
+    return render_template('addPaymentCard.html', year = datetime.now().year, balance=database.getBalance(session['user']))
+
+@app.route('/logout', methods=['GET'])
+def logout():
+    session.pop('isLoggedIn')
+    session.pop('user')
+    session.pop('failLogin')
+    return redirect('/home')
