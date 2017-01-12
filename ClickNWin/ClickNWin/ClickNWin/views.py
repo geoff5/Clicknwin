@@ -11,7 +11,6 @@ def isLoggedIn(func):
     @wraps(func)
     def wrapped_function(*args, **kwargs):
         if 'isLoggedIn' in session:
-            print(session['isLoggedIn'])
             return func(*args, **kwargs)
         return redirect('/home')
     return wrapped_function
@@ -50,7 +49,7 @@ def registered():
     for k,v in request.form.items():
         user[k] = request.form[k]    
     
-    success = database.add_user(user)
+    success = database.addUser(user)
     if not success:
         return render_template('register.html',title='ClickNWin', year = datetime.now().year)
     return render_template('registered.html',title='ClickNWin', year = datetime.now().year)
@@ -80,3 +79,14 @@ def logout():
     session.pop('user')
     session.pop('failLogin')
     return redirect('/home')
+
+@app.route('/cardAdded', methods=['GET', 'POST'])
+@isLoggedIn
+def cardAdded():
+    card = {'cardType':'', 'cardNumber':'', 'expiryMonths':0, 'expiryYears':0, 'cardName':'', 'user': session['user']}    
+    for k,v in request.form.items():
+        card[k] = request.form[k]
+        print(card[k])
+
+    database.addPaymentCard(card)
+    return redirect('/loginHome')

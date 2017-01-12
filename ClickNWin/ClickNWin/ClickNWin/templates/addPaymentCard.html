@@ -3,14 +3,14 @@
 {% block content %}
 <body onload="populateDates()">
     <h1 align="center">Add a New Payment Card to your Account</h1>
-    <form class="form-inline" action="/cardAdded" method="post">
+    <form class="form-inline" action="/cardAdded" method="post" onsubmit="return validateForm();">
         <div class="row">
             <img class="col-md-2" src="../../static/credit-card-logos.png" height="70" width="100" />
         </div>
         <div class="row">
             <label class="col-md-1 col-form-label form-label">Card Type</label>
             <div class="col-md-2">
-                <select>
+                <select id="cardType" name="cardType">
                     <option>Visa</option>
                     <option>MasterCard</option>
                     <option>American Express</option>
@@ -21,14 +21,32 @@
         <div class="row">
             <label class="col-md-1 col-form-label form-label">Card Number</label>
             <div class="col-md-2">
-                <input type="text" id="cardNumber" onblur="validateCardNo(this.value)" onfocus="clearMessage('invalidCard');" /><br />
+                <input type="text" required id="cardNumber" name="cardNumber"/><br />
                 <span id="invalidCard"></span>
             </div>
         </div><br />
         <div class="row">
+            <label class="col-md-1 col-form-label form-label">Expiry Date</label>
+            <div class="col-md-1">
+                <select id="expiryMonths" name="expiryMonths" required></select>
+            </div>
+            <div class="col-md-1">
+                <select id="expiryYears" name="expiryYears" required></select><span id="invalidDate"></span>
+            </div>
+        </div><br />
+        <div class="row">
+            <label class="col-md-2 col-form-label form-label">Card Holder Name</label>
 
+            <div class="col-md-4">
+                <input type="text" required id="cardName" name="cardName" />
+            </div>
         </div>
-    </form>
+            <div class="row">
+                <div class="row row-centered">
+                    <input class="btn btn-primary btn-lg" type="submit" value="Submit">
+                </div>
+            </div>
+</form>
 </body>
 
 {% endblock %}

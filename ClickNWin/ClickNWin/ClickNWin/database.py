@@ -18,7 +18,7 @@ def checkUsername(username):
     return True     
 
 
-def add_user(user):
+def addUser(user):
     duplicate = checkUsername(user['username'])
     if not duplicate:
         return False
@@ -52,3 +52,14 @@ def getBalance(username):
         balance = database.fetchall()
 
     return balance[0][0]
+
+def addPaymentCard(card):
+    print(card['cardNumber'])
+    print(str(card['cardNumber']))
+    _SQL = """INSERT INTO paymentcards
+            (cardNumber, expiryMonth, expiryYear, cardType, cardHolderName, user)
+            values
+            (%s, %s, %s, %s, %s, %s)"""
+
+    with DBcm.UseDatabase(config) as database:
+        database.execute(_SQL, (str(card['cardNumber']),card['expiryMonths'],card['expiryYears'], card['cardType'],card['cardName'], card['user']))

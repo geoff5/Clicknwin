@@ -51,8 +51,9 @@ function populateDates()
     }
 }
 
-function validateCardNo(number)
+function validateCardNo()
 {
+    number = document.getElementById("cardNumber").value;
     numArray = [];
     accepted = ['0','1', '2', '3', '4', '5', '6', '7', '8', '9'];
 
@@ -68,6 +69,13 @@ function validateCardNo(number)
         }
     }
     
+    for (var i = 0; i < numArray.length; i++)
+    {
+        if(numArray[i] == null)
+        {
+            numArray.splice(i, 1);
+        }
+    }
     for(var i = numArray.length - 2;i >= 0;i -= 2)
     {
         numArray[i] *= 2;
@@ -81,22 +89,20 @@ function validateCardNo(number)
     for (var i = 0;i < numArray.length;i++)
     {
         total += numArray[i];
-        //alert("number = " + numArray[i] + "\n total = " + total);
     }
 
     if (total % 10 != 0)
     {
         document.getElementById("invalidCard").innerText = "Invalid card number.  Please re-enter"
+        return true;
     }
+    return false;
 }
 
-function clearMessage(id)
-{
-    document.getElementById(id).innerText = "";
-}
 
-function validateDate(expiryYear)
+function validateDate()
 {
+    var expiryYear = document.getElementById("expiryYears").value;
     var expiryMonth = document.getElementById("expiryMonths").value;
     var year = new Date().getFullYear();
     var month = new Date().getMonth();
@@ -104,7 +110,19 @@ function validateDate(expiryYear)
     if(expiryYear == year && expiryMonth < month)
     {
         document.getElementById("invalidDate").innerText = "Invalid Expiry Date.  Please re-enter";
+        return true;
     }
+    return false;
+}
 
+function validateForm()
+{
 
+    var cardNumber = validateCardNo();
+    var date = validateDate();
+
+    if(date == true || cardNumber == true)
+    {
+        return false;
+    }
 }
