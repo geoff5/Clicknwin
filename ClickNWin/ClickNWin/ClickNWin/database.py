@@ -62,4 +62,4 @@ def addPaymentCard(card):
             (%s, %s, %s, %s, %s, %s)"""
 
     with DBcm.UseDatabase(config) as database:
-        database.execute(_SQL, (str(card['cardNumber']),card['expiryMonths'],card['expiryYears'], card['cardType'],card['cardName'], card['user']))
+        database.execute(_SQL, (str(card['cardNumber']),str(card['expiryMonths']),str(card['expiryYears']), card['cardType'],card['cardName'], card['user']))

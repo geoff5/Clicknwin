@@ -1,0 +1,39 @@
+﻿{% extends "layout.html" %}
+
+{% block content %}
+
+<h1 align="center">Buy a Scratch Card</h1>
+<br><br><br />
+<div class="container">
+    <form class="form-inline" method="post" action="/registered">
+
+        <div class="row">
+            <label class="col-md-2 col-form-label form-label">Game</label>
+            <div class="col-md-4">
+                <select>
+                    <option value="standard">€2 Standard</option>
+                </select>
+            </div>
+        </div>
+        <div class="row">
+            <label class="col-md-2 col-form-label form-label">Quantity</label>
+            <div class="col-md-4">
+                <input type="text" id="quantity" name="quantity" />
+                <span id="quantityError"></span>
+            </div>
+        </div>
+        <div class="row">
+            <label class="col-md-2 col-form-label form-label">Price</label>
+            <div class="col-md-4">
+               <input type="text" readonly id="price" name="price" />
+            </div>
+        </div>
+        <div class="row">
+            <input type="radio" name="user" value="myself" checked>Buy for myself<br>
+            <input type="radio" name="user" value="gift">Buy as a gift<br>
+            <span id="userSelect"></span>
+        </div>
+    </form>
+</div>
+
+{% endblock %}

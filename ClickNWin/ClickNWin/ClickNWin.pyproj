@@ -46,6 +46,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="ClickNWin\static\scripts\SiteScripts.js" />
+    <Content Include="ClickNWin\templates\buyCard.html" />
     <Content Include="ClickNWin\templates\loggedIn.html" />
     <Content Include="ClickNWin\templates\login.html" />
     <Content Include="ClickNWin\templates\loginHome.html" />
