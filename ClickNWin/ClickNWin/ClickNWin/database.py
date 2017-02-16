@@ -14,8 +14,8 @@ def checkUsername(username):
         user = database.fetchall()
     print(len(user))
     if len(user):
-        return False
-    return True     
+        return True
+    return False    
 
 
 def addUser(user):
@@ -54,8 +54,6 @@ def getBalance(username):
     return balance[0][0]
 
 def addPaymentCard(card):
-    print(card['cardNumber'])
-    print(str(card['cardNumber']))
     _SQL = """INSERT INTO paymentcards
             (cardNumber, expiryMonth, expiryYear, cardType, cardHolderName, user)
             values
@@ -63,3 +61,11 @@ def addPaymentCard(card):
 
     with DBcm.UseDatabase(config) as database:
         database.execute(_SQL, (str(card['cardNumber']),str(card['expiryMonths']),str(card['expiryYears']), card['cardType'],card['cardName'], card['user']))
+
+def getCardTypes():
+    _SQL = """SELECT name, price FROM cardTypes"""
+    
+    with DBcm.UseDatabase(config) as database:
+        database.execute(_SQL)
+        cards = database.fetchall()
+    return cards

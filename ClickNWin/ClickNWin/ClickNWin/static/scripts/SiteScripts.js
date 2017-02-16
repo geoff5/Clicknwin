@@ -126,3 +126,63 @@ function validateForm()
         return false;
     }
 }
+
+function addInput()
+{
+    var check = document.getElementById("myself").checked;
+    if (!check)
+    {
+        document.getElementById("userSelect").innerHTML = "<label class='col-md-2 col-form-label form-label'>User</label><div class='col-md-4'><input type='text' id='selectedUser' name='selectedUser' onblur='checkUser(this.value)' /><span id='userError'></span></div>"
+    }
+    else
+    {
+        document.getElementById("userSelect").innerHTML = ""
+    }
+}
+
+function calcPrice()
+{
+    var price = parseFloat(document.getElementById("cardTypes").value);
+    var quantity = parseFloat(document.getElementById("quantity").value);
+    var total = price * quantity;
+    total = total.toFixed(2);
+    total = total.toString();
+    document.getElementById("price").value = '€' + total;
+
+}
+
+function validateCardPurchase() {
+    var balance = document.getElementById("balance").innerText;
+    var price = document.getElementById("price").value;
+    price = price.substring(1, price.length);
+    balance = parseFloat(balance);
+    price = parseFloat(price);
+    if (price > balance) {
+
+        return false
+    }
+}
+
+function checkUser(user)
+{
+    var req = new XMLHttpRequest();
+    req.onreadystatechange = function()
+    {
+        if (req.readyState == 4 && req.status == 200)
+        {
+            var response = JSON.parse(req.responseText);
+            if (!response.exists)
+            {
+                document.getElementById("userError").innerText = "This user does not exist.  Please try again";
+            }
+            else
+            {
+                document.getElementById("userError").innerText = "";
+            }
+        }
+    }
+
+    req.open("POST", "/checkUser");
+    req.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    req.send('user=' + user);
+}

@@ -4,7 +4,7 @@ Routes and views for the flask application.
 
 from datetime import datetime
 from functools import wraps
-from flask import render_template, session, request, redirect
+from flask import render_template, session, request, redirect, json, jsonify
 from ClickNWin import app, database
 
 def isLoggedIn(func):
@@ -30,7 +30,6 @@ def login():
     isFail = False
     if 'failLogin' in session:
         isFail = session['failLogin']
-        print(isFail)
     return render_template('login.html', title='ClickNWin', year = datetime.now().year, fail = isFail)
 
 @app.route('/loginHome', methods=['POST', 'GET'])
@@ -90,3 +89,23 @@ def cardAdded():
 
     database.addPaymentCard(card)
     return redirect('/loginHome')
+
+@app.route('/buyCards', methods=['GET'])
+@isLoggedIn
+def buyCards():
+    cards = database.getCardTypes()  
+    cardTypes = []
+    prices = []
+    for i in cards:
+        cardTypes.append(i[0])
+    for i in cards:
+        prices.append(str(i[1]))
+    return render_template('buyCard.html', year = datetime.now().year, cards = cardTypes, prices=prices, balance=database.getBalance(session['user']))
+
+@app.route('/checkUser', methods=['POST'])
+@isLoggedIn
+def checkUser():
+    user = request.form['user']
+    exists = database.checkUsername(user)
+    return jsonify(exists=exists)
+    
