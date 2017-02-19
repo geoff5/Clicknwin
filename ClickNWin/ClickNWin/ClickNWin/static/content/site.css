@@ -81,3 +81,15 @@ table.cardsTable{
     color:darkblue;
 }
 
+span.error{
+    padding: 2px;
+    margin-top: 2px;
+    margin-bottom: 0px;
+    list-style: none;
+    border: 1px solid transparent;
+    border-radius: 3px;
+    background-color: #EB4141;
+    border-color: #EB4141;
+    color: #c30707;
+}
+

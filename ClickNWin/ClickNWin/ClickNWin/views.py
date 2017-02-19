@@ -5,7 +5,7 @@ Routes and views for the flask application.
 from datetime import datetime
 from functools import wraps
 from flask import render_template, session, request, redirect, json, jsonify
-from ClickNWin import app, database
+from ClickNWin import app, database, cards
 
 def isLoggedIn(func):
     @wraps(func)
@@ -95,17 +95,36 @@ def cardAdded():
 def buyCards():
     cards = database.getCardTypes()  
     cardTypes = []
-    prices = []
     for i in cards:
         cardTypes.append(i[0])
-    for i in cards:
-        prices.append(str(i[1]))
-    return render_template('buyCard.html', year = datetime.now().year, cards = cardTypes, prices=prices, balance=database.getBalance(session['user']))
+    return render_template('buyCard.html', year = datetime.now().year, cards = cardTypes, balance=database.getBalance(session['user']))
 
-@app.route('/checkUser', methods=['POST'])
+@isLoggedIn
+@app.route('/cardsBought', methods=['POST', 'GET'])
+def cardsBought():
+    if 'selectedUser' not in request.form.items():
+        user = session['user']
+    else:
+        user = request.form['selectedUser']
+    print(user)
+    type = request.form['types']
+    print(type)
+    #quantity = request.form['quantity']
+    #print("username = " + user + " type = " + type + " quantity = " + quantity)
+    #cards.newCards
+    return render_template("loginHome.html", year = datetime.now().year, balance=database.getBalance(session['user']))
+
+@app.route('/checkUser', methods=['POST', 'GET'])
 @isLoggedIn
 def checkUser():
     user = request.form['user']
     exists = database.checkUsername(user)
     return jsonify(exists=exists)
+
+@app.route('/getCardPrice', methods=['POST'])
+@isLoggedIn
+def getCardPrice():
+    type = request.form['type']
+    price = database.getPrice(type)
+    return jsonify(price=price)
     

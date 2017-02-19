@@ -28,6 +28,9 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="ClickNWin\cards.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="ClickNWin\database.py">
       <SubType>Code</SubType>
     </Compile>

@@ -12,7 +12,6 @@ def checkUsername(username):
     with DBcm.UseDatabase(config) as database:
         database.execute(_SQL)
         user = database.fetchall()
-    print(len(user))
     if len(user):
         return True
     return False    
@@ -20,7 +19,7 @@ def checkUsername(username):
 
 def addUser(user):
     duplicate = checkUsername(user['username'])
-    if not duplicate:
+    if duplicate:
         return False
     
     _SQL = """INSERT INTO users
@@ -69,3 +68,20 @@ def getCardTypes():
         database.execute(_SQL)
         cards = database.fetchall()
     return cards
+
+def getPrizes(type):
+    _SQL = """SELECT * FROM cardTypes WHERE type = '{type}';""".format(type=type)
+    
+    with DBcm.UseDatabase(config) as database:
+        database.execute(_SQL)
+        prizes = database.fetchall()
+    return prizes
+
+def getPrice(name):
+    _SQL = """SELECT price FROM cardtypes WHERE name = '{name}';""".format(name=name)
+
+    with DBcm.UseDatabase(config) as database:
+        database.execute(_SQL)
+        price = database.fetchall()
+    return price
+    

@@ -4,6 +4,10 @@
 
     var sPass1 = String(pass1);
     var sPass2 = String(pass2);
+    var username = document.getElementById("username").value;
+
+    checkUser(username);
+    var user = document.getElementById("userError").innerText;
 
     if(pass1 != pass2)
     {
@@ -11,11 +15,11 @@
         document.getElementById("passMatch2").innerText = "Passwords do not match";
         return false;
     }
-    
-    else{
-        
-    }    
-    
+    else if(user != "")
+    {
+        return false;
+    }
+
 }
 
 function failedLogin(fail)
@@ -142,13 +146,25 @@ function addInput()
 
 function calcPrice()
 {
-    var price = parseFloat(document.getElementById("cardTypes").value);
-    var quantity = parseFloat(document.getElementById("quantity").value);
-    var total = price * quantity;
-    total = total.toFixed(2);
-    total = total.toString();
-    document.getElementById("price").value = '€' + total;
+    var type = document.getElementById("cardTypes").value;
+    var req = new XMLHttpRequest();
+    req.onreadystatechange = function ()
+    {
+        if (req.readyState == 4 && req.status == 200)
+        {
+            var response = JSON.parse(req.responseText);
+            var price = response.price;
+            var quantity = parseFloat(document.getElementById("quantity").value);
+            var total = price * quantity;
+            total = total.toFixed(2);
+            total = total.toString();
+            document.getElementById("price").value = '€' + total;
 
+        }
+    }
+    req.open("POST", "/getCardPrice");
+    req.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    req.send('type=' + type);
 }
 
 function validateCardPurchase() {
@@ -166,14 +182,22 @@ function validateCardPurchase() {
 function checkUser(user)
 {
     var req = new XMLHttpRequest();
+    var sPath = window.location.pathname;
+    var sPage = sPath.substring(sPath.lastIndexOf('/') + 1);
     req.onreadystatechange = function()
     {
         if (req.readyState == 4 && req.status == 200)
         {
             var response = JSON.parse(req.responseText);
-            if (!response.exists)
+            if (!response.exists && sPage == "buyCards")
             {
                 document.getElementById("userError").innerText = "This user does not exist.  Please try again";
+                return false;
+            }
+            else if(response.exists && sPage == "register")
+            {
+                document.getElementById("userError").innerText = "This usernme already exists.  Please try another";
+                return false;
             }
             else
             {
