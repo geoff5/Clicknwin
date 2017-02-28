@@ -1,4 +1,5 @@
 import DBcm
+import decimal
 
 config = {
     'host': '127.0.0.1',
@@ -70,7 +71,7 @@ def getCardTypes():
     return cards
 
 def getPrizes(type):
-    _SQL = """SELECT * FROM cardTypes WHERE type = '{type}';""".format(type=type)
+    _SQL = """SELECT * FROM cardTypes WHERE name = '{type}';""".format(type=type)
     
     with DBcm.UseDatabase(config) as database:
         database.execute(_SQL)
@@ -84,4 +85,25 @@ def getPrice(name):
         database.execute(_SQL)
         price = database.fetchall()
     return price
+
+def addScratchCard(card):
+    _SQL = """INSERT INTO scratchcards
+            (user, prize, type, boughtBy)
+            values
+            (%s, %s, %s, %s)"""
+
+    with DBcm.UseDatabase(config) as database:
+        database.execute(_SQL, (card['user'], card['prize'], card['type'], card['boughtBy']))
+
+def reduceBalance(user, price):
+    balance = float(getBalance(user))
+    newBal = balance - float(price[1:])
+    newBal = decimal.Decimal(newBal)
+    
+    _SQL = """UPDATE users SET balance = '{newBal}' WHERE username = '{user}';""".format(user = user, newBal = newBal)
+
+    with DBcm.UseDatabase(config) as database:
+        database.execute(_SQL)
+
+
     

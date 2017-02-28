@@ -2,7 +2,7 @@
 
 {% block content %}
 
-<h1 align="center">Buy a Scratch Card   {{cards}}</h1>
+<h1 align="center">Buy a Scratch Card</h1>
 <br><br><br />
 <div class="container">
     <form class="form-inline" method="post" action="/cardsBought" onsubmit="return validateCardPurchase();">
@@ -22,7 +22,7 @@
         <div class="row">
             <label class="col-md-2 col-form-label form-label">Quantity</label>
             <div class="col-md-4">
-                <select id="quantity" onchange="calcPrice()">
+                <select id="quantity" name="quantity"  onchange="calcPrice()">
                     {% for i in range(1,10) %}
                         <option value="{{i}}">{{i}}</option>
                     {% endfor %}

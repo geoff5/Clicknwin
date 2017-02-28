@@ -174,7 +174,7 @@ function validateCardPurchase() {
     balance = parseFloat(balance);
     price = parseFloat(price);
     if (price > balance) {
-
+        alert("You do not have enough funds to buy these cards.  Please top up and try again");
         return false
     }
 }

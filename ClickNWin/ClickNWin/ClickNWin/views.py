@@ -102,16 +102,17 @@ def buyCards():
 @isLoggedIn
 @app.route('/cardsBought', methods=['POST', 'GET'])
 def cardsBought():
+    sCards = {}
     if 'selectedUser' not in request.form.items():
-        user = session['user']
+        sCards['user'] = session['user']
     else:
-        user = request.form['selectedUser']
-    print(user)
-    type = request.form['types']
-    print(type)
-    #quantity = request.form['quantity']
-    #print("username = " + user + " type = " + type + " quantity = " + quantity)
-    #cards.newCards
+        sCards['user'] = request.form['selectedUser']
+    sCards['type'] = request.form['types']
+    sCards['quantity'] = request.form['quantity']
+    sCards['boughtBy'] = session['user']
+    cards.newCards(sCards)
+    price = request.form['price']
+    database.reduceBalance(session['user'], price)
     return render_template("loginHome.html", year = datetime.now().year, balance=database.getBalance(session['user']))
 
 @app.route('/checkUser', methods=['POST', 'GET'])
