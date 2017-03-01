@@ -1,7 +1,6 @@
 ﻿function formValidation() {
     var pass1 = document.getElementById("password").value;
     var pass2 = document.getElementById("cpassword").value;
-
     var sPass1 = String(pass1);
     var sPass2 = String(pass2);
     var username = document.getElementById("username").value;
@@ -11,6 +10,8 @@
 
     if(pass1 != pass2)
     {
+        document.getElementById("passMatch1").style.backgroundColor = "#EB4141"
+        document.getElementById("passMatch2").style.backgroundColor = "#EB4141"
         document.getElementById("passMatch1").innerText = "Passwords do not match";
         document.getElementById("passMatch2").innerText = "Passwords do not match";
         return false;
@@ -26,6 +27,7 @@ function failedLogin(fail)
 {
     if (fail == true)
     {
+        document.getElementById("loginFail").style.backgroundColor = "#EB4141";
         document.getElementById("loginFail").innerText = "Username or Password is incorrect. Please try again."
     }
 }
@@ -97,6 +99,7 @@ function validateCardNo()
 
     if (total % 10 != 0)
     {
+        document.getElementById("invalidCard").style.backgroundColor = "#EB4141";
         document.getElementById("invalidCard").innerText = "Invalid card number.  Please re-enter"
         return true;
     }
@@ -113,6 +116,7 @@ function validateDate()
 
     if(expiryYear == year && expiryMonth < month)
     {
+        document.getElementById("invalidDate").style.backgroundColor = "#EB4141";
         document.getElementById("invalidDate").innerText = "Invalid Expiry Date.  Please re-enter";
         return true;
     }
@@ -168,6 +172,12 @@ function calcPrice()
 }
 
 function validateCardPurchase() {
+    var quantity = document.getElementById("quantity").value;
+    if (quantity == '0') {
+        document.getElementById("quantityError").style.backgroundColor = "#EB4141";
+        document.getElementById("quantityError").innerText = "Please select a quantity greater than 0";
+        return false
+    }
     var balance = document.getElementById("balance").innerText;
     var price = document.getElementById("price").value;
     price = price.substring(1, price.length);
@@ -191,16 +201,19 @@ function checkUser(user)
             var response = JSON.parse(req.responseText);
             if (!response.exists && sPage == "buyCards")
             {
+                document.getElementById("userError").style.backgroundColor = "#EB4141";
                 document.getElementById("userError").innerText = "This user does not exist.  Please try again";
                 return false;
             }
             else if(response.exists && sPage == "register")
             {
+                document.getElementById("userError").style.backgroundColor = "#EB4141";
                 document.getElementById("userError").innerText = "This usernme already exists.  Please try another";
                 return false;
             }
             else
             {
+                document.getElementById("userError").style.backgroundColor = "White";
                 document.getElementById("userError").innerText = "";
             }
         }

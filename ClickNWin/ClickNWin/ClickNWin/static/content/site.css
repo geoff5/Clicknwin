@@ -1,7 +1,6 @@
 ﻿body {
     padding-top: 50px;
     padding-bottom: 20px;
-    background:url('../../static/scratchCard.jpg') no-repeat ;
     background-size:50% auto;
     background-position-x:300px;
     background-position-y:160px;
@@ -88,8 +87,5 @@ span.error{
     list-style: none;
     border: 1px solid transparent;
     border-radius: 3px;
-    background-color: #EB4141;
-    border-color: #EB4141;
-    color: #c30707;
 }
 

@@ -23,7 +23,7 @@
             <label class="col-md-2 col-form-label form-label">Quantity</label>
             <div class="col-md-4">
                 <select id="quantity" name="quantity"  onchange="calcPrice()">
-                    {% for i in range(1,10) %}
+                    {% for i in range(0,10) %}
                         <option value="{{i}}">{{i}}</option>
                     {% endfor %}
                 </select>
