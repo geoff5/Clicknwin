@@ -42,12 +42,19 @@
     <Folder Include="ClickNWin\" />
     <Folder Include="ClickNWin\Images\" />
     <Folder Include="ClickNWin\static\" />
+    <Folder Include="ClickNWin\static\Card Images\" />
     <Folder Include="ClickNWin\static\content\" />
     <Folder Include="ClickNWin\static\fonts\" />
     <Folder Include="ClickNWin\static\scripts\" />
     <Folder Include="ClickNWin\templates\" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="ClickNWin\static\Card Images\200winner.png" />
+    <Content Include="ClickNWin\static\content\datatables.min.css" />
+    <Content Include="ClickNWin\static\content\DataTableStyle.css" />
+    <Content Include="ClickNWin\static\scripts\datatables.min.js" />
+    <Content Include="ClickNWin\static\scripts\jquery-1.10.2.min.js" />
+    <Content Include="ClickNWin\static\scripts\jquery-3.1.1.min.js" />
     <Content Include="ClickNWin\static\scripts\SiteScripts.js" />
     <Content Include="ClickNWin\templates\buyCard.html" />
     <Content Include="ClickNWin\templates\loggedIn.html" />
@@ -55,6 +62,7 @@
     <Content Include="ClickNWin\templates\loginHome.html" />
     <Content Include="ClickNWin\templates\loginLayout.html" />
     <Content Include="ClickNWin\templates\myCards.html" />
+    <Content Include="ClickNWin\templates\redeemCard.html" />
     <Content Include="ClickNWin\templates\register.html" />
     <Content Include="ClickNWin\templates\registered.html" />
     <Content Include="ClickNWin\templates\topUp.html" />
@@ -70,9 +78,6 @@
     <Content Include="ClickNWin\static\scripts\bootstrap.js" />
     <Content Include="ClickNWin\static\scripts\bootstrap.min.js" />
     <Content Include="ClickNWin\static\scripts\jquery-1.10.2.intellisense.js" />
-    <Content Include="ClickNWin\static\scripts\jquery-1.10.2.js" />
-    <Content Include="ClickNWin\static\scripts\jquery-1.10.2.min.js" />
-    <Content Include="ClickNWin\static\scripts\jquery-1.10.2.min.map" />
     <Content Include="ClickNWin\static\scripts\jquery.validate-vsdoc.js" />
     <Content Include="ClickNWin\static\scripts\jquery.validate.js" />
     <Content Include="ClickNWin\static\scripts\jquery.validate.min.js" />

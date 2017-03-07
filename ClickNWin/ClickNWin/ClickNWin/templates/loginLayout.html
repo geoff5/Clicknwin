@@ -6,8 +6,13 @@
     <title>{{ title }}</title>
     <link rel="stylesheet" type="text/css" href="/static/content/bootstrap.min.css" />
     <link rel="stylesheet" type="text/css" href="/static/content/site.css" />
-    <script src="/static/scripts/modernizr-2.6.2.js"></script>
+    <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css" />
+    <script src="../static/scripts/jquery-1.10.2.min.js"></script>
+    <script src="/static/scripts/bootstrap.js"></script>
+    <script src="/static/scripts/respond.js"></script>
+    <script src="//cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
     <script src="../static/scripts/SiteScripts.js"></script>
+    <script src="/static/scripts/modernizr-2.6.2.js"></script>
 </head>
 
 <body>
@@ -44,6 +49,7 @@
             </div>
         </div>
     </div>
+    <div class="overlay">
 
 
 
@@ -53,11 +59,7 @@
             <p>&copy; {{ year }} - IT Carlow</p>
         </footer>
     </div>
-
-    <script src="/static/scripts/jquery-1.10.2.js"></script>
-    <script src="/static/scripts/bootstrap.js"></script>
-    <script src="/static/scripts/respond.js"></script>
+    </div>
     {% block scripts %}{% endblock %}
-
 </body>
 </html>

@@ -2,8 +2,10 @@
     padding-top: 50px;
     padding-bottom: 20px;
     background-size:50% auto;
-    background-position-x:300px;
-    background-position-y:160px;
+    background:url('../../static/money.jpg') no-repeat;
+    background-position-y:-340px;
+    background-size: cover;
+    text-shadow: 40px;
 }
 
 /* Set padding to keep content from hitting the edges */
@@ -88,4 +90,3 @@ span.error{
     border: 1px solid transparent;
     border-radius: 3px;
 }
-

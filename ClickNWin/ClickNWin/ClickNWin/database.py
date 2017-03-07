@@ -88,12 +88,13 @@ def getPrice(name):
 
 def addScratchCard(card):
     _SQL = """INSERT INTO scratchcards
-            (user, prize, type, boughtBy)
+            (user, prize, type, boughtBy, boughtOn)
             values
-            (%s, %s, %s, %s)"""
+            (%s, %s, %s, %s, %s)"""
 
     with DBcm.UseDatabase(config) as database:
-        database.execute(_SQL, (card['user'], card['prize'], card['type'], card['boughtBy']))
+        print(card)
+        database.execute(_SQL, (card['user'], card['prize'], card['type'], card['boughtBy'], card['boughtOn']))
 
 def reduceBalance(user, price):
     balance = float(getBalance(user))
@@ -104,6 +105,15 @@ def reduceBalance(user, price):
 
     with DBcm.UseDatabase(config) as database:
         database.execute(_SQL)
+
+def getCards(user):
+    _SQL = """SELECT cardnumber, Date_Format(boughtOn,'%d/%m/%Y %H:%i'),type, boughtBy FROM scratchcards WHERE user = '{user}'
+     AND redeemed = 0""".format(user = user)
+
+    with DBcm.UseDatabase(config) as database:
+        database.execute(_SQL)
+        userCards = database.fetchall()
+    return userCards
 
 
     

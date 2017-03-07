@@ -25,8 +25,7 @@ def newCards(cards):
         card['user'] = cards['user']
         card['boughtBy'] = cards['boughtBy']
         card['type'] = cards['type']
-        print(chance)
-        print(card)
+        card['boughtOn'] = cards['boughtOn']
         database.addScratchCard(card)
             
             

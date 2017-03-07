@@ -2,40 +2,41 @@
 
 {% block content %}
 
-
     <h1 align="center">My Cards</h1><br /><br />
-    <div style="background-color:gray;opacity:0.8;">
-    <table class="table cardsTable">
+    <form method="post" action="/redeemCard">
+    <table id="cardsTable" class="display">
         <thead>
             <tr>
+                <td>Card Number</td>
                 <td>Bought On</td>
-                <td>Price</td>
+                <td>Type</td>
                 <td>Bought By</td>
                 <td>Redeem Link</td>
             </tr>
         </thead>
         <tbody>
+            {% for i in cards %}
             <tr>
-                <td>16/07/2016</td>
-                <td>€2</td>
-                <td>Geoff</td>
-                <td><a href ="{{url_for('myCards')}}">Redeem</a></td>
+                <td>{{i[0]}}</td>
+                <td>{{i[1]}}</td>
+                <td>{{i[2]}}</td>
+                <td>{{i[3]}}</td>
+                <td><input type="submit" class="btn btn-primary btn-lg" name="{{i[0]}}" value= "Redeem" /></td>
             </tr>
-            <tr>
-                <td>21/09/2016</td>
-                <td>€2</td>
-                <td>Me</td>
-                <td><a href="{{url_for('myCards')}}">Redeem</a></td>
-            </tr>
-            <tr>
-                <td>22/09/2016</td>
-                <td>€2</td>
-                <td>Me</td>
-                <td><a href="{{url_for('myCards')}}">Redeem</a></td>
-            </tr>
+
+            {% endfor %}
         </tbody>
     </table>
-    </div>
+</form>
+<script>
+    $(document).ready(function () {
+        $('#cardsTable').DataTable({
+            "pageLength": 5,
+            "searching": false,
+            "bLengthChange": false
+        });
+    });
+</script>
 
 
 {% endblock %}

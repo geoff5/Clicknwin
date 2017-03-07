@@ -40,7 +40,8 @@ def loginHome():
 @app.route('/myCards', methods=['POST', 'GET'])
 @isLoggedIn
 def myCards():
-    return render_template('myCards.html',title='ClickNWin', year = datetime.now().year, balance=database.getBalance(session['user']))  
+    userCards = database.getCards(session['user'])
+    return render_template('myCards.html',title='ClickNWin', year = datetime.now().year, balance=database.getBalance(session['user']), cards = userCards)  
 
 @app.route('/registered', methods=['POST', 'GET'])
 def registered():
@@ -110,10 +111,11 @@ def cardsBought():
     sCards['type'] = request.form['types']
     sCards['quantity'] = request.form['quantity']
     sCards['boughtBy'] = session['user']
+    sCards['boughtOn'] = datetime.now()
     cards.newCards(sCards)
     price = request.form['price']
     database.reduceBalance(session['user'], price)
-    return render_template("loginHome.html", year = datetime.now().year, balance=database.getBalance(session['user']))
+    return redirect("/myCards")
 
 @app.route('/checkUser', methods=['POST', 'GET'])
 @isLoggedIn
@@ -128,4 +130,10 @@ def getCardPrice():
     type = request.form['type']
     price = database.getPrice(type)
     return jsonify(price=price)
+
+@app.route('/redeemCard', methods=['POST', 'GET'])
+@isLoggedIn
+def redeemCard():
+    
+    return redirect('/loginHome')
     
