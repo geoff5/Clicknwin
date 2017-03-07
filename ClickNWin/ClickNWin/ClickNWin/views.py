@@ -134,6 +134,9 @@ def getCardPrice():
 @app.route('/redeemCard', methods=['POST', 'GET'])
 @isLoggedIn
 def redeemCard():
-    
-    return redirect('/loginHome')
+    for i in request.form.items():
+        id = i[0]
+    card = database.getCard(id)
+    imagePath = cards.getCardImage(card)
+    return render_template('redeemCard.html', path = imagePath, year = datetime.now().year, balance=database.getBalance(session['user']))
     

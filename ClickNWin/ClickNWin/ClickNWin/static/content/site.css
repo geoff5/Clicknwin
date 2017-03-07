@@ -90,3 +90,11 @@ span.error{
     border: 1px solid transparent;
     border-radius: 3px;
 }
+
+button.cardPanel{
+    color: gray;
+    height:25px;
+    width: 70px;
+    z-index:2;
+    position:absolute;
+}

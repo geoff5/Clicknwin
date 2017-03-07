@@ -27,6 +27,11 @@ def newCards(cards):
         card['type'] = cards['type']
         card['boughtOn'] = cards['boughtOn']
         database.addScratchCard(card)
+
+def getCardImage(card):
+    print(card)
+    path = "static\\CardImages\\" + str(card[0][0]) + "\\" + str(card[0][1]) + "winner.png"
+    return path
             
             
         

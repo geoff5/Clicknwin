@@ -115,5 +115,14 @@ def getCards(user):
         userCards = database.fetchall()
     return userCards
 
+def getCard(id):
+    _SQL = """ SELECT type, prize FROM scratchcards WHERE cardnumber = '{id}' AND redeemed = 0""".format(id = id)
+
+    with DBcm.UseDatabase(config) as database:
+        database.execute(_SQL)
+        card = database.fetchall()
+    
+    return card
+
 
     
