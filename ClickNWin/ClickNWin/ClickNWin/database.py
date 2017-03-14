@@ -120,9 +120,33 @@ def getCard(id):
 
     with DBcm.UseDatabase(config) as database:
         database.execute(_SQL)
-        card = database.fetchall()
-    
+        card = database.fetchall()    
     return card
+
+def redeemCard(id):
+    _SQL = """UPDATE scratchcards SET redeemed = 1 WHERE cardnumber = '{id}'""".format(id = id)
+    
+    with DBcm.UseDatabase(config) as database:
+        database.execute(_SQL)
+
+def addFunds(user,prize):
+    balance = float(getBalance(user))
+    newBal = balance + float(prize)
+    newBal = decimal.Decimal(newBal)
+
+    _SQL = """UPDATE users SET balance = '{newBal}' WHERE username = '{user}'""".format(newBal = newBal, user = user)
+
+    with DBcm.UseDatabase(config) as database:
+        database.execute(_SQL)
+
+def getCardPrizes(type):
+    _SQL = """SELECT prize1, prize2, prize3, prize4 FROM cardTypes WHERE name = '{type}'""".format(type=type)
+    
+    with DBcm.UseDatabase(config) as database:
+        database.execute(_SQL)
+        cards = database.fetchall()
+    return cards
+    
 
 
     

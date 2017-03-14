@@ -28,10 +28,24 @@ def newCards(cards):
         card['boughtOn'] = cards['boughtOn']
         database.addScratchCard(card)
 
-def getCardImage(card):
-    print(card)
-    path = "static\\CardImages\\" + str(card[0][0]) + "\\" + str(card[0][1]) + "winner.png"
-    return path
+#def getCardImage(card):
+#    path = "static\\CardImages\\" + str(card[0][0]) + "\\" + str(card[0][1]) + "winner.png"
+#    return path
+
+def createPanelArray(card):
+    panels = []
+    prizes = card[2:]
+    while len(panels) < 6:
+        if card[1] and card[1] not in panels:
+            for i in range(0, 3):
+                panels.append(card[1])
+        pick = random.randint(2,5)
+        if panels.count(card[pick]) < 2:
+            panels.append(card[pick])
+    return panels
+        
+
+
             
             
         

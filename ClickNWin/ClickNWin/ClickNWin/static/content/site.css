@@ -93,7 +93,7 @@ span.error{
 
 button.cardPanel{
     color: gray;
-    height:25px;
+    height:40px;
     width: 70px;
     z-index:2;
     position:absolute;

@@ -28,6 +28,9 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="ClickNWin\api.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="ClickNWin\cards.py">
       <SubType>Code</SubType>
     </Compile>
@@ -42,14 +45,12 @@
     <Folder Include="ClickNWin\" />
     <Folder Include="ClickNWin\Images\" />
     <Folder Include="ClickNWin\static\" />
-    <Folder Include="ClickNWin\static\Card Images\" />
     <Folder Include="ClickNWin\static\content\" />
     <Folder Include="ClickNWin\static\fonts\" />
     <Folder Include="ClickNWin\static\scripts\" />
     <Folder Include="ClickNWin\templates\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="ClickNWin\static\Card Images\200winner.png" />
     <Content Include="ClickNWin\static\content\datatables.min.css" />
     <Content Include="ClickNWin\static\content\DataTableStyle.css" />
     <Content Include="ClickNWin\static\scripts\datatables.min.js" />

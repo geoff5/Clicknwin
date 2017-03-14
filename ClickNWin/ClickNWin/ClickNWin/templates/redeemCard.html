@@ -1,15 +1,22 @@
 ﻿{% extends "loginLayout.html" %}
 
 {% block content %}
-<h1>Clcik the grey panels to reveal your prize</h1>
 
-<button class="cardPanel" id="panel1" style="top:255px;left:275px;" onclick="reveal()"></button>
-<button class="cardPanel" id="panel2" style="top:295px;left:275px;" onclick="reveal()"></button>
-<button class="cardPanel" id="panel3" style="top:335px;left:275px;" onclick="reveal()"></button>
-<button class="cardPanel" id="panel4" style="top:255px;left:375px;" onclick="reveal()"></button>
-<button class="cardPanel" id="panel5" style="top:295px;left:375px;" onclick="reveal()"></button>
-<button class="cardPanel" id="panel6" style="top:335px;left:375px;" onclick="reveal()"></button>
-<img src = "{{path}}" />
+<h1>Click the grey panels to reveal your prize</h1>
+
+<button class="cardPanel" id="panel1" style="top:170px;left:165px;" onclick="reveal(this.id,{{card}})"></button>
+<button class="cardPanel" id="panel2" style="top:270px;left:165px;" onclick="reveal(this.id,{{card}})"></button>
+<button class="cardPanel" id="panel3" style="top:370px;left:165px;" onclick="reveal(this.id,{{card}})"></button>
+<button class="cardPanel" id="panel4" style="top:170px;left:285px;" onclick="reveal(this.id,{{card}})"></button>
+<button class="cardPanel" id="panel5" style="top:270px;left:285px;" onclick="reveal(this.id,{{card}})"></button>
+<button class="cardPanel" id="panel6" style="top:370px;left:285px;" onclick="reveal(this.id,{{card}})"></button>
+
+
+<canvas id="card" width="600" height="300"></canvas><script>drawCard({{card}});</script><br /><br />
+
+<a href="{{url_for('myCards')}}" class="btn btn-lg btn-primary">Return to My Cards</a>
+
+
 
 
 {% endblock %}

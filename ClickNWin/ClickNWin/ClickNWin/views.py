@@ -117,26 +117,14 @@ def cardsBought():
     database.reduceBalance(session['user'], price)
     return redirect("/myCards")
 
-@app.route('/checkUser', methods=['POST', 'GET'])
-@isLoggedIn
-def checkUser():
-    user = request.form['user']
-    exists = database.checkUsername(user)
-    return jsonify(exists=exists)
-
-@app.route('/getCardPrice', methods=['POST'])
-@isLoggedIn
-def getCardPrice():
-    type = request.form['type']
-    price = database.getPrice(type)
-    return jsonify(price=price)
-
 @app.route('/redeemCard', methods=['POST', 'GET'])
 @isLoggedIn
 def redeemCard():
     for i in request.form.items():
         id = i[0]
     card = database.getCard(id)
-    imagePath = cards.getCardImage(card)
-    return render_template('redeemCard.html', path = imagePath, year = datetime.now().year, balance=database.getBalance(session['user']))
+    if not card:
+        return redirect('/myCards')
+    #imagePath = cards.getCardImage(card)
+    return render_template('redeemCard.html', card=id, year = datetime.now().year, balance=database.getBalance(session['user']))
     
