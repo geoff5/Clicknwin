@@ -278,11 +278,13 @@ function drawCard(id)
     ctx.font = "15px Engravers MT";
     ctx.fillStyle = "white";
     ctx.textAlign = "left";
+    ctx.fillText("ClickNWin", 350, 50);
+    ctx.fillText("Standard Game", 350, 100);
+    ctx.fillText("Great Prizes", 350, 150)
 
     while(panelArray.length > 0)
     {
         pick = Math.floor(Math.random() * (panelArray.length)) + 0;
-        alert(pick);
         ctx.fillText("€" + panelArray[pick], x, y);
         panelArray.splice(pick, 1);
         y += 100
@@ -310,4 +312,38 @@ function getPanels(id)
     req.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     req.send('id=' + id);
     return panels
+}
+
+function addFunds()
+{
+    var data = []
+    data[0] = document.getElementById("paymentCards").value;
+    data[1] = document.getElementById("amount").value
+    data[2] = document.getElementById("cvv").value;
+    var regex = /[0-9]/
+    var match = data[2].search(regex);
+    alert(match);
+    if (data[2] == "" || match < 3 || data[2].length < 3)
+    {
+        return false;
+    }
+    
+    var req = new XMLHttpRequest
+    req.onreadystatechange = function () {
+        if (req.readyState == 4 && req.status == 200) {
+            var response = JSON.parse(req.responseText);
+            if (response.paymentSuccess == true)
+            {
+                alert("Payment successful.  Your account has been topped up");
+            }
+            else
+            {
+                alert("Error in payment.  Please check your details and try again");
+            }
+
+        }
+    }
+    req.open("POST", "/addFunds");
+    req.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    req.send('data='+ data);
 }

@@ -1,7 +1,7 @@
 from datetime import datetime
 from functools import wraps
 from flask import render_template, session, request, redirect, json, jsonify
-from ClickNWin import app, database, cards,views
+from ClickNWin import app, database, cards,views, paypalAPI
 
 def isLoggedIn(func):
     @wraps(func)
@@ -43,5 +43,25 @@ def cardRedeemed():
     card = database.getCard(id)
     prize = card[0][1]
     database.redeemCard(id)
-    database.addFunds(session['user'], prize)
+    if prize:
+        database.addFunds(session['user'], prize)
     return jsonify(prize = prize)
+
+@app.route('/addFunds', methods=['POST'])
+@isLoggedIn
+def addFunds():
+    data = request.form['data'].split(',')
+    cardID = data[0]
+    amount = data[1]
+    cvv = data[2]
+    card = database.getPaymentCard(int(cardID))
+    #print(card)
+    card  = card[0]
+    #print(card)
+    paymentSuccess = paypalAPI.topUp(card, amount, cvv)
+    #paymentSuccess = False
+    if paymentSuccess:
+        database.addFunds(session['user'], amount)
+    return jsonify(paymentSuccess = paymentSuccess)
+    
+

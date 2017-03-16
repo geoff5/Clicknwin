@@ -37,6 +37,9 @@
     <Compile Include="ClickNWin\database.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="ClickNWin\paypalAPI.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="runserver.py" />
     <Compile Include="ClickNWin\__init__.py" />
     <Compile Include="ClickNWin\views.py" />

@@ -55,12 +55,12 @@ def getBalance(username):
 
 def addPaymentCard(card):
     _SQL = """INSERT INTO paymentcards
-            (cardNumber, expiryMonth, expiryYear, cardType, cardHolderName, user)
+            (cardNumber, expiryMonth, expiryYear, cardType, holderFirstName, holderSurname, user)
             values
-            (%s, %s, %s, %s, %s, %s)"""
+            (%s, %s, %s, %s, %s, %s, %s)"""
 
     with DBcm.UseDatabase(config) as database:
-        database.execute(_SQL, (str(card['cardNumber']),str(card['expiryMonths']),str(card['expiryYears']), card['cardType'],card['cardName'], card['user']))
+        database.execute(_SQL, (str(card['cardNumber']),str(card['expiryMonths']),str(card['expiryYears']), card['cardType'],card['cardFirstName'],card['cardSurname'], card['user']))
 
 def getCardTypes():
     _SQL = """SELECT name, price FROM cardTypes"""
@@ -146,6 +146,22 @@ def getCardPrizes(type):
         database.execute(_SQL)
         cards = database.fetchall()
     return cards
+
+def getPaymentCards(user):
+    _SQL = """SELECT * FROM paymentcards WHERE user = '{user}'""".format(user = user)
+
+    with DBcm.UseDatabase(config) as database:
+        database.execute(_SQL)
+        paymentCards = database.fetchall()
+    return paymentCards
+
+def getPaymentCard(id):
+    _SQL = """SELECT * from paymentcards WHERE id = '{id}'""".format(id = id)
+
+    with DBcm.UseDatabase(config) as database:
+        database.execute(_SQL)
+        paymentCard = database.fetchall()
+    return paymentCard
     
 
 

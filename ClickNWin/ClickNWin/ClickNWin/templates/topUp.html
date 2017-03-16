@@ -5,26 +5,40 @@
 <h1>Top Up Funds</h1>
 
 <div class="container">
-    <form class="form-inline" method="post" action="/home">
+    <form>
         <div class="row">
             <label class="col-md-2 col-form-label form-label">Select a Card</label>
             <div class="col-md-4">
-                <select required>
-                    <option>Card ending in 1234</option>
-                    <option>Card ending in 5678</option>
+                <select required id="paymentCards" name="card">
+                    {% for i in payCards %}
+                    <option value="{{i['id']}}">{{i['cardType']}} card ending in {{i['endNo']}}</option>
+                    {% endfor %}
+                </select>
+            </div><br />
+        </div>
+        <div class="row">
+            <label class="col-md-2 col-form-label form-label">Enter your CVV2 Number</label>
+            <div class="col-md-4">
+                <input type="text" id="cvv" name="cvv" required pattern="[0-9]{3}" />
+            </div>
+        </div><br />
+        <div class="row">
+            <label class="col-md-2 col-form-label form-label">Select the Top Up Amount</label>
+            <div class="col-md-4">
+                <select required id="amount" name="amount">
+                    <option value="5">€5</option>
+                    <option value="10">€10</option>
+                    <option value="15">€15</option>
+                    <option value="20">€20</option>
                 </select>
             </div>
-        </div>
-        <div class="row">
-            <label class="col-md-2 col-form-label form-label">Select a Card</label>
-            <div class="col-md-4">
-                <input type="text" id="cvv" required />
+        </div><br />
+            <div class="row">
+                <div class="row row-centered">
+                    <button class="btn btn-primary btn-lg" onclick="return addFunds();">Submit</button>
+                </div>
             </div>
-        </div>
-
-</form>
+        </form>
 </div>
-
-
 
 {% endblock %}

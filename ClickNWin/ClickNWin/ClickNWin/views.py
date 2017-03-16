@@ -5,7 +5,7 @@ Routes and views for the flask application.
 from datetime import datetime
 from functools import wraps
 from flask import render_template, session, request, redirect, json, jsonify
-from ClickNWin import app, database, cards
+from ClickNWin import app, database, paypalAPI
 
 def isLoggedIn(func):
     @wraps(func)
@@ -83,7 +83,7 @@ def logout():
 @app.route('/cardAdded', methods=['GET', 'POST'])
 @isLoggedIn
 def cardAdded():
-    card = {'cardType':'', 'cardNumber':'', 'expiryMonths':0, 'expiryYears':0, 'cardName':'', 'user': session['user']}    
+    card = {'cardType':'', 'cardNumber':'', 'expiryMonths':0, 'expiryYears':0, 'cardFirstName':'', 'cardSurname':'', 'user': session['user']}    
     for k,v in request.form.items():
         card[k] = request.form[k]
         print(card[k])
@@ -125,6 +125,26 @@ def redeemCard():
     card = database.getCard(id)
     if not card:
         return redirect('/myCards')
-    #imagePath = cards.getCardImage(card)
     return render_template('redeemCard.html', card=id, year = datetime.now().year, balance=database.getBalance(session['user']))
+
+@app.route('/topUp', methods=['GET'])
+@isLoggedIn
+def topUp():
+    paymentCards = database.getPaymentCards(session['user'])
+    formatCards = []
+    index = 0
+    for i in paymentCards:
+        temp = ''
+        formatCards.append({'id': i[0]})
+        temp = i[1][12:]
+        formatCards[index]['endNo'] = temp
+        formatCards[index]['cardType'] = i[5]
+        index = index + 1
+    return render_template('topUp.html',payCards = formatCards, year = datetime.now().year, balance=database.getBalance(session['user']))
+
+
+    
+    
+            
+    
     
