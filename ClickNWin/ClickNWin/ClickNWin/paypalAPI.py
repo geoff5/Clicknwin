@@ -3,8 +3,8 @@ import logging
 
 paypalrestsdk.configure({
   "mode": "sandbox", 
-  "client_id": "AVKGtdnAliBll5ns6SJXKpIeMsTLPyOJOYzj-1jSebRtB7wYqkfVRJhFDz35C9ug2Z5h4Ff64dQSkXMg",
-  "client_secret": "EPZrxp9WFMEqEh2iQyAkNdnratHwgvbbeNQUyAA2qstBvHkJs6_QxBI57ntqqI2jcQrnauEkR0zpNe9l" })
+  "client_id": "AVAIfIc67oJ5raw8pFxkp8OGyyOliG_4CQRXJPwU2HMY53gBHRcPwUi-XqRMpmtvKeSfFDigy6PC2IVB",
+  "client_secret": "EPm1x9KMEVsVK6aymuHFrZgCTG7EGSWQmTTR9ab7RZNXjq5gCFEvfUxOa2Mk_YSAO2NdYzAJtjBGndTz" })
 
 def topUp(card, amount, cvv):
     payment = paypalrestsdk.Payment({

@@ -4,7 +4,7 @@ Routes and views for the flask application.
 
 from datetime import datetime
 from functools import wraps
-from flask import render_template, session, request, redirect, json, jsonify
+from flask import render_template, session, request, redirect, json, jsonify, flash
 from ClickNWin import app, database, paypalAPI
 
 def isLoggedIn(func):
@@ -142,9 +142,25 @@ def topUp():
         index = index + 1
     return render_template('topUp.html',payCards = formatCards, year = datetime.now().year, balance=database.getBalance(session['user']))
 
-
-    
-    
-            
-    
-    
+@app.route('/addFunds', methods=['POST'])
+@isLoggedIn
+def addFunds():
+    cardID = request.form['card']
+    amount = request.form['amount']
+    cvv = request.form['cvv']
+    card = database.getPaymentCard(int(cardID))
+    #print(card)
+    card  = card[0]
+    #print(card)
+    paymentSuccess = paypalAPI.topUp(card, amount, cvv)
+    #paymentSuccess = False
+    if paymentSuccess:
+        database.addFunds(session['user'], amount)
+        data = {}
+        data['user'] = session['user']
+        data['amount'] = amount
+        data['cardNo'] = card[1][12:]
+        return render_template('fundsAdded.html',data = data, year = datetime.now().year, balance=database.getBalance(session['user']))
+    else:
+        flash("Payment Error.  Please check your details and try again")   
+        return redirect('/topUp') 

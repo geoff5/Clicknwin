@@ -1,0 +1,17 @@
+﻿{% extends "loginLayout.html" %}
+
+{% block content %}
+
+<h1>Payment Successful</h1>
+<br /><br />
+
+<p style="text-align:center">
+    <h3>Details</h3>
+    User: {{data['user']}}<br />
+    Payment Card: Card ending in {{data['cardNo']}}<br />
+    Amount: €{{data['amount']}}<br />
+    Please save this page for your records<br />
+    <a class="btn-primary btn btn-large" href="{{url_for('loginHome')}}">Return Home</a>
+</p>
+
+{% endblock %}

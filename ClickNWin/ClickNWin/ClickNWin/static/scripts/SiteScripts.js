@@ -347,3 +347,12 @@ function addFunds()
     req.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     req.send('data='+ data);
 }
+
+function paymentFail(didFail)
+{
+    if(didFail == true)
+    {
+        document.getElementById("payError").className = "error";
+        document.getElementById("payError").innerText = "Payment Error.  Please check details and try again"
+    }
+}
