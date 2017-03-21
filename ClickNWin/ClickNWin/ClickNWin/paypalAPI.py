@@ -1,5 +1,6 @@
 import paypalrestsdk
 import logging
+import random
 
 paypalrestsdk.configure({
   "mode": "sandbox", 
@@ -37,3 +38,34 @@ def topUp(card, amount, cvv):
       return True
     else:
       return False  
+
+
+def balanceRedeem(email, amount):
+    sender_batch_id = ''.join(
+    random.choice(string.ascii_uppercase) for i in range(12))
+
+    payout = Payout({
+        "sender_batch_header": {
+            "sender_batch_id": sender_batch_id,
+            "email_subject": "ClickNWin Balance Redeeemed"
+        },
+        "items": [
+            {
+                "recipient_type": "EMAIL",
+                "amount": {
+                    "value": amount,
+                    "currency": "EUR"
+                },
+                "receiver": email,
+                "note": "Thank you.",
+                "sender_item_id": "item_1"
+            }
+        ]
+    })
+
+    if payout.create(sync_mode=True):
+        return True
+    else:
+        return False
+
+   

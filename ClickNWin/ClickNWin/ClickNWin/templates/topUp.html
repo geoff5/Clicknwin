@@ -2,11 +2,12 @@
 
 {% block content %}
 
-<h1>Top Up Funds</h1>
-{% with messages = get_flashed_messages() %}
+<h1>Top Up Funds</h1><br />
+<h3>The selected card will be used to top up your account</h3><br />
+{% with messages = get_flashed_messages(with_categories=true) %}
 {% if messages %}
-{% for message in messages %}
-<span>{{message}}</span>
+{% for category, message in messages %}
+<span class="{{category}}">{{message}}</span>
 {% endfor %}
 {% endif %}
 {% endwith %}
@@ -21,7 +22,7 @@
                     <option value="{{i['id']}}">{{i['cardType']}} card ending in {{i['endNo']}}</option>
                     {% endfor %}
                 </select>
-            </div><br />
+            </div><br /><br />
         </div>
         <div class="row">
             <label class="col-md-2 col-form-label form-label">Enter your CVV2 Number</label>
@@ -30,14 +31,9 @@
             </div>
         </div><br />
         <div class="row">
-            <label class="col-md-2 col-form-label form-label">Select the Top Up Amount</label>
+            <label class="col-md-2 col-form-label form-label">Enter the Top Up Amount</label>
             <div class="col-md-4">
-                <select required id="amount" name="amount">
-                    <option value="5">€5</option>
-                    <option value="10">€10</option>
-                    <option value="15">€15</option>
-                    <option value="20">€20</option>
-                </select>
+                <input type="number" name="amount" id="amount" step="0.01" pattern="[0-9]{1,}+[.]+[0-9]{2}" />
             </div>
         </div><br />
             <div class="row">
@@ -45,7 +41,7 @@
                     <input class="btn btn-primary btn-lg" type="submit" value="Submit" />
                 </div>
             </div>
-        </form>
+</form>
 </div>
 
 {% endblock %}

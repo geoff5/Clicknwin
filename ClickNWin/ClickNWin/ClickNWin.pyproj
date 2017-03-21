@@ -67,6 +67,7 @@
     <Content Include="ClickNWin\templates\loginHome.html" />
     <Content Include="ClickNWin\templates\loginLayout.html" />
     <Content Include="ClickNWin\templates\myCards.html" />
+    <Content Include="ClickNWin\templates\redeemBalance.html" />
     <Content Include="ClickNWin\templates\redeemCard.html" />
     <Content Include="ClickNWin\templates\register.html" />
     <Content Include="ClickNWin\templates\registered.html" />

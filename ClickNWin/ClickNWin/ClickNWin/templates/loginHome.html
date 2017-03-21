@@ -4,6 +4,13 @@
 
 <h1 align="center">Welcome to ClickNWin - The Online Scratch Card Site</h1>
 <h3 align="center">Online Gaming at its Finest</h3>
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+{% for message in messages %}
+<span>{{message}}</span>
+{% endfor %}
+{% endif %}
+{% endwith %}
 <br /><br /><br />
 
 <div class="container">

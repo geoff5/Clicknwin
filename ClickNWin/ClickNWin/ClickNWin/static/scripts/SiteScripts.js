@@ -348,11 +348,13 @@ function addFunds()
     req.send('data='+ data);
 }
 
-function paymentFail(didFail)
+function checkBalance(balance)
 {
-    if(didFail == true)
+    amount = document.getElementById("amount").value;
+    amount = amount.toFixed(2);
+    if (amount > balance)
     {
-        document.getElementById("payError").className = "error";
-        document.getElementById("payError").innerText = "Payment Error.  Please check details and try again"
+        alert("You do not have enough funds in your balance.  Please try a smaller amount");
+        return false;
     }
 }

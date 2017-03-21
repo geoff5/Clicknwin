@@ -6,6 +6,7 @@ from datetime import datetime
 from functools import wraps
 from flask import render_template, session, request, redirect, json, jsonify, flash
 from ClickNWin import app, database, paypalAPI
+import decimal
 
 def isLoggedIn(func):
     @wraps(func)
@@ -145,9 +146,20 @@ def topUp():
 @app.route('/addFunds', methods=['POST'])
 @isLoggedIn
 def addFunds():
+    point = False
+    count = -1
     cardID = request.form['card']
     amount = request.form['amount']
     cvv = request.form['cvv']
+    if amount[0] == '.':
+        amount = '0' + amount
+    for c in amount:
+        if c == '.':
+            point = True
+        if point:
+            count = count + 1
+    if count == 1:
+        amount = amount + '0'
     card = database.getPaymentCard(int(cardID))
     #print(card)
     card  = card[0]
@@ -162,5 +174,33 @@ def addFunds():
         data['cardNo'] = card[1][12:]
         return render_template('fundsAdded.html',data = data, year = datetime.now().year, balance=database.getBalance(session['user']))
     else:
-        flash("Payment Error.  Please check your details and try again")   
-        return redirect('/topUp') 
+        flash("Payment Error.  Please check your details and try again", "error")   
+        return redirect('/topUp')
+
+@isLoggedIn
+@app.route('/redeemBalance', methods=['GET'])
+def redeemBalance():
+    return render_template('redeemBalance.html', year = datetime.now().year, balance=database.getBalance(session['user']))
+
+@isLoggedIn
+@app.route('/balanceRedeemed', methods=['POST'])
+def balanceRedeemed():
+    amount = request.form['amount']
+    email = request.form['email']
+    if amount[0] == '.':
+        amount = '0' + amount
+    for c in amount:
+        if c == '.':
+            point = True
+        if point:
+            count = count + 1
+    if count == 1:
+        amount = amount + '0'
+    payoutSuccess = paypalAPI.balanceRedeem(email,amount)
+    if payoutSuccess:
+        database.reduceBalance(session['user'], amount)
+        flash("Your payout was successful.  The requested funds will be available in your account shortly.")
+        return render_template('loginHome.html', year = datetime.now().year, balance=database.getBalance(session['user']))
+    else:
+        flash("Payout Error.  Please check your details and try again", "error")
+        return redirect('/redeemBalance')

@@ -96,9 +96,9 @@ def addScratchCard(card):
         print(card)
         database.execute(_SQL, (card['user'], card['prize'], card['type'], card['boughtBy'], card['boughtOn']))
 
-def reduceBalance(user, price):
+def reduceBalance(user, amount):
     balance = float(getBalance(user))
-    newBal = balance - float(price[1:])
+    newBal = balance - float(amount[1:])
     newBal = decimal.Decimal(newBal)
     
     _SQL = """UPDATE users SET balance = '{newBal}' WHERE username = '{user}';""".format(user = user, newBal = newBal)

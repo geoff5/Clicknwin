@@ -1,0 +1,37 @@
+﻿{% extends "loginLayout.html" %}
+
+{% block content %}
+
+<h1>Redeem Balance</h1><br />
+<h3>Enter the email address of your paypal account<br /> and the selected amount will be refunded to it</h3><br />
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% if messages %}
+{% for category, message in messages %}
+<span class="{{category}}">{{message}}</span>
+{% endfor %}
+{% endif %}
+{% endwith %}<br />
+
+<div class="container">
+    <form class="form-inline" action="/balanceRedeemed" method="post" onsubmit="return checkBalance({{balance}});">
+        <div class="row">
+            <label class="col-md-1 col-form-label form-label">Email</label>
+            <div class="col-md-2">
+                <input type="email" name="email" value="{{email}}" />
+            </div>
+        </div><br />
+        <div class="row">
+            <label class="col-md-1 col-form-label form-label">Amount</label>
+            <div class="col-md-2">
+                <input type="number" name="amount" id="amount" step="0.01" pattern="[0-9]{1,}+[.]+[0-9]{2}" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="row row-centered">
+                <input class="btn btn-primary btn-lg" type="submit" value="Submit">
+            </div>
+        </div>
+    </form>
+</div>
+
+    {% endblock %}
