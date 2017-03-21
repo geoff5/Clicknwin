@@ -1,14 +1,15 @@
-﻿function formValidation() {
+﻿function registerFormValidation()//preforms validation on the registration form
+{
     var pass1 = document.getElementById("password").value;
     var pass2 = document.getElementById("cpassword").value;
     var sPass1 = String(pass1);
     var sPass2 = String(pass2);
     var username = document.getElementById("username").value;
 
-    checkUser(username);
+    AJAXCalls.checkUser(username);//AJAX call to check if given username already exists
     var user = document.getElementById("userError").innerText;
 
-    if(pass1 != pass2)
+    if(pass1 != pass2)//outputs error messages if passwords do not match
     {
         document.getElementById("passMatch1").style.backgroundColor = "#EB4141"
         document.getElementById("passMatch2").style.backgroundColor = "#EB4141"
@@ -23,7 +24,7 @@
 
 }
 
-function failedLogin(fail)
+function failedLogin(fail)//outputs error messages for a failed login
 {
     if (fail == true)
     {
@@ -32,7 +33,7 @@ function failedLogin(fail)
     }
 }
 
-function populateDates()
+function populateDates()//used on addPayment cards to prepare selectable dates
 {
     var months = document.getElementById("expiryMonths");
     var years = document.getElementById("expiryYears");
@@ -57,7 +58,7 @@ function populateDates()
     }
 }
 
-function validateCardNo()
+function validateCardNo()//uses the Luhn algorithm to validate card number is correct
 {
     number = document.getElementById("cardNumber").value;
     numArray = [];
@@ -107,7 +108,7 @@ function validateCardNo()
 }
 
 
-function validateDate()
+function validateDate()//ensures a card expiry date is valid
 {
     var expiryYear = document.getElementById("expiryYears").value;
     var expiryMonth = document.getElementById("expiryMonths").value;
@@ -123,7 +124,7 @@ function validateDate()
     return false;
 }
 
-function validateForm()
+function validateCreditCardForm()
 {
 
     var cardNumber = validateCardNo();
@@ -135,7 +136,7 @@ function validateForm()
     }
 }
 
-function addInput()
+function addInput()//adds a user field if scratch card is being bought for a friend
 {
     var check = document.getElementById("myself").checked;
     if (!check)
@@ -148,32 +149,12 @@ function addInput()
     }
 }
 
-function calcPrice()
+
+function validateCardPurchase()//validates scratch card purchases
 {
-    var type = document.getElementById("cardTypes").value;
-    var req = new XMLHttpRequest();
-    req.onreadystatechange = function ()
-    {
-        if (req.readyState == 4 && req.status == 200)
-        {
-            var response = JSON.parse(req.responseText);
-            var price = response.price;
-            var quantity = parseFloat(document.getElementById("quantity").value);
-            var total = price * quantity;
-            total = total.toFixed(2);
-            total = total.toString();
-            document.getElementById("price").value = '€' + total;
-
-        }
-    }
-    req.open("POST", "/getCardPrice");
-    req.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    req.send('type=' + type);
-}
-
-function validateCardPurchase() {
     var quantity = document.getElementById("quantity").value;
-    if (quantity == '0') {
+    if (quantity == '0')
+    {
         document.getElementById("quantityError").style.backgroundColor = "#EB4141";
         document.getElementById("quantityError").innerText = "Please select a quantity greater than 0";
         return false
@@ -189,166 +170,7 @@ function validateCardPurchase() {
     }
 }
 
-function checkUser(user)
-{
-    var req = new XMLHttpRequest();
-    var sPath = window.location.pathname;
-    var sPage = sPath.substring(sPath.lastIndexOf('/') + 1);
-    req.onreadystatechange = function()
-    {
-        if (req.readyState == 4 && req.status == 200)
-        {
-            var response = JSON.parse(req.responseText);
-            if (!response.exists && sPage == "buyCards")
-            {
-                document.getElementById("userError").style.backgroundColor = "#EB4141";
-                document.getElementById("userError").innerText = "This user does not exist.  Please try again";
-                return false;
-            }
-            else if(response.exists && sPage == "register")
-            {
-                document.getElementById("userError").style.backgroundColor = "#EB4141";
-                document.getElementById("userError").innerText = "This username already exists.  Please try another";
-                return false;
-            }
-            else
-            {
-                document.getElementById("userError").style.backgroundColor = "White";
-                document.getElementById("userError").innerText = "";
-            }
-        }
-    }
-
-    req.open("POST", "/checkUser");
-    req.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    req.send('user=' + user);
-}
-
-function reveal(panel,id)
-{
-    document.getElementById(panel).hidden = true;
-    var checkHidden = []
-    checkHidden.push(document.getElementById("panel1").hidden);
-    checkHidden.push(document.getElementById("panel2").hidden);
-    checkHidden.push(document.getElementById("panel3").hidden);
-    checkHidden.push(document.getElementById("panel4").hidden);
-    checkHidden.push(document.getElementById("panel5").hidden);
-    checkHidden.push(document.getElementById("panel6").hidden);
-
-    for (var i = 0; i < checkHidden.length; i++)
-    {
-        if(checkHidden[i] == false)
-        {
-            return false;
-        }
-    }
-
-    var req = new XMLHttpRequest();
-    req.onreadystatechange = function()
-    {
-        if (req.readyState == 4 && req.status == 200)
-        {
-            var response = JSON.parse(req.responseText);
-            if (response.prize != '')
-            {
-                alert("Congratulations, you have won €" + response.prize + ". This prize will now be credited to your account balance ");
-            }
-            else
-            {
-                alert("Sorry, that card was not a winner.  Please try again");
-            }
-        }
-    }
-
-    req.open("POST", "/cardRedeemed");
-    req.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    req.send('id=' + id);
-}
-
-function drawCard(id)
-{
-    panelArray = getPanels(id)
-    var x = 70;
-    var y = 50;
-
-    var canvas = document.getElementById("card");
-    var ctx = canvas.getContext("2d");
-    ctx.fillStyle = "#FF0000";
-    ctx.fillRect(0, 0, 600, 300);
-    ctx.font = "15px Engravers MT";
-    ctx.fillStyle = "white";
-    ctx.textAlign = "left";
-    ctx.fillText("ClickNWin", 350, 50);
-    ctx.fillText("Standard Game", 350, 100);
-    ctx.fillText("Great Prizes", 350, 150)
-
-    while(panelArray.length > 0)
-    {
-        pick = Math.floor(Math.random() * (panelArray.length)) + 0;
-        ctx.fillText("€" + panelArray[pick], x, y);
-        panelArray.splice(pick, 1);
-        y += 100
-        if(panelArray.length == 3)
-        {
-            x += 120;
-            y = 50;
-        }
-    }
-}
-
-function getPanels(id)
-{
-    panels = []
-    var req = new XMLHttpRequest()
-    req.onreadystatechange = function()
-    {
-        if (req.readyState == 4 && req.status == 200)
-        {
-            var response = JSON.parse(req.responseText);
-            panels = response.card
-        }
-    }
-    req.open("POST", "/getCard", false);
-    req.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    req.send('id=' + id);
-    return panels
-}
-
-function addFunds()
-{
-    var data = []
-    data[0] = document.getElementById("paymentCards").value;
-    data[1] = document.getElementById("amount").value
-    data[2] = document.getElementById("cvv").value;
-    var regex = /[0-9]/
-    var match = data[2].search(regex);
-    alert(match);
-    if (data[2] == "" || match < 3 || data[2].length < 3)
-    {
-        return false;
-    }
-    
-    var req = new XMLHttpRequest
-    req.onreadystatechange = function () {
-        if (req.readyState == 4 && req.status == 200) {
-            var response = JSON.parse(req.responseText);
-            if (response.paymentSuccess == true)
-            {
-                alert("Payment successful.  Your account has been topped up");
-            }
-            else
-            {
-                alert("Error in payment.  Please check your details and try again");
-            }
-
-        }
-    }
-    req.open("POST", "/addFunds");
-    req.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    req.send('data='+ data);
-}
-
-function checkBalance(balance)
+function checkBalance(balance)//ensures user is able to redeem the requested amount from their balance
 {
     amount = document.getElementById("amount").value;
     amount = amount.toFixed(2);

@@ -185,6 +185,7 @@ def redeemBalance():
 @isLoggedIn
 @app.route('/balanceRedeemed', methods=['POST'])
 def balanceRedeemed():
+    point = False
     amount = request.form['amount']
     email = request.form['email']
     if amount[0] == '.':

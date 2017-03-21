@@ -1,6 +1,7 @@
 import paypalrestsdk
 import logging
 import random
+import string
 
 paypalrestsdk.configure({
   "mode": "sandbox", 

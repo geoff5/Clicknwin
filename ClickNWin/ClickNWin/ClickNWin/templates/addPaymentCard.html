@@ -3,7 +3,7 @@
 {% block content %}
 <body onload="populateDates()">
     <h1 align="center">Add a New Payment Card to your Account</h1>
-    <form class="form-inline" action="/cardAdded" method="post" onsubmit="return validateForm();">
+    <form class="form-inline" action="/cardAdded" method="post" onsubmit="return validateCreditCardForm();">
         <div class="row">
             <img class="col-md-2" src="../../static/credit-card-logos.png" height="70" width="100" />
         </div>
@@ -11,8 +11,8 @@
             <label class="col-md-1 col-form-label form-label">Card Type</label>
             <div class="col-md-2">
                 <select id="cardType" name="cardType">
-                    <option>Visa</option>
-                    <option>MasterCard</option>
+                    <option value="visa">Visa</option>
+                    <option value="mastercard">MasterCard</option>
                 </select>
             </div>
         </div><br />
