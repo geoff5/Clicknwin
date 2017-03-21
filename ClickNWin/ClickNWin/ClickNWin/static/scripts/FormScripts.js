@@ -180,3 +180,32 @@ function checkBalance(balance)//ensures user is able to redeem the requested amo
         return false;
     }
 }
+
+function drawCard(id)//uses HTML canvas to draw card design by using AJAX call to retrive card's prize
+{
+    panelArray = AJAXCalls.getPanels(id);
+    var x = 70;
+    var y = 50;
+
+    var canvas = document.getElementById("card");
+    var ctx = canvas.getContext("2d");
+    ctx.fillStyle = "#FF0000";
+    ctx.fillRect(0, 0, 600, 300);
+    ctx.font = "15px Engravers MT";
+    ctx.fillStyle = "white";
+    ctx.textAlign = "left";
+    ctx.fillText("ClickNWin", 350, 50);
+    ctx.fillText("Standard Game", 350, 100);
+    ctx.fillText("Great Prizes", 350, 150)
+
+    while (panelArray.length > 0) {
+        pick = Math.floor(Math.random() * (panelArray.length)) + 0;
+        ctx.fillText("€" + panelArray[pick], x, y);
+        panelArray.splice(pick, 1);
+        y += 100
+        if (panelArray.length == 3) {
+            x += 120;
+            y = 50;
+        }
+    }
+}

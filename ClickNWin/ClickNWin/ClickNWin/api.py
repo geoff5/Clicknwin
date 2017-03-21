@@ -2,8 +2,9 @@ from datetime import datetime
 from functools import wraps
 from flask import render_template, session, request, redirect, json, jsonify
 from ClickNWin import app, database, cards,views, paypalAPI
+"""AJAX API calls for the Flask Application"""
 
-def isLoggedIn(func):
+def isLoggedIn(func):#decorator function to check a user is logged in
     @wraps(func)
     def wrapped_function(*args, **kwargs):
         if 'isLoggedIn' in session:

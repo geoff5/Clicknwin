@@ -1,3 +1,5 @@
+"""Functions for interacting with paypal to receive and make payments"""
+
 import paypalrestsdk
 import logging
 import random

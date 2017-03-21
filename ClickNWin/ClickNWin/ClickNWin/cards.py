@@ -1,8 +1,8 @@
 from ClickNWin import database
 import random
 import operator
-
-def newCards(cards):
+"""Utility methods for creating scratch cards and helping their design"""
+def newCards(cards):#Creates new cards, runs a cumulatitive probability algorithm to determine if they are winners and adds them to the database 
     prizes = database.getPrizes(cards['type'])
     chances  = {}
     chances[prizes[0][3]] = float(prizes[0][4])
@@ -28,11 +28,8 @@ def newCards(cards):
         card['boughtOn'] = cards['boughtOn']
         database.addScratchCard(card)
 
-#def getCardImage(card):
-#    path = "static\\CardImages\\" + str(card[0][0]) + "\\" + str(card[0][1]) + "winner.png"
-#    return path
 
-def createPanelArray(card):
+def createPanelArray(card):#creates a list of prizes to be displayed on the card based on whether the card is a winner or not
     panels = []
     prizes = card[2:]
     while len(panels) < 6:

@@ -1,6 +1,4 @@
-"""
-Routes and views for the flask application.
-"""
+"""Routes and views for the flask application"""
 
 from datetime import datetime
 from functools import wraps

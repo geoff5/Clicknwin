@@ -60,7 +60,7 @@
     <Content Include="ClickNWin\static\scripts\datatables.min.js" />
     <Content Include="ClickNWin\static\scripts\jquery-1.10.2.min.js" />
     <Content Include="ClickNWin\static\scripts\jquery-3.1.1.min.js" />
-    <Content Include="ClickNWin\static\scripts\SiteScripts.js" />
+    <Content Include="ClickNWin\static\scripts\FormScripts.js" />
     <Content Include="ClickNWin\templates\fundsAdded.html" />
     <Content Include="ClickNWin\templates\buyCard.html" />
     <Content Include="ClickNWin\templates\loggedIn.html" />

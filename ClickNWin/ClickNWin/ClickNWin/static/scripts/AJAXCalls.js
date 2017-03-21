@@ -1,4 +1,5 @@
-﻿function checkUser(user) {
+﻿function checkUser(user)//AJAX call to check if a given username exists
+{
     var req = new XMLHttpRequest();
     var sPath = window.location.pathname;
     var sPage = sPath.substring(sPath.lastIndexOf('/') + 1);
@@ -27,7 +28,8 @@
     req.send('user=' + user);
 }
 
-function reveal(panel, id) {
+function reveal(panel, id)//Makes scratch card panels disappear.  Once all are gone, makes an AJAX call to redeem the card in the database and add funds to user balance if neccessary
+{
     document.getElementById(panel).hidden = true;
     var checkHidden = []
     checkHidden.push(document.getElementById("panel1").hidden);
@@ -61,35 +63,8 @@ function reveal(panel, id) {
     req.send('id=' + id);
 }
 
-function drawCard(id) {
-    panelArray = getPanels(id)
-    var x = 70;
-    var y = 50;
-
-    var canvas = document.getElementById("card");
-    var ctx = canvas.getContext("2d");
-    ctx.fillStyle = "#FF0000";
-    ctx.fillRect(0, 0, 600, 300);
-    ctx.font = "15px Engravers MT";
-    ctx.fillStyle = "white";
-    ctx.textAlign = "left";
-    ctx.fillText("ClickNWin", 350, 50);
-    ctx.fillText("Standard Game", 350, 100);
-    ctx.fillText("Great Prizes", 350, 150)
-
-    while (panelArray.length > 0) {
-        pick = Math.floor(Math.random() * (panelArray.length)) + 0;
-        ctx.fillText("€" + panelArray[pick], x, y);
-        panelArray.splice(pick, 1);
-        y += 100
-        if (panelArray.length == 3) {
-            x += 120;
-            y = 50;
-        }
-    }
-}
-
-function getPanels(id) {
+function getPanels(id)//AJAX call to retrieve panel list from server
+{
     panels = []
     var req = new XMLHttpRequest()
     req.onreadystatechange = function () {
@@ -104,7 +79,8 @@ function getPanels(id) {
     return panels
 }
 
-function calcPrice() {
+function calcPrice()//calculates the price of selected amount of cards 
+{
     var type = document.getElementById("cardTypes").value;
     var req = new XMLHttpRequest();
     req.onreadystatechange = function () {
