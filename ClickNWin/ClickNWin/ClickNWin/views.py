@@ -184,6 +184,7 @@ def redeemBalance():
 @app.route('/balanceRedeemed', methods=['POST'])
 def balanceRedeemed():
     point = False
+    count = -1
     amount = request.form['amount']
     email = request.form['email']
     if amount[0] == '.':

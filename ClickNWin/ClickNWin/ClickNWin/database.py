@@ -65,7 +65,7 @@ def addPaymentCard(card):
         database.execute(_SQL, (str(card['cardNumber']),str(card['expiryMonths']),str(card['expiryYears']), card['cardType'],card['cardFirstName'],card['cardSurname'], card['user']))
 
 def getCardTypes():
-    _SQL = """SELECT name, price FROM cardTypes"""
+    _SQL = """SELECT name, price FROM cardtypes"""
     
     with DBcm.UseDatabase(config) as database:
         database.execute(_SQL)
@@ -73,7 +73,7 @@ def getCardTypes():
     return cards
 
 def getPrizes(type):
-    _SQL = """SELECT * FROM cardTypes WHERE name = '{type}';""".format(type=type)
+    _SQL = """SELECT * FROM cardtypes WHERE name = '{type}';""".format(type=type)
     
     with DBcm.UseDatabase(config) as database:
         database.execute(_SQL)
@@ -100,8 +100,12 @@ def addScratchCard(card):
 
 def reduceBalance(user, amount):
     balance = float(getBalance(user))
-    newBal = balance - float(amount[1:])
+    if amount[0] == '€':
+        newBal = balance - float(amount[1:])
+    else:
+        newBal = balance - float(amount)
     newBal = decimal.Decimal(newBal)
+    print(str(balance) + "  " + amount + "  " + str(newBal))
     
     _SQL = """UPDATE users SET balance = '{newBal}' WHERE username = '{user}';""".format(user = user, newBal = newBal)
 
@@ -142,7 +146,7 @@ def addFunds(user,prize):
         database.execute(_SQL)
 
 def getCardPrizes(type):
-    _SQL = """SELECT prize1, prize2, prize3, prize4 FROM cardTypes WHERE name = '{type}'""".format(type=type)
+    _SQL = """SELECT prize1, prize2, prize3, prize4 FROM cardtypes WHERE name = '{type}'""".format(type=type)
     
     with DBcm.UseDatabase(config) as database:
         database.execute(_SQL)

@@ -1,6 +1,7 @@
 """Functions for interacting with paypal to receive and make payments"""
 
 import paypalrestsdk
+from paypalrestsdk import Payout, ResourceNotFound
 import logging
 import random
 import string

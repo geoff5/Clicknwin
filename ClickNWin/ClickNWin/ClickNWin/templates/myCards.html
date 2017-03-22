@@ -28,12 +28,14 @@
         </tbody>
     </table>
 </form>
-<script>
+<script>//creates data table for user scratch card display
     $(document).ready(function () {
         $('#cardsTable').DataTable({
             "pageLength": 5,
             "searching": false,
-            "bLengthChange": false
+            "bLengthChange": false,
+            "oLanguage": {
+            "sEmptyTable":     "You currently have no unredeemed scratch cards"}
         });
     });
 </script>
