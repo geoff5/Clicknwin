@@ -1,7 +1,7 @@
 """
 The flask application package.
 """
-from functools import wraps
+
 from flask import Flask
 from flask_sslify import SSLify
 

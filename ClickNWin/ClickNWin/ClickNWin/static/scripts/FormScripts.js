@@ -1,4 +1,34 @@
-﻿function registerFormValidation()//preforms validation on the registration form
+﻿function checkUser(user)//AJAX call to check if a given username exists
+{
+    var req = new XMLHttpRequest();
+    var sPath = window.location.pathname;
+    var sPage = sPath.substring(sPath.lastIndexOf('/') + 1);
+    req.onreadystatechange = function () {
+        if (req.readyState == 4 && req.status == 200) {
+            var response = JSON.parse(req.responseText);
+            if (!response.exists && sPage == "buyCards") {
+                document.getElementById("userError").style.backgroundColor = "#EB4141";
+                document.getElementById("userError").innerText = "This user does not exist.  Please try again";
+                return false;
+            }
+            else if (response.exists && sPage == "register") {
+                document.getElementById("userError").style.backgroundColor = "#EB4141";
+                document.getElementById("userError").innerText = "This username already exists.  Please try another";
+                return false;
+            }
+            else {
+                document.getElementById("userError").style.backgroundColor = "White";
+                document.getElementById("userError").innerText = "";
+            }
+        }
+    }
+
+    req.open("POST", "/checkUser");
+    req.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    req.send('user=' + user);
+}
+
+function registerFormValidation()//preforms validation on the registration form
 {
     var pass1 = document.getElementById("password").value;
     var pass2 = document.getElementById("cpassword").value;
@@ -6,7 +36,7 @@
     var sPass2 = String(pass2);
     var username = document.getElementById("username").value;
 
-    AJAXCalls.checkUser(username);//AJAX call to check if given username already exists
+    checkUser(username);//AJAX call to check if given username already exists
     var user = document.getElementById("userError").innerText;
 
     if(pass1 != pass2)//outputs error messages if passwords do not match
@@ -178,34 +208,5 @@ function checkBalance(balance)//ensures user is able to redeem the requested amo
     {
         alert("You do not have enough funds in your balance.  Please try a smaller amount");
         return false;
-    }
-}
-
-function drawCard(id)//uses HTML canvas to draw card design by using AJAX call to retrive card's prize
-{
-    panelArray = AJAXCalls.getPanels(id);
-    var x = 70;
-    var y = 50;
-
-    var canvas = document.getElementById("card");
-    var ctx = canvas.getContext("2d");
-    ctx.fillStyle = "#FF0000";
-    ctx.fillRect(0, 0, 600, 300);
-    ctx.font = "15px Engravers MT";
-    ctx.fillStyle = "white";
-    ctx.textAlign = "left";
-    ctx.fillText("ClickNWin", 350, 50);
-    ctx.fillText("Standard Game", 350, 100);
-    ctx.fillText("Great Prizes", 350, 150)
-
-    while (panelArray.length > 0) {
-        pick = Math.floor(Math.random() * (panelArray.length)) + 0;
-        ctx.fillText("€" + panelArray[pick], x, y);
-        panelArray.splice(pick, 1);
-        y += 100
-        if (panelArray.length == 3) {
-            x += 120;
-            y = 50;
-        }
     }
 }
