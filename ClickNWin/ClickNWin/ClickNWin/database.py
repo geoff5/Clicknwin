@@ -105,7 +105,6 @@ def reduceBalance(user, amount):
     else:
         newBal = balance - float(amount)
     newBal = decimal.Decimal(newBal)
-    print(str(balance) + "  " + amount + "  " + str(newBal))
     
     _SQL = """UPDATE users SET balance = '{newBal}' WHERE username = '{user}';""".format(user = user, newBal = newBal)
 

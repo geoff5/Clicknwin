@@ -36,11 +36,12 @@
             <label class="col-md-2 col-form-label form-label">Username</label>
             <div class="col-md-4">
                 <input type="text" required id="username" name="username" value="{{request.form['username']}}" onblur="checkUser(this.value)" />
-                <span id="userError" class="error"></span>
+                <span id="userError"></span>
             </div>
             <label class="col-md-2 col-form-label form-label">Date of Birth</label>
             <div class="col-md-4">
                 <input type="date" required id="dob" name="dob" value="{{request.form['dob']}}" />
+                <span id="ageError"></span>
             </div>
         </div>
         <br />
@@ -50,7 +51,7 @@
                 <input type="password" required id="password" name="password" />
             </div>
             <div class="col-md-2">
-                <span id="passMatch1" class="error"></span>
+                <span id="passMatch1"></span>
             </div>
         </div>
         <br />
@@ -60,7 +61,7 @@
                 <input type="password" required id="cpassword" name="cpassword" />
             </div>
             <div class="col-md-2">
-                <span id="passMatch2" class="error"></span>
+                <span id="passMatch2"></span>
             </div>
         </div>
         <br />

@@ -35,20 +35,35 @@ function registerFormValidation()//preforms validation on the registration form
     var sPass1 = String(pass1);
     var sPass2 = String(pass2);
     var username = document.getElementById("username").value;
+    var dob = document.getElementById("dob").value;
+    var today = new Date()
+    var birth = new Date(dob);
+   
+    var diff = today - birth.getTime();
+    ageMs = new Date(diff);
+    age = Math.abs(ageMs.getUTCFullYear() - 1970);
 
     checkUser(username);//AJAX call to check if given username already exists
     var user = document.getElementById("userError").innerText;
 
+
     if(pass1 != pass2)//outputs error messages if passwords do not match
     {
-        document.getElementById("passMatch1").style.backgroundColor = "#EB4141"
-        document.getElementById("passMatch2").style.backgroundColor = "#EB4141"
+        document.getElementById("passMatch1").className = "error"
+        document.getElementById("passMatch2").className = "error"
         document.getElementById("passMatch1").innerText = "Passwords do not match";
         document.getElementById("passMatch2").innerText = "Passwords do not match";
         return false;
     }
-    else if(user != "")
+    if(user != "")//if user error message still displayed, then do not submit form
     {
+        return false;
+    }
+
+    if(age < 18)//if age is too low, do not submit form and output error message
+    {
+        document.getElementById("ageError").className = "error";
+        document.getElementById("ageError").innerText = "Your age must be 18 or greater";
         return false;
     }
 
@@ -144,8 +159,10 @@ function validateDate()//ensures a card expiry date is valid
     var expiryMonth = document.getElementById("expiryMonths").value;
     var year = new Date().getFullYear();
     var month = new Date().getMonth();
+    console.log(expiryMonth)
+    console.log(month);
 
-    if(expiryYear == year && expiryMonth < month)
+    if(expiryYear == year && expiryMonth <= month)
     {
         document.getElementById("invalidDate").style.backgroundColor = "#EB4141";
         document.getElementById("invalidDate").innerText = "Invalid Expiry Date.  Please re-enter";
