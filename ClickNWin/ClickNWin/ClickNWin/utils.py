@@ -76,7 +76,3 @@ def processPaypalPayment(user, amount):
         return data
     else:
         return False
-        
-
-    
-        
