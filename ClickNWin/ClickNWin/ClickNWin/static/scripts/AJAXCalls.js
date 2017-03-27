@@ -1,4 +1,35 @@
-﻿function reveal(panel, id)//Makes scratch card panels disappear.  Once all are gone, makes an AJAX call to redeem the card in the database and add funds to user balance if neccessary
+﻿function checkUser(user)//AJAX call to check if a given username exists
+{
+    var req = new XMLHttpRequest();
+    var sPath = window.location.pathname;
+    var sPage = sPath.substring(sPath.lastIndexOf('/') + 1);
+    req.onreadystatechange = function () {
+        if (req.readyState == 4 && req.status == 200) {
+            var response = JSON.parse(req.responseText);
+            if (!response.exists && sPage == "buyCards") {
+                document.getElementById("userError").style.backgroundColor = "#EB4141";
+                document.getElementById("userError").innerText = "This user does not exist.  Please try again";
+                return false;
+            }
+            else if (response.exists && sPage == "register") {
+                document.getElementById("userError").style.backgroundColor = "#EB4141";
+                document.getElementById("userError").innerText = "This username already exists.  Please try another";
+                return false;
+            }
+            else {
+                document.getElementById("userError").style.backgroundColor = "White";
+                document.getElementById("userError").innerText = "";
+            }
+        }
+    }
+
+    req.open("POST", "/checkUser");
+    req.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    req.send('user=' + user);
+}
+
+
+function reveal(panel, id)//Makes scratch card panels disappear.  Once all are gone, makes an AJAX call to redeem the card in the database and add funds to user balance if neccessary
 {
     document.getElementById(panel).hidden = true;
     var checkHidden = []
@@ -65,14 +96,30 @@ function calcPrice()//calculates the price of selected amount of cards
 
         }
     }
-    req.open("POST", "/getCardPrice");
+    req.open("POST", "/getCardPrice")
     req.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     req.send('type=' + type);
+}
+
+function getCardType(id) {
+    var game = ""
+    var req = new XMLHttpRequest();
+    req.onreadystatechange = function () {
+        if (req.readyState == 4 && req.status == 200) {
+            var response = JSON.parse(req.responseText);
+            game = response.cardType;
+        }
+    }
+    req.open("POST", "/getCardType", false);
+    req.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    req.send('id=' + id);
+    return game
 }
 
 function drawCard(id)//uses HTML canvas to draw card design by using AJAX call to retrive card's prize
 {
     panelArray = getPanels(id);
+    cardType = getCardType(id);
     var x = 70;
     var y = 50;
 
@@ -84,7 +131,7 @@ function drawCard(id)//uses HTML canvas to draw card design by using AJAX call t
     ctx.fillStyle = "white";
     ctx.textAlign = "left";
     ctx.fillText("ClickNWin", 350, 50);
-    ctx.fillText("Standard Game", 350, 100);
+    ctx.fillText(cardType + " Game", 350, 100);
     ctx.fillText("Great Prizes", 350, 150)
 
     while (panelArray.length > 0) {
@@ -97,4 +144,50 @@ function drawCard(id)//uses HTML canvas to draw card design by using AJAX call t
             y = 50;
         }
     }
+}
+
+function checkAdmin()
+{
+    var user = document.getElementById("username").value;
+    var req = new XMLHttpRequest();
+    req.onreadystatechange = function () {
+        if (req.readyState == 4 && req.status == 200) {
+            var response = JSON.parse(req.responseText);
+            if (response.exists == true) {
+                document.getElementById("userError").innerText = "Username already exists.  Try another";
+                document.getElementById("userError").className = "error";
+            }
+            else {
+                document.getElementById("userError").innerText = "";
+                document.getElementById("userError").className = "";
+            }
+            
+        }
+    }
+
+    req.open("POST", "/checkAdmin");
+    req.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    req.send('user=' + user);
+}
+
+function checkGame()
+{
+    var game = document.getElementById("gameName").value;
+    var req = new XMLHttpRequest();
+    req.onreadystatechange = function () {
+        if (req.readyState == 4 && req.status == 200) {
+            response = JSON.parse(req.responseText)
+            if (response.exists == true) {
+                document.getElementById("gameError").innerText = "Name already taken.  Please select another"
+                document.getElementById("gameError").className = "error"
+            }
+            else {
+                document.getElementById("gameError").innerText = ""
+                document.getElementById("gameError").className = ""
+            }
+        }
+    }
+    req.open("POST", "/checkGame");
+    req.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    req.send('game=' + game);
 }

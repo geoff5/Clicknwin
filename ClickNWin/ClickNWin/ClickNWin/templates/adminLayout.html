@@ -1,0 +1,55 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }}</title>
+    <link rel="stylesheet" type="text/css" href="/static/content/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="/static/content/site.css" />
+    <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css" />
+    <script src="../static/scripts/jquery-1.10.2.min.js"></script>
+    <script src="/static/scripts/bootstrap.js"></script>
+    <script src="/static/scripts/respond.js"></script>
+    <script src="//cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+    <script src="../static/scripts/AJAXCalls.js"></script>
+    <script src="../static/scripts/FormScripts.js"></script>
+    <script src="/static/scripts/modernizr-2.6.2.js"></script>
+</head>
+
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand">ClickNWin</a>
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li><a href="{{ url_for('addNewGame') }}">Add Game</a></li>
+                    <li><a href="{{ url_for('adminHome') }}">Change Game</a></li>
+                    <li><a href="{{ url_for('addAdmin') }}">Add Admin</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="{{ url_for('logout') }}">Log Out</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="overlay">
+
+
+
+        <div class="container body-content">
+            {% block content %}{% endblock %}
+            <footer>
+                <p>&copy; {{ year }} - IT Carlow</p>
+            </footer>
+        </div>
+    </div>
+    {% block scripts %}{% endblock %}
+</body>
+</html>

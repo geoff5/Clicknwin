@@ -5,10 +5,10 @@ import operator
 def newCards(cards):#Creates new cards, runs a cumulatitive probability algorithm to determine if they are winners and adds them to the database 
     prizes = database.getPrizes(cards['type'])
     chances  = {}
-    chances[prizes[0][3]] = float(prizes[0][4])
-    chances[prizes[0][5]] = float(prizes[0][6])
-    chances[prizes[0][7]] = float(prizes[0][8])    
-    chances[prizes[0][9]] = float(prizes[0][10])
+    chances[prizes[0][2]] = float(prizes[0][3])
+    chances[prizes[0][4]] = float(prizes[0][5])
+    chances[prizes[0][6]] = float(prizes[0][7])    
+    chances[prizes[0][8]] = float(prizes[0][9])
 
     for i in range(0, int(cards['quantity'])):
         card = {}

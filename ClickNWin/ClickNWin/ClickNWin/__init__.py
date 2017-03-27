@@ -12,4 +12,5 @@ app.secret_key = 'ThisIsMySecretKeyForMyProject'
 
 import ClickNWin.views
 import ClickNWin.api
+import ClickNWin.admin
 

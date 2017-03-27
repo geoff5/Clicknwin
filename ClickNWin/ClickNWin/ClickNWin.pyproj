@@ -28,6 +28,9 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="ClickNWin\admin.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="ClickNWin\api.py">
       <SubType>Code</SubType>
     </Compile>
@@ -64,6 +67,11 @@
     <Content Include="ClickNWin\static\scripts\jquery-1.10.2.min.js" />
     <Content Include="ClickNWin\static\scripts\jquery-3.1.1.min.js" />
     <Content Include="ClickNWin\static\scripts\FormScripts.js" />
+    <Content Include="ClickNWin\templates\addAdmin.html" />
+    <Content Include="ClickNWin\templates\addNewGame.html" />
+    <Content Include="ClickNWin\templates\adminHome.html" />
+    <Content Include="ClickNWin\templates\adminLayout.html" />
+    <Content Include="ClickNWin\templates\adminLogin.html" />
     <Content Include="ClickNWin\templates\fundsAdded.html" />
     <Content Include="ClickNWin\templates\buyCard.html" />
     <Content Include="ClickNWin\templates\loggedIn.html" />

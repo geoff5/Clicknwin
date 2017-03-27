@@ -32,7 +32,7 @@ def login():
 def loginHome():
     return render_template('loginHome.html', title='ClickNWin', year = datetime.now().year, balance=database.getBalance(session['user']))
 
-@app.route('/myCards', methods=['POST', 'GET'])
+@app.route('/myCards', methods=['GET'])
 @isLoggedIn
 def myCards():
     userCards = database.getCards(session['user'])
@@ -76,7 +76,6 @@ def addPaymentCard():
 def logout():
     session.pop('isLoggedIn')
     session.pop('user')
-    session.pop('failLogin')
     return redirect('/home')
 
 @app.route('/cardAdded', methods=['GET', 'POST'])
@@ -98,8 +97,8 @@ def buyCards():
         cardTypes.append(i[0])
     return render_template('buyCard.html', year = datetime.now().year, cards = cardTypes, balance=database.getBalance(session['user']))
 
-@isLoggedIn
 @app.route('/cardsBought', methods=['POST', 'GET'])
+@isLoggedIn
 def cardsBought():
     sCards = {}
     
@@ -107,7 +106,6 @@ def cardsBought():
         sCards['user'] = session['user']
     else:
         sCards['user'] = request.form['selectedUser']
-    print(sCards['user'])
     sCards['type'] = request.form['types']
     sCards['quantity'] = request.form['quantity']
     sCards['boughtBy'] = session['user']
@@ -161,13 +159,14 @@ def addFunds():
     flash("Payment Error.  Please check your details and try again", "error")   
     return redirect('/topUp')
 
-@isLoggedIn
+
 @app.route('/redeemBalance', methods=['GET'])
+@isLoggedIn
 def redeemBalance():
     return render_template('redeemBalance.html', year = datetime.now().year, balance=database.getBalance(session['user']))
 
-@isLoggedIn
 @app.route('/balanceRedeemed', methods=['POST'])
+@isLoggedIn
 def balanceRedeemed():
     point = False
     count = -1
@@ -191,8 +190,8 @@ def balanceRedeemed():
         flash("Payout Error.  Please check your details and try again", "error")
         return redirect('/redeemBalance')
 
-@isLoggedIn
 @app.route('/paypalStoreReturn')
+@isLoggedIn
 def paypalStoreReturn():
     data = {}
     data['transactionID'] = session['transactionID']

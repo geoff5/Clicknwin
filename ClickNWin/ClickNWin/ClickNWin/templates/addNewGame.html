@@ -1,0 +1,82 @@
+﻿{% extends "adminLayout.html" %}
+
+{% block content %}
+
+<h1 align="center">Add a New Game</h1>
+<br><br><br />
+<div class="container">
+    <form class="form-inline" method="post" action="/newGameAdded" onsubmit="return newGameValidation()">
+        <div class="row">
+            <label class="col-md-2 col-form-label form-label">Game Name</label>
+            <div class="col-md-4">
+                <input type="text" required id="gameName" name="gameName" oninput="checkGame()" /><span id="gameError"></span>
+            </div>
+            <label class="col-md-2 col-form-label form-label">Game Price</label>
+            <div class="col-md-4">
+                <input type="number" required id="gamePrice" name="gamePrice" />
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <label class="col-md-2 col-form-label form-label">1st Prize</label>
+            <div class="col-md-4">
+                <input type="number" required id="prize1" name="prize1" step="1" min="5000" max="100000" />
+            </div>
+
+            <label class="col-md-2 col-form-label form-label">1st Prize Chance</label>
+            <div class="col-md-4">
+                <input type="number" required id="prize1Chance" value="0.00" name="prize1Chance" step="0.01" min="0.01" max="0.08" oninput="calcNoWinChance();" />
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <label class="col-md-2 col-form-label form-label">2nd Prize</label>
+            <div class="col-md-4">
+                <input type="number" required id="prize2" name="prize2" step="1" min="2000" max="30000" />
+            </div>
+
+            <label class="col-md-2 col-form-label form-label">2nd Prize Chance</label>
+            <div class="col-md-4">
+                <input type="number" required value="0.00" id="prize2Chance" name="prize2Chance" step="0.01" min="0.03" max="0.15" oninput="calcNoWinChance();" />
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <label class="col-md-2 col-form-label form-label">3rd Prize</label>
+            <div class="col-md-4">
+                <input type="number" required id="prize3" name="prize3" step="1" min="100" max="10000" />
+            </div>
+            <label class="col-md-2 col-form-label form-label">3rd Prize Chance</label>
+            <div class="col-md-4">
+                <input type="number" required value="0.00" id="prize3Chance" name="prize3Chance" step="0.01" min="0.09" max="0.17" oninput="calcNoWinChance();" />
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <label class="col-md-2 col-form-label form-label">4th Prize</label>
+            <div class="col-md-4">
+                <input type="number" required id="prize4" name="prize4" step="1" min="10" max="1000" />
+            </div>
+            <label class="col-md-2 col-form-label form-label">4th Prize Chance</label>
+            <div class="col-md-4">
+                <input type="number" value="0.00" required id="prize4Chance" name="prize4Chance" step="0.01" min="0.10" max="0.23" oninput="calcNoWinChance();" />
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <label class="col-md-2 col-form-label form-label">Non Winner Chance</label>
+            <div class="col-md-4">
+                <input type="text" readonly required value="0.00" id="notAWin" name="notAWin" step="0.01" />
+            </div>
+        </div>
+        <br />
+        <div class="row row-centered">
+            <input class="btn btn-primary btn-lg" type="submit" value="Submit">
+        </div>
+
+    </form>
+</div>
+
+
+
+{% endblock %}

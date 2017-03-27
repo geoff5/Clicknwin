@@ -82,28 +82,48 @@ def addPaymentCard(card):
         database.execute(_SQL, (card['cardNumber'],card['expiryMonths'],card['expiryYears'], card['cardType'],card['cardFirstName'],card['cardSurname'], card['user']))
 
 def getCardTypes():
+    decCards = []
+    temp = []
     _SQL = """SELECT name, price FROM cardtypes"""
     
     with DBcm.UseDatabase(config) as database:
         database.execute(_SQL)
         cards = database.fetchall()
-    return cards
+    for i in cards:
+        temp = []
+        for d in i:
+            temp.append(encrypt.decrypt(d))      
+        decCards.append(temp)            
+        
+    return decCards
 
-def getPrizes(type):
+def getPrizes(name):
+    name = encrypt.encrypt(name)
+    decPrizes = []
+    temp = []
     _SQL = """SELECT * FROM cardtypes WHERE name = %s;"""
-    
+
     with DBcm.UseDatabase(config) as database:
-        database.execute(_SQL, (type, ))
+        database.execute(_SQL, (name, ))
         prizes = database.fetchall()
-    return prizes
+    for i in prizes:
+        temp = []
+        for d in i[1:]:
+            temp.append(encrypt.decrypt(d))
+        decPrizes.append(temp)
+
+    return decPrizes
 
 def getPrice(name):
+    decPrice = [] 
+    name = encrypt.encrypt(name)
     _SQL = """SELECT price FROM cardtypes WHERE name = %s;"""
 
     with DBcm.UseDatabase(config) as database:
         database.execute(_SQL, (name, ))
         price = database.fetchall()
-    return price
+    decPrice.append(encrypt.decrypt(price[0][0]))
+    return decPrice
 
 def addScratchCard(card):
     for k in card:
@@ -153,11 +173,13 @@ def getCards(user):
 
 def getCard(id):
     decCard = []
-    _SQL = """SELECT type, prize FROM scratchcards WHERE id = %s"""
+    _SQL = """SELECT type, prize FROM scratchcards WHERE id = %s AND redeemed = 0"""
 
     with DBcm.UseDatabase(config) as database:
         database.execute(_SQL,(id, ))
         card = database.fetchone()  
+    if not card:
+        return card
     for i in card:
         decCard.append(encrypt.decrypt(i))
     return decCard
@@ -179,13 +201,23 @@ def addFunds(user,prize):
     with DBcm.UseDatabase(config) as database:
         database.execute(_SQL, (newBal, user))
 
-def getCardPrizes(type):
+def getCardPrizes(name):
+    temp = []
+    decPrizes = []
+    name = encrypt.encrypt(name)
+
     _SQL = """SELECT prize1, prize2, prize3, prize4 FROM cardtypes WHERE name = %s"""
     
     with DBcm.UseDatabase(config) as database:
-        database.execute(_SQL, (type, ))
-        cards = database.fetchall()
-    return cards
+        database.execute(_SQL, (name, ))
+        prizes = database.fetchall()
+    for i in prizes:
+        temp = []
+        for d in i:
+            temp.append(encrypt.decrypt(d))
+        decPrizes.append(temp)
+    return decPrizes    
+
 
 def getPaymentCards(user):
     decCards = []
@@ -222,6 +254,57 @@ def getPaymentCard(id):
         temp = []
     return decCard
     
-
-
+def adminLogin(admin):
+    decUser = []
+    admin['user'] = encrypt.encrypt(admin['user'])
     
+    _SQL = """SELECT adminUsername, adminPassword FROM admin WHERE adminUsername = %s"""
+
+    with DBcm.UseDatabase(config) as database:
+        database.execute(_SQL, (admin['user'], ))
+        user = database.fetchone()
+        print(user)
+    if not len(user):
+        return False
+    
+    for i in range(0,2):
+        decUser.append(encrypt.decrypt(user[i]))
+
+    if admin['password'] != decUser[1]:
+        return False
+    return True
+
+def addAdmin(admin):
+    for i in admin:
+        admin[i] = encrypt.encrypt(admin[i])
+    _SQL = """INSERT INTO admin
+             (adminUsername, adminPassword)
+             values
+             (%s, %s)"""
+    with DBcm.UseDatabase(config) as database:
+        database.execute(_SQL, (admin['username'], admin['password']))
+
+def checkAdmin(user):
+    print(user)
+    user = encrypt.encrypt(user)
+    _SQL = """SELECT adminUsername FROM admin WHERE adminUsername = %s"""
+    
+    with DBcm.UseDatabase(config) as database:
+        database.execute(_SQL, (user, ))
+        row = database.fetchone()
+    print(row)
+    if row:
+        return True 
+    return False
+    
+def addCardType(newGame):
+    for k in newGame:
+        newGame[k] = encrypt.encrypt(newGame[k])
+    
+    _SQL = """INSERT INTO cardtypes 
+            (name, price, prize1, prize1chance, prize2, prize2chance, prize3, prize3chance, prize4, prize4chance)
+            values
+            (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"""
+
+    with DBcm.UseDatabase(config) as database:
+        database.execute(_SQL, (newGame['gameName'], newGame['gamePrice'], newGame['prize1'], newGame['prize1Chance'], newGame['prize2'], newGame['prize2Chance'], newGame['prize3'], newGame['prize3Chance'], newGame['prize4'], newGame['prize4Chance']))      

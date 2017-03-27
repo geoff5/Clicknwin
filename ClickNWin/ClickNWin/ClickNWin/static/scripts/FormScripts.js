@@ -1,34 +1,4 @@
-﻿function checkUser(user)//AJAX call to check if a given username exists
-{
-    var req = new XMLHttpRequest();
-    var sPath = window.location.pathname;
-    var sPage = sPath.substring(sPath.lastIndexOf('/') + 1);
-    req.onreadystatechange = function () {
-        if (req.readyState == 4 && req.status == 200) {
-            var response = JSON.parse(req.responseText);
-            if (!response.exists && sPage == "buyCards") {
-                document.getElementById("userError").style.backgroundColor = "#EB4141";
-                document.getElementById("userError").innerText = "This user does not exist.  Please try again";
-                return false;
-            }
-            else if (response.exists && sPage == "register") {
-                document.getElementById("userError").style.backgroundColor = "#EB4141";
-                document.getElementById("userError").innerText = "This username already exists.  Please try another";
-                return false;
-            }
-            else {
-                document.getElementById("userError").style.backgroundColor = "White";
-                document.getElementById("userError").innerText = "";
-            }
-        }
-    }
-
-    req.open("POST", "/checkUser");
-    req.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    req.send('user=' + user);
-}
-
-function registerFormValidation()//preforms validation on the registration form
+﻿function registerFormValidation()//preforms validation on the registration form
 {
     var pass1 = document.getElementById("password").value;
     var pass2 = document.getElementById("cpassword").value;
@@ -43,7 +13,6 @@ function registerFormValidation()//preforms validation on the registration form
     ageMs = new Date(diff);
     age = Math.abs(ageMs.getUTCFullYear() - 1970);
 
-    checkUser(username);//AJAX call to check if given username already exists
     var user = document.getElementById("userError").innerText;
 
 
@@ -205,8 +174,8 @@ function validateCardPurchase()//validates scratch card purchases
     var quantity = document.getElementById("quantity").value;
     if (quantity == '0')
     {
-        document.getElementById("quantityError").style.backgroundColor = "#EB4141";
         document.getElementById("quantityError").innerText = "Please select a quantity greater than 0";
+        document.getElementById("quantityError").className = "error";
         return false
     }
     
@@ -214,7 +183,6 @@ function validateCardPurchase()//validates scratch card purchases
     var price = document.getElementById("price").value;
     price = price.substring(1, price.length);
     balance = parseFloat(balance);
-    alert(balance);
     price = parseFloat(price);
     if (price > balance)
     {
@@ -236,6 +204,11 @@ function checkBalance(balance)//ensures user is able to redeem the requested amo
     if (amount > balance)
     {
         alert("You do not have enough funds in your balance.  Please try a smaller amount");
+        return false;
+    }
+    redeem = confirmRedeem();
+    if(redeem == false)
+    {
         return false;
     }
 }
@@ -264,5 +237,51 @@ function confirmTopUp()//confirm the decison to top up balance
 {
     var amount = document.getElementById("amount").value;
     var result = confirm("Are you sure you wish to top up your balance by €" + amount + ".  Press Ok to continue or Cancel to return.");
+    return result;
+}
+
+function addAdminValidation()
+{
+    var error = document.getElementById("userError").innerText;
+    if(error != "")
+    {
+        return false
+    }
+}
+
+function newGameValidation()
+{
+    var prize1 = parseFloat(document.getElementById("prize1Chance").value);
+    var prize2 = parseFloat(document.getElementById("prize2Chance").value);
+    var prize3 = parseFloat(document.getElementById("prize3Chance").value);
+    var prize4 = parseFloat(document.getElementById("prize4Chance").value);
+    var noWin = parseFloat(document.getElementById("notAWin").value);
+
+    var overall = prize1 + prize2 + prize3 + prize4 + noWin;
+
+    if (overall != 1)
+    {
+        document.getElementById("chanceError").innerText = "All chances do not add up to 1.  Please check and re-enter the prize chances";
+        document.getElementById("chanceError").className = "error";
+        return false;
+    }
+}
+
+function calcNoWinChance()
+{
+    var prize1 = parseFloat(document.getElementById("prize1Chance").value);
+    var prize2 = parseFloat(document.getElementById("prize2Chance").value);
+    var prize3 = parseFloat(document.getElementById("prize3Chance").value);
+    var prize4 = parseFloat(document.getElementById("prize4Chance").value);
+
+    var noWin = 1 - (prize1 + prize2 + prize3 + prize4);
+    noWin = noWin.toString();
+    document.getElementById("notAWin").value = noWin;
+}
+
+function confirmRedeem()//confirm the decison to top up balance
+{
+    var amount = document.getElementById("amount").value;
+    var result = confirm("Are you sure you wish to redeem €" + amount + " to your account.  Press Ok to continue or Cancel to return.");
     return result;
 }

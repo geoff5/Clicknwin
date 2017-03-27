@@ -1,0 +1,19 @@
+﻿{% extends "adminLayout.html" %}
+
+{% block content %}
+
+
+<h1>
+    Click N Win Admin Home
+</h1>
+
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+{% for message in messages %}
+<span>{{message}}</span>
+{% endfor %}
+{% endif %}
+{% endwith %}
+<br /><br /><br />
+
+{% endblock %}
