@@ -1,4 +1,4 @@
-from ClickNWin import database
+from ClickNWin import database, paypalAPI
 import random
 import operator
 """Utility methods for creating scratch cards and helping their design"""
@@ -17,7 +17,6 @@ def newCards(cards):#Creates new cards, runs a cumulatitive probability algorith
         prize = ""
         for k,v in sorted(chances.items(), key=operator.itemgetter(1)):
             cumulative += v
-            print(k)
             if chance < cumulative:
                 prize = k
                 break
@@ -41,10 +40,42 @@ def createPanelArray(card):#creates a list of prizes to be displayed on the card
             panels.append(card[pick])
     return panels
         
+def formatCurrency(amount):
+    point = False
+    count = -1
+    if amount[0] == '.':
+        amount = '0' + amount
+        for c in amount:
+            if c == '.':
+                point = True
+            if point:
+                count = count + 1
+        if count == 1:
+            amount = amount + '0'
+    return amount
 
-
+def processCardPayment(user, cardID, amount, cvv):
+    card = database.getPaymentCard(int(cardID))
+    card  = card[0]
+    amount = formatCurrency(amount)
+    paymentSuccess = paypalAPI.topUp(card, amount, cvv)
+    if paymentSuccess:
+        database.addFunds(user, amount)
+        data = {}
+        data['user'] = user
+        data['amount'] = amount
+        data['cardNo'] = card[1][12:]
+        return data
+    else:
+        return False
             
-            
+def processPaypalPayment(user, amount):
+    amount = formatCurrency(amount)
+    data = paypalAPI.pay(amount)
+    if data:
+        return data
+    else:
+        return False
         
 
     

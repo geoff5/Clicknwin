@@ -1,7 +1,7 @@
 from datetime import datetime
 from functools import wraps
 from flask import render_template, session, request, redirect, json, jsonify
-from ClickNWin import app, database, cards,views, paypalAPI
+from ClickNWin import app, database, utils, views, paypalAPI
 """AJAX API calls for the Flask Application"""
 
 def isLoggedIn(func):#decorator function to check a user is logged in
@@ -18,9 +18,11 @@ def isLoggedIn(func):#decorator function to check a user is logged in
 def getCard():
     id = request.form['id']
     card = database.getCard(id)
-    prizes = database.getCardPrizes(card[0][0])
-    cardInfo = card[0] + prizes[0]
-    panels = cards.createPanelArray(cardInfo) 
+    prizes = database.getCardPrizes(card[0])
+    print(prizes)
+    print(card)
+    cardInfo = card + list(prizes[0])
+    panels = utils.createPanelArray(cardInfo) 
     return jsonify(card = panels)
 
 @app.route('/checkUser', methods=['POST', 'GET'])
@@ -42,7 +44,7 @@ def getCardPrice():
 def cardRedeemed():
     id = request.form['id']
     card = database.getCard(id)
-    prize = card[0][1]
+    prize = card[1]
     database.redeemCard(id)
     if prize:
         database.addFunds(session['user'], prize)

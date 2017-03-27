@@ -38,7 +38,13 @@
             <div class="row">
                 <input type="radio" id="myself" name="user" value="myself" checked onchange="addInput();">Buy for myself<br>
                 <input type="radio" id="gift" name="user" value="gift" onchange="addInput();">Buy as a gift<br>
-                <span id="userSelect"></span><br />
+            </div>
+            <div class="row" id="userSelect" style="display:none;">
+                <label class='col-md-2 col-form-label form-label'>User</label>
+                <div class='col-md-4'>
+                    <input type='text' id='selectedUser' name='selectedUser' oninput='checkUser(this.value)' />
+                    <span id='userError'></span>
+                </div>
             </div>
             <div class="row row-centered">
                 <input class="btn btn-primary btn-lg" type="submit" value="Submit">

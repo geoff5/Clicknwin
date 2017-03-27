@@ -31,7 +31,10 @@
     <Compile Include="ClickNWin\api.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="ClickNWin\cards.py">
+    <Compile Include="ClickNWin\encrypt.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ClickNWin\utils.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="ClickNWin\database.py">
@@ -68,6 +71,7 @@
     <Content Include="ClickNWin\templates\loginHome.html" />
     <Content Include="ClickNWin\templates\loginLayout.html" />
     <Content Include="ClickNWin\templates\myCards.html" />
+    <Content Include="ClickNWin\templates\paypalStoreReturn.html" />
     <Content Include="ClickNWin\templates\redeemBalance.html" />
     <Content Include="ClickNWin\templates\redeemCard.html" />
     <Content Include="ClickNWin\templates\register.html" />

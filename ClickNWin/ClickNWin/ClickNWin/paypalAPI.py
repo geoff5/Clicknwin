@@ -1,7 +1,7 @@
 """Functions for interacting with paypal to receive and make payments"""
 
 import paypalrestsdk
-from paypalrestsdk import Payout, ResourceNotFound
+from paypalrestsdk import Payment, Payout, ResourceNotFound
 import logging
 import random
 import string
@@ -24,7 +24,7 @@ def topUp(card, amount, cvv):
             "expire_year": card[3],
             "cvv2": cvv,
             "first_name": card[4],
-            "last_name": card[7] }}]},
+            "last_name": card[6] }}]},
       "transactions": [{
         "item_list": {
           "items": [{
@@ -72,4 +72,48 @@ def balanceRedeem(email, amount):
     else:
         return False
 
-   
+def pay(amount):
+    # Payment
+    # A Payment Resource; create one using
+    # the above types and intent as 'sale'
+    payment = Payment({
+        "intent": "sale",
+
+        "payer": {
+            "payment_method": "paypal"},
+
+        # Redirect URLs
+        "redirect_urls": {
+            "return_url": "http://localhost:5000/paypalStoreReturn",
+            "cancel_url": "http://localhost:5000"},
+
+        "transactions": [{
+
+            "item_list": {
+                "items": [{
+                    "name": "item",
+                    "sku": "item",
+                    "price": amount,
+                    "currency": "EUR",
+                    "quantity": 1}]},
+
+            # Amount
+            # Let's you specify a payment amount.
+            "amount": {
+                "total": amount,
+                "currency": "EUR"},
+            "description": "This is the payment transaction description."}]})
+
+    # Create Payment and return status
+    if payment.create():
+        print("Payment[%s] created successfully" % (payment.id))
+        # Redirect the user to given approval url
+        for link in payment.links:
+            if link.method == "REDIRECT":
+                # Convert to str to avoid google appengine unicode issue
+                # https://github.com/paypal/rest-api-sdk-python/pull/58
+                redirect_url = str(link.href)
+                data = [redirect_url, payment.id]
+                return data
+    else:
+        return False

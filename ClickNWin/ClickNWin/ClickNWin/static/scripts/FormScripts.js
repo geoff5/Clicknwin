@@ -186,13 +186,16 @@ function validateCreditCardForm()
 function addInput()//adds a user field if scratch card is being bought for a friend
 {
     var check = document.getElementById("myself").checked;
-    if (!check)
+    if (check)
     {
-        document.getElementById("userSelect").innerHTML = "<label class='col-md-2 col-form-label form-label'>User</label><div class='col-md-4'><input type='text' id='selectedUser' name='selectedUser' onblur='checkUser(this.value)' /><span id='userError'></span></div>"
+        document.getElementById("selectedUser").value = ""
+        document.getElementById("userSelect").style.display = 'none'
+        document.getElementById("userSelect").required = false
     }
     else
     {
-        document.getElementById("userSelect").innerHTML = ""
+        document.getElementById("userSelect").style.display = 'block'
+        document.getElementById("userSelect").required = true
     }
 }
 
@@ -206,24 +209,60 @@ function validateCardPurchase()//validates scratch card purchases
         document.getElementById("quantityError").innerText = "Please select a quantity greater than 0";
         return false
     }
+    
     var balance = document.getElementById("balance").innerText;
     var price = document.getElementById("price").value;
     price = price.substring(1, price.length);
     balance = parseFloat(balance);
+    alert(balance);
     price = parseFloat(price);
-    if (price > balance) {
+    if (price > balance)
+    {
         alert("You do not have enough funds to buy these cards.  Please top up and try again");
         return false
+    }
+
+    var user = document.getElementById("userError").innerText;
+    if (user != "") {
+        return false;
     }
 }
 
 function checkBalance(balance)//ensures user is able to redeem the requested amount from their balance
 {
-    amount = document.getElementById("amount").value;
+    var amount = document.getElementById("amount").value;
+    amount = parseFloat(amount)
     amount = amount.toFixed(2);
     if (amount > balance)
     {
         alert("You do not have enough funds in your balance.  Please try a smaller amount");
         return false;
     }
+}
+
+function topUpFormInput()//display elements for card payments or payapl payments
+{
+
+    if(document.getElementById("payBy2").checked)
+    {
+        document.getElementById("cardRow").style.display = "none";
+        document.getElementById("cvvRow").style.display = "none";
+        document.getElementById("paymentCards").required = false;
+        document.getElementById("cvv").required = false;
+    }
+
+    else
+    {
+        document.getElementById("cardRow").style.display = "block";
+        document.getElementById("cvvRow").style.display = "block";
+        document.getElementById("paymentCards").required = true;
+        document.getElementById("cvv").required = true;
+    }
+}
+
+function confirmTopUp()//confirm the decison to top up balance
+{
+    var amount = document.getElementById("amount").value;
+    var result = confirm("Are you sure you wish to top up your balance by €" + amount + ".  Press Ok to continue or Cancel to return.");
+    return result;
 }

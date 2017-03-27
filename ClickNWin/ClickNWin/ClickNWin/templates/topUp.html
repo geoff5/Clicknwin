@@ -13,8 +13,12 @@
 {% endwith %}
 
 <div class="container">
-    <form action="/addFunds" method="post">
+    <form action="/addFunds" method="post" onsubmit="return confirmTopUp();">
         <div class="row">
+            <input type="radio"id="payBy1" name="payBy" value="cardPay" checked onchange="topUpFormInput();">Pay with Stored Card<br>
+            <input type="radio" id="payBy2" name="payBy" value="paypal" onchange="topUpFormInput();">Pay via PayPal<br>
+        </div>
+        <div class="row" id="cardRow">
             <label class="col-md-2 col-form-label form-label">Select a Card</label>
             <div class="col-md-4">
                 <select required id="paymentCards" name="card">
@@ -24,7 +28,7 @@
                 </select>
             </div><br /><br />
         </div>
-        <div class="row">
+        <div class="row" id="cvvRow">
             <label class="col-md-2 col-form-label form-label">Enter your CVV2 Number</label>
             <div class="col-md-4">
                 <input type="text" id="cvv" name="cvv" required pattern="[0-9]{3}" title="Must contain only three digits" />

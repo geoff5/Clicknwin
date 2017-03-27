@@ -1,10 +1,19 @@
 ﻿{% extends "layout.html" %}
 
-{% block content %}
 
+{% block content %}
 <body onload="failedLogin({{fail}});">
 <h1 align="center"> Login to your ClickNWin Account</h1>
 <br><br><br />
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    {% for category, message in messages %}
+    <span class="{{category}}">{{message}}</span>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}<br />
+
 <div class="container">
     <form class="form-inline" action="/loggedIn" method="post">
 
@@ -12,7 +21,6 @@
             <label class="col-md-2 col-form-label">Username</label>
             <div class="col-md-4">
                 <input type="text" required id="username" name="username" value="{{request.form['username']}}" />
-                <span id="loginFail"></span>
             </div>
         </div>
         <br />

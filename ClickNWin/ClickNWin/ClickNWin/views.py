@@ -3,7 +3,7 @@
 from datetime import datetime
 from functools import wraps
 from flask import render_template, session, request, redirect, flash
-from ClickNWin import app, database, paypalAPI, cards
+from ClickNWin import app, database, paypalAPI, utils, api
 
 def isLoggedIn(func):
     @wraps(func)
@@ -15,7 +15,7 @@ def isLoggedIn(func):
 
 
 @app.route('/')
-@app.route('/home', methods=['POST', 'GET'])
+@app.route('/home', methods=['GET'])
 def home():
     return render_template('index.html', title='ClickNWin', year=datetime.now().year)
 
@@ -25,10 +25,7 @@ def register():
 
 @app.route('/login')
 def login():
-    isFail = False
-    if 'failLogin' in session:
-        isFail = session['failLogin']
-    return render_template('login.html', title='ClickNWin', year = datetime.now().year, fail = isFail)
+    return render_template('login.html', title='ClickNWin', year = datetime.now().year)
 
 @app.route('/loginHome', methods=['POST', 'GET'])
 @isLoggedIn
@@ -39,6 +36,10 @@ def loginHome():
 @isLoggedIn
 def myCards():
     userCards = database.getCards(session['user'])
+    for i in userCards:
+        i[1] = i[1][0:i[1].find('.')]
+        i[1] = datetime.strptime(i[1], "%Y-%m-%d %H:%M:%S").strftime("%d-%m-%y %H:%M")
+        
     return render_template('myCards.html',title='ClickNWin', year = datetime.now().year, balance=database.getBalance(session['user']), cards = userCards)  
 
 @app.route('/registered', methods=['POST', 'GET'])
@@ -47,6 +48,7 @@ def registered():
     for k,v in request.form.items():
         user[k] = request.form[k]    
     
+    user['balance'] = '0.00'
     success = database.addUser(user)
     if not success:
         return render_template('register.html',title='ClickNWin', year = datetime.now().year)
@@ -61,10 +63,9 @@ def loggedIn():
     if success:
         session['isLoggedIn'] = True
         session['user'] = request.form['username']
-        session['failLogin'] = "false"
         return redirect('/loginHome')
-    session['failLogin'] =  "true"
-    return render_template('login.html',  year = datetime.now().year, fail=session['failLogin'])
+    flash("Your username or password was incorrect.  Please try again","error")
+    return render_template('login.html',  year = datetime.now().year)
 
 @app.route('/addPaymentCard', methods=['POST', 'GET'])
 @isLoggedIn
@@ -84,7 +85,6 @@ def cardAdded():
     card = {'cardType':'', 'cardNumber':'', 'expiryMonths':0, 'expiryYears':0, 'cardFirstName':'', 'cardSurname':'', 'user': session['user']}    
     for k,v in request.form.items():
         card[k] = request.form[k]
-        print(card[k])
 
     database.addPaymentCard(card)
     return redirect('/loginHome')
@@ -102,15 +102,17 @@ def buyCards():
 @app.route('/cardsBought', methods=['POST', 'GET'])
 def cardsBought():
     sCards = {}
-    if 'selectedUser' not in request.form.items():
+    
+    if request.form['selectedUser'] == "":
         sCards['user'] = session['user']
     else:
         sCards['user'] = request.form['selectedUser']
+    print(sCards['user'])
     sCards['type'] = request.form['types']
     sCards['quantity'] = request.form['quantity']
     sCards['boughtBy'] = session['user']
-    sCards['boughtOn'] = datetime.now()
-    cards.newCards(sCards)
+    sCards['boughtOn'] = str(datetime.now())
+    utils.newCards(sCards)
     price = request.form['price']
     database.reduceBalance(session['user'], price)
     return redirect("/myCards")
@@ -136,43 +138,28 @@ def topUp():
         formatCards.append({'id': i[0]})
         temp = i[1][12:]
         formatCards[index]['endNo'] = temp
-        formatCards[index]['cardType'] = i[5]
+        formatCards[index]['cardType'] = i[2]
         index = index + 1
     return render_template('topUp.html',payCards = formatCards, year = datetime.now().year, balance=database.getBalance(session['user']))
 
 @app.route('/addFunds', methods=['POST'])
 @isLoggedIn
 def addFunds():
-    point = False
-    count = -1
-    cardID = request.form['card']
     amount = request.form['amount']
-    cvv = request.form['cvv']
-    if amount[0] == '.':
-        amount = '0' + amount
-    for c in amount:
-        if c == '.':
-            point = True
-        if point:
-            count = count + 1
-    if count == 1:
-        amount = amount + '0'
-    card = database.getPaymentCard(int(cardID))
-    #print(card)
-    card  = card[0]
-    #print(card)
-    paymentSuccess = paypalAPI.topUp(card, amount, cvv)
-    #paymentSuccess = False
-    if paymentSuccess:
-        database.addFunds(session['user'], amount)
-        data = {}
-        data['user'] = session['user']
-        data['amount'] = amount
-        data['cardNo'] = card[1][12:]
-        return render_template('fundsAdded.html',data = data, year = datetime.now().year, balance=database.getBalance(session['user']))
-    else:
-        flash("Payment Error.  Please check your details and try again", "error")   
-        return redirect('/topUp')
+    if request.form['payBy'] == "cardPay":
+        cardID = request.form['card']
+        cvv = request.form['cvv']  
+        data = utils.processCardPayment(session['user'], cardID, amount, cvv)
+        if data:
+            return render_template('fundsAdded.html',data = data, year = datetime.now().year, balance=database.getBalance(session['user']))
+    elif request.form['payBy'] == "paypal":
+       data = utils.processPaypalPayment(session['user'], amount)
+       if data:
+            session['transactionID'] = data[1]
+            session['amount'] = amount 
+            return redirect(data[0]) 
+    flash("Payment Error.  Please check your details and try again", "error")   
+    return redirect('/topUp')
 
 @isLoggedIn
 @app.route('/redeemBalance', methods=['GET'])
@@ -203,3 +190,17 @@ def balanceRedeemed():
     else:
         flash("Payout Error.  Please check your details and try again", "error")
         return redirect('/redeemBalance')
+
+@isLoggedIn
+@app.route('/paypalStoreReturn')
+def paypalStoreReturn():
+    data = {}
+    data['transactionID'] = session['transactionID']
+    session['transactionID'] = ""
+    data['user'] = session['user']
+    data['amount'] = session['amount']
+    session['amount'] = ""
+    database.addFunds(data['user'], data['amount'])
+    return render_template('paypalStoreReturn.html',data = data, year = datetime.now().year, balance=database.getBalance(session['user']))
+
+    
