@@ -60,3 +60,10 @@ def checkGame():
         if game.lower() == i[0].lower():
             exists = True
     return jsonify(exists=exists)
+
+@app.route('/getGame', methods=['POST'])
+def getGame():
+    game = request.form['game']
+    data = database.getPrizes(game)
+    cardData = data[0]
+    return jsonify(data=cardData)

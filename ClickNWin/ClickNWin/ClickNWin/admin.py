@@ -64,3 +64,20 @@ def newGameAdded():
     database.addCardType(newGame)
     flash("New Game " + gameName + " successfuly added")
     return redirect('/adminHome')
+
+@app.route('/changeGame', methods=['GET'])
+@isAdmin
+def changeGame():
+    games = database.getCardTypes()
+    return render_template('changeGame.html', title='ClickNWin', games=games)
+
+@app.route('/gameChanged', methods=['POST'])
+@isAdmin
+def gameChanged():
+    gameName = request.form['gameName']
+    changeGame = {'gameName':'', 'gamePrice':'', 'prize1':'', 'prize1Chance':'', 'prize2':'', 'prize2Chance':'', 'prize3':'', 'prize3Chance':'', 'prize4':'', 'prize4Chance':'', 'noWin':''}
+    for k,v in request.form.items():
+       changeGame[k] = request.form[k]
+    database.modifyGame(changeGame)
+    flash("Game " + gameName + " has been successfuly modified")
+    return redirect('/adminHome')    

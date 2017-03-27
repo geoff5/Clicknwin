@@ -202,4 +202,6 @@ def paypalStoreReturn():
     database.addFunds(data['user'], data['amount'])
     return render_template('paypalStoreReturn.html',data = data, year = datetime.now().year, balance=database.getBalance(session['user']))
 
-    
+@app.route('/terms', methods=['GET'])
+def terms():
+    return render_template('terms.html', title='ClickNWin')   

@@ -308,3 +308,12 @@ def addCardType(newGame):
 
     with DBcm.UseDatabase(config) as database:
         database.execute(_SQL, (newGame['gameName'], newGame['gamePrice'], newGame['prize1'], newGame['prize1Chance'], newGame['prize2'], newGame['prize2Chance'], newGame['prize3'], newGame['prize3Chance'], newGame['prize4'], newGame['prize4Chance']))      
+
+def modifyGame(changeGame):
+    for k in changeGame:
+        changeGame[k] = encrypt.encrypt(changeGame[k])
+
+    _SQL = """UPDATE cardtypes SET price=%s, prize1=%s, prize1chance=%s, prize2=%s, prize2chance=%s, prize3=%s, prize3chance=%s, prize4=%s, prize4chance=%s WHERE name = %s"""
+
+    with DBcm.UseDatabase(config) as database:
+        database.execute(_SQL, (changeGame['gamePrice'], changeGame['prize1'], changeGame['prize1Chance'], changeGame['prize2'], changeGame['prize2Chance'], changeGame['prize3'], changeGame['prize3Chance'], changeGame['prize4'], changeGame['prize4Chance'], changeGame['gameName']))

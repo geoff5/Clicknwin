@@ -191,3 +191,31 @@ function checkGame()
     req.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     req.send('game=' + game);
 }
+
+function getGame(game)//AJAX to retrieve game information from the database
+{
+    var data = []
+    var req = new XMLHttpRequest();
+    req.onreadystatechange = function () {
+        if (req.readyState == 4 && req.status == 200) {
+            response = JSON.parse(req.responseText)
+            data = response.data;
+            document.getElementById("gameName").value = data[0]
+            document.getElementById("gamePrice").value = data[1]
+            document.getElementById("prize1").value = data[2]
+            document.getElementById("prize1Chance").value = data[3]
+            document.getElementById("prize2").value = data[4]
+            document.getElementById("prize2Chance").value = data[5]
+            document.getElementById("prize3").value = data[6]
+            document.getElementById("prize3Chance").value = data[7]
+            document.getElementById("prize4").value = data[8]
+            document.getElementById("prize4Chance").value = data[9]
+            calcNoWinChance()
+            document.getElementById("sButton").disabled = false;
+        }
+    }
+
+    req.open("POST", "/getGame");
+    req.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    req.send('game=' + game);
+}

@@ -72,6 +72,7 @@
     <Content Include="ClickNWin\templates\adminHome.html" />
     <Content Include="ClickNWin\templates\adminLayout.html" />
     <Content Include="ClickNWin\templates\adminLogin.html" />
+    <Content Include="ClickNWin\templates\changeGame.html" />
     <Content Include="ClickNWin\templates\fundsAdded.html" />
     <Content Include="ClickNWin\templates\buyCard.html" />
     <Content Include="ClickNWin\templates\loggedIn.html" />
@@ -84,6 +85,7 @@
     <Content Include="ClickNWin\templates\redeemCard.html" />
     <Content Include="ClickNWin\templates\register.html" />
     <Content Include="ClickNWin\templates\registered.html" />
+    <Content Include="ClickNWin\templates\terms.html" />
     <Content Include="ClickNWin\templates\topUp.html" />
     <Content Include="ClickNWin\templates\addPaymentCard.html" />
     <Content Include="requirements.txt" />
