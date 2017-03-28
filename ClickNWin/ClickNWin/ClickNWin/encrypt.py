@@ -1,5 +1,7 @@
 from Crypto.Cipher import AES
 import base64
+"""Contains function for encrypting and decrypting all database information using the AES algorithm"""
+
 
 key = "fVJ5YJasSDG3D4Ku"
 iv =  "Cw35GddTyBnnuY37"

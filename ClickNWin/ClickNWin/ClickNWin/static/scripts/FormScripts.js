@@ -15,8 +15,7 @@
 
     var user = document.getElementById("userError").innerText;
 
-
-    if(pass1 != pass2)//outputs error messages if passwords do not match
+    if(pass1 != pass2)//outputs error messages if passwords do not match and prevents form submit
     {
         document.getElementById("passMatch1").className = "error"
         document.getElementById("passMatch2").className = "error"
@@ -29,6 +28,13 @@
         return false;
     }
 
+    if (diff < 0)
+    {
+        document.getElementById("ageError").className = "error";
+        document.getElementById("ageError").innerText = "Incorrect date entered";
+        return false
+    }
+
     if(age < 18)//if age is too low, do not submit form and output error message
     {
         document.getElementById("ageError").className = "error";
@@ -36,15 +42,6 @@
         return false;
     }
 
-}
-
-function failedLogin(fail)//outputs error messages for a failed login
-{
-    if (fail == true)
-    {
-        document.getElementById("loginFail").style.backgroundColor = "#EB4141";
-        document.getElementById("loginFail").innerText = "Username or Password is incorrect. Please try again."
-    }
 }
 
 function populateDates()//used on addPayment cards to prepare selectable dates
@@ -140,7 +137,7 @@ function validateDate()//ensures a card expiry date is valid
     return false;
 }
 
-function validateCreditCardForm()
+function validateCreditCardForm()//performs validations when adding a new credit to an account
 {
 
     var cardNumber = validateCardNo();
@@ -240,7 +237,7 @@ function confirmTopUp()//confirm the decison to top up balance
     return result;
 }
 
-function addAdminValidation()
+function addAdminValidation()//validates the new admin form
 {
     var error = document.getElementById("userError").innerText;
     if(error != "")
@@ -249,7 +246,7 @@ function addAdminValidation()
     }
 }
 
-function newGameValidation()
+function newGameValidation()//ensures that newly created games have an overall chance value of 1
 {
     var prize1 = parseFloat(document.getElementById("prize1Chance").value);
     var prize2 = parseFloat(document.getElementById("prize2Chance").value);
@@ -267,7 +264,7 @@ function newGameValidation()
     }
 }
 
-function calcNoWinChance()
+function calcNoWinChance()//when an admin is adding or modifying games, calculates the chance a card will not be a winner based on prize chances 
 {
     var prize1 = parseFloat(document.getElementById("prize1Chance").value);
     var prize2 = parseFloat(document.getElementById("prize2Chance").value);

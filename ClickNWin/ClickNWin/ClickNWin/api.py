@@ -40,7 +40,6 @@ def cardRedeemed():
 def checkAdmin():
     user = request.form['user']
     exists = database.checkAdmin(user)
-    print(exists)
     return jsonify(exists=exists)
 
 @app.route('/getCardType', methods=['POST'])
@@ -54,8 +53,6 @@ def checkGame():
     exists = False
     game = request.form['game']
     games = database.getCardTypes()
-    print(game)
-    print(games)
     for i in games:
         if game.lower() == i[0].lower():
             exists = True

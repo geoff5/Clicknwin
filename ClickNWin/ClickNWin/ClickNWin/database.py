@@ -14,6 +14,8 @@ config = {
 }
 
 def checkUsername(username):
+    username = encrypt.encrypt(username)
+
     _SQL = """SELECT username FROM users WHERE username = %s;"""
     with DBcm.UseDatabase(config) as database:
         database.execute(_SQL, (username, ))
@@ -29,10 +31,8 @@ def addUser(user):
         return False
     
     for k in user:
-        if k != 'username':
-            user[k] = encrypt.encrypt(user[k])
+        user[k] = encrypt.encrypt(user[k])
     
-    print(user)
     _SQL = """INSERT INTO users
             (username, password, firstname, lastname, email, phone, birthdate, balance)
             values
@@ -40,9 +40,10 @@ def addUser(user):
     with DBcm.UseDatabase(config) as database:
         database.execute(_SQL, (user['username'], user['password'], user['firstname'], user['lastname'], user['email'],
                         user['phone'], user['dob'], user['balance']))
-    return True
 
 def login(username, password):
+    username = encrypt.encrypt(username)
+    
     _SQL = """SELECT username,password FROM users WHERE username = %s;"""
     with DBcm.UseDatabase(config) as database:
         database.execute(_SQL, (username, ))
@@ -59,7 +60,8 @@ def login(username, password):
 
     return True
 
-def getBalance(username):
+def getBalance(username):#used to display the users balance at the top of each screen
+    username = encrypt.encrypt(username)
     _SQL = """SELECT balance FROM users WHERE username = %s;"""
     with DBcm.UseDatabase(config) as database:
         database.execute(_SQL, (username, ))
@@ -70,8 +72,7 @@ def getBalance(username):
 
 def addPaymentCard(card):
     for k in card:
-        if k != 'user':
-            card[k] = encrypt.encrypt(card[k])
+        card[k] = encrypt.encrypt(card[k])
 
     _SQL = """INSERT INTO paymentcards
             (cardNumber, expiryMonth, expiryYear, cardType, holderFirstName, holderSurname, user)
@@ -127,8 +128,7 @@ def getPrice(name):
 
 def addScratchCard(card):
     for k in card:
-        if k != 'user':
-            card[k] = encrypt.encrypt(card[k])
+        card[k] = encrypt.encrypt(card[k])
 
     _SQL = """INSERT INTO scratchcards
             (user, prize, type, boughtBy, boughtOn)
@@ -140,11 +140,11 @@ def addScratchCard(card):
 
 def reduceBalance(user, amount):
     balance = float(getBalance(user))
+    user = encrypt.encrypt(user)
     if amount[0] == '€':
         newBal = balance - float(amount[1:])
     else:
         newBal = balance - float(amount)
-
     newBal = encrypt.encrypt(str(newBal))
     
     _SQL = """UPDATE users SET balance = %s WHERE username = %s;"""
@@ -155,6 +155,7 @@ def reduceBalance(user, amount):
 def getCards(user):
     cards = []
     temp = []
+    user = encrypt.encrypt(user)
     
     _SQL = """SELECT id, boughtOn, type, boughtBy FROM scratchcards WHERE user = %s
      AND redeemed = 0"""
@@ -192,6 +193,7 @@ def redeemCard(id):
 
 def addFunds(user,prize):
     balance = float(getBalance(user))
+    user = encrypt.encrypt(user)
     newBal = balance + float(prize)
     newBal = str(newBal)
     newBal = encrypt.encrypt(newBal)
@@ -222,6 +224,7 @@ def getCardPrizes(name):
 def getPaymentCards(user):
     decCards = []
     temp = []
+    user = encrypt.encrypt(user)
     _SQL = """SELECT id, cardNumber, cardType FROM paymentcards WHERE user = %s"""
 
     with DBcm.UseDatabase(config) as database:
@@ -263,7 +266,6 @@ def adminLogin(admin):
     with DBcm.UseDatabase(config) as database:
         database.execute(_SQL, (admin['user'], ))
         user = database.fetchone()
-        print(user)
     if not len(user):
         return False
     
@@ -285,14 +287,12 @@ def addAdmin(admin):
         database.execute(_SQL, (admin['username'], admin['password']))
 
 def checkAdmin(user):
-    print(user)
     user = encrypt.encrypt(user)
     _SQL = """SELECT adminUsername FROM admin WHERE adminUsername = %s"""
     
     with DBcm.UseDatabase(config) as database:
         database.execute(_SQL, (user, ))
         row = database.fetchone()
-    print(row)
     if row:
         return True 
     return False

@@ -40,7 +40,7 @@ def createPanelArray(card):#creates a list of prizes to be displayed on the card
             panels.append(card[pick])
     return panels
         
-def formatCurrency(amount):
+def formatCurrency(amount):#formats the given number to look like a currency value
     point = False
     count = -1
     if amount[0] == '.':
@@ -54,7 +54,7 @@ def formatCurrency(amount):
             amount = amount + '0'
     return amount
 
-def processCardPayment(user, cardID, amount, cvv):
+def processCardPayment(user, cardID, amount, cvv):#processes paypal payments using stored credit cards
     card = database.getPaymentCard(int(cardID))
     card  = card[0]
     amount = formatCurrency(amount)
@@ -69,7 +69,7 @@ def processCardPayment(user, cardID, amount, cvv):
     else:
         return False
             
-def processPaypalPayment(user, amount):
+def processPaypalPayment(user, amount):#processes paypal payments made through the paypal store
     amount = formatCurrency(amount)
     data = paypalAPI.pay(amount)
     if data:

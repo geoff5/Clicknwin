@@ -101,7 +101,8 @@ function calcPrice()//calculates the price of selected amount of cards
     req.send('type=' + type);
 }
 
-function getCardType(id) {
+function getCardType(id)//AJAX call to get the type of card about to be redeemed
+{
     var game = ""
     var req = new XMLHttpRequest();
     req.onreadystatechange = function () {
@@ -123,9 +124,22 @@ function drawCard(id)//uses HTML canvas to draw card design by using AJAX call t
     var x = 70;
     var y = 50;
 
+    if (cardType == "Standard")
+    {
+        design = "#FF0000"
+    }
+    else if (cardType == "Premium")
+    {
+        design = "#003399"
+    }
+    else
+    {
+        design = "#00CC00"
+    }
+
     var canvas = document.getElementById("card");
     var ctx = canvas.getContext("2d");
-    ctx.fillStyle = "#FF0000";
+    ctx.fillStyle = design;
     ctx.fillRect(0, 0, 600, 300);
     ctx.font = "15px Engravers MT";
     ctx.fillStyle = "white";
@@ -146,7 +160,7 @@ function drawCard(id)//uses HTML canvas to draw card design by using AJAX call t
     }
 }
 
-function checkAdmin()
+function checkAdmin()//AJAX call to check a given admin username is not already taken
 {
     var user = document.getElementById("username").value;
     var req = new XMLHttpRequest();
@@ -170,7 +184,7 @@ function checkAdmin()
     req.send('user=' + user);
 }
 
-function checkGame()
+function checkGame()//Ajax Call to check that a given game name is not already taken
 {
     var game = document.getElementById("gameName").value;
     var req = new XMLHttpRequest();

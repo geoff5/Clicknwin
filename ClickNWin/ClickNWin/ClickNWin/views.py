@@ -13,17 +13,28 @@ def isLoggedIn(func):
         return redirect('/home')
     return wrapped_function
 
+def keepToLogin(func):
+    @wraps(func)
+    def wrapped_function(*args, **kwargs):
+        if 'isLoggedIn' in session:
+            return redirect('/loginHome')
+        return func(*args, **kwargs)
+    return wrapped_function
+
 
 @app.route('/')
 @app.route('/home', methods=['GET'])
+@keepToLogin
 def home():
     return render_template('index.html', title='ClickNWin', year=datetime.now().year)
 
 @app.route('/register')
+@keepToLogin
 def register():
     return render_template('register.html', title='ClickNWin', year = datetime.now().year)
 
 @app.route('/login')
+@keepToLogin
 def login():
     return render_template('login.html', title='ClickNWin', year = datetime.now().year)
 
@@ -43,18 +54,17 @@ def myCards():
     return render_template('myCards.html',title='ClickNWin', year = datetime.now().year, balance=database.getBalance(session['user']), cards = userCards)  
 
 @app.route('/registered', methods=['POST', 'GET'])
+@keepToLogin
 def registered():
     user = {'username':'', 'password':'', 'firstname':'', 'lastname':'', 'email':'', 'phone':'', 'dob':''}
     for k,v in request.form.items():
-        user[k] = request.form[k]    
-    
+        user[k] = request.form[k]        
     user['balance'] = '0.00'
-    success = database.addUser(user)
-    if not success:
-        return render_template('register.html',title='ClickNWin', year = datetime.now().year)
+    database.addUser(user)
     return render_template('registered.html',title='ClickNWin', year = datetime.now().year)
 
 @app.route('/loggedIn', methods=['POST', 'GET'])
+@keepToLogin
 def loggedIn():
     username = request.form['username']
     password = request.form['password'] 
