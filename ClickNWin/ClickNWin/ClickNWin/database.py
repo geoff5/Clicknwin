@@ -7,10 +7,10 @@ from ClickNWin import encrypt
 """Contains functions for inserting, updating and retrieving data from the MySQL database"""
 
 config = {
-    'host': '127.0.0.1',
-    'user': 'root',
-    'password': 'srtb19',
-    'database': 'clicknwin',
+    'host': 'ClickNWin.mysql.pythonanywhere-services.com',
+    'user': 'ClickNWin',
+    'password': 'itcarlow',
+    'database': 'ClickNWin$ClickNWin',
 }
 
 def checkUsername(username):

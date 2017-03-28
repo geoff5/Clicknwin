@@ -1,19 +1,19 @@
 ﻿{% extends "adminLayout.html" %}
 
 {% block content %}
-
+<h1>Add a New Admin</h1>
 <div class="container">
     <form action="/adminAdded" method="post" onsubmit="return addAdminValidation();">
         <div class="row">
             <label class="col-md-2 col-form-label form-label">Username</label>
             <div class="col-md-4">
-                <input type="text" required id="username" name="username" oninput="checkAdmin();" pattern="{1,20}" title="Must be less than 20 characters" /><span id="userError"></span>
+                <input type="text" required id="username" name="username" oninput="checkAdmin();" maxlength="20" /><span id="userError"></span>
             </div>
         </div><br />
         <div class="row">
             <label class="col-md-2 col-form-label form-label">password</label>
             <div class="col-md-4">
-                <input type="password" required id="password" name="password" pattern="Must be between 1-20 characters" /><br />
+                <input type="password" required id="password" name="password" maxlength="20" /><br />
             </div>
         </div>
         <br />

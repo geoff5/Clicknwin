@@ -19,7 +19,7 @@
         <div class="row">
             <label class="col-md-1 col-form-label form-label">Card Number</label>
             <div class="col-md-2">
-                <input type="text" required id="cardNumber" name="cardNumber"/><br />
+                <input type="text" required id="cardNumber" name="cardNumber" maxlength="16" pattern="[0-9]{16}" title="Enter a valid card number"/><br />
                 <span id="invalidCard"></span>
             </div>
         </div><br />

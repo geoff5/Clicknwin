@@ -84,8 +84,8 @@ def pay(amount):
 
         # Redirect URLs
         "redirect_urls": {
-            "return_url": "http://localhost:5000/paypalStoreReturn",
-            "cancel_url": "http://localhost:5000"},
+            "return_url": "https://clicknwin.pythonanywhere.com/paypalStoreReturn",
+            "cancel_url": "https://clicknwin.pythonanywhere.com"},
 
         "transactions": [{
 

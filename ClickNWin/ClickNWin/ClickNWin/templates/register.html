@@ -10,12 +10,12 @@
         <div class="row">
             <label class="col-md-2 col-form-label form-label">First Name</label>
             <div class="col-md-4">
-                <input type="text" required id="firstname" name="firstname" title="Must be between 1-30 characters" value="{{request.form['firstname']}}" pattern="{1,30}" />
+                <input type="text" required id="firstname" name="firstname" value="{{request.form['firstname']}}" maxlength="30" />
             </div>
             
                 <label class="col-md-2 col-form-label form-label">Email</label>
             <div class="col-md-4">
-                <input type="email" required id="email" name="email" value="{{request.form['email']}}" pattern="{1,30}" title="Must be between 1-30 characters" />
+                <input type="email" required id="email" name="email" value="{{request.form['email']}}" maxlength="30" />
             </div>
         </div>
         <br />
@@ -23,19 +23,19 @@
             <label class="col-md-2 col-form-label form-label">Surname</label>
 
             <div class="col-md-4">
-                <input type="text" required id="lastname" name="lastname" value="{{request.form['lastname']}}" pattern="{1,30}" title="Must be between 1-30 characters" />
+                <input type="text" required id="lastname" name="lastname" value="{{request.form['lastname']}}" maxlength="30" />
             </div>
 
             <label class="col-md-2 col-form-label form-label">Phone Number</label>
             <div class="col-md-4">
-                <input type="tel" id="phone" name="phone" value="{{request.form['phone']}}" pattern="{1,20}" title="Must be between 1-20 characters" />
+                <input type="tel" id="phone" name="phone" value="{{request.form['phone']}}" pattern="[0-9]{1,20}" title="Must be between 1-20 characters and contain only numbers" />
             </div>
         </div>
         <br />
         <div class="row">
             <label class="col-md-2 col-form-label form-label">Username</label>
             <div class="col-md-4">
-                <input type="text" required id="username" name="username" pattern="{1,20}" title="Must be between 1-20 characters" value="{{request.form['username']}}" oninput="checkUser(this.value)" />
+                <input type="text" required id="username" name="username" maxlength="20" value="{{request.form['username']}}" oninput="checkUser(this.value)" />
                 <span id="userError"></span>
             </div>
             <label class="col-md-2 col-form-label form-label">Date of Birth</label>
@@ -48,7 +48,7 @@
         <div class="row">
             <label class="col-md-2 col-form-label form-label">Password</label>
             <div class="col-md-4">
-                <input type="password" required id="password" name="password" pattern="{1,20}" title="Must be between 1-20 characters" />
+                <input type="password" required id="password" name="password" maxlength="20" />
             </div>
             <div class="col-md-2">
                 <span id="passMatch1"></span>
@@ -58,7 +58,7 @@
         <div class="row">
             <label class="col-md-2 col-form-label form-label">Confirm Password</label>
             <div class="col-md-4">
-                <input type="password" required id="cpassword" name="cpassword" pattern="{1,20}" title="Must be between 1-20 characters" />
+                <input type="password" required id="cpassword" name="cpassword"maxlength="20" />
             </div>
             <div class="col-md-2">
                 <span id="passMatch2"></span>
