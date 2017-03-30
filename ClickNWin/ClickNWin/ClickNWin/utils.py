@@ -1,7 +1,7 @@
 from ClickNWin import database, paypalAPI
 import random
 import operator
-"""Utility methods for creating scratch cards and helping their design"""
+"""Utility methods for creating scratch cards and creating panels for their design"""
 def newCards(cards):#Creates new cards, runs a cumulatitive probability algorithm to determine if they are winners and adds them to the database 
     prizes = database.getPrizes(cards['type'])
     chances  = {}

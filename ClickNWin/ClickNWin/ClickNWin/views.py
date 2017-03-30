@@ -5,6 +5,9 @@ from functools import wraps
 from flask import render_template, session, request, redirect, flash
 from ClickNWin import app, database, paypalAPI, utils, api
 
+#global variable to track users who are logged in
+loggedInUsers = []
+
 def isLoggedIn(func):
     @wraps(func)
     def wrapped_function(*args, **kwargs):
@@ -63,19 +66,23 @@ def registered():
     database.addUser(user)
     return render_template('registered.html',title='ClickNWin', year = datetime.now().year)
 
-@app.route('/loggedIn', methods=['POST', 'GET'])
+@app.route('/loggedIn', methods=['POST'])
 @keepToLogin
 def loggedIn():
     username = request.form['username']
     password = request.form['password'] 
+    if username in loggedInUsers:
+        flash("This user is already logged on", "error")
+        return redirect('/login')
     success = database.login(username, password)
     
     if success:
         session['isLoggedIn'] = True
         session['user'] = request.form['username']
+        loggedInUsers.append(session['user'])
         return redirect('/loginHome')
     flash("Your username or password was incorrect.  Please try again","error")
-    return render_template('login.html',  year = datetime.now().year)
+    return redirect('/login')
 
 @app.route('/addPaymentCard', methods=['POST', 'GET'])
 @isLoggedIn
@@ -84,6 +91,7 @@ def addPaymentCard():
 
 @app.route('/logout', methods=['GET'])
 def logout():
+    loggedInUsers.pop(session['user'])
     session.pop('isLoggedIn')
     session.pop('user')
     return redirect('/home')
