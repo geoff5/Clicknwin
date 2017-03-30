@@ -3,10 +3,8 @@
 from datetime import datetime
 from functools import wraps
 from flask import render_template, session, request, redirect, flash
-from ClickNWin import app, database, paypalAPI, utils, api
+from ClickNWin import app, database, utils
 
-#global variable to track users who are logged in
-loggedInUsers = []
 
 def isLoggedIn(func):
     @wraps(func)
@@ -71,15 +69,11 @@ def registered():
 def loggedIn():
     username = request.form['username']
     password = request.form['password'] 
-    if username in loggedInUsers:
-        flash("This user is already logged on", "error")
-        return redirect('/login')
     success = database.login(username, password)
     
     if success:
         session['isLoggedIn'] = True
         session['user'] = request.form['username']
-        loggedInUsers.append(session['user'])
         return redirect('/loginHome')
     flash("Your username or password was incorrect.  Please try again","error")
     return redirect('/login')
@@ -186,19 +180,17 @@ def redeemBalance():
 @app.route('/balanceRedeemed', methods=['POST'])
 @isLoggedIn
 def balanceRedeemed():
-    point = False
-    count = -1
     amount = request.form['amount']
     email = request.form['email']
-    if amount[0] == '.':
-        amount = '0' + amount
-    for c in amount:
-        if c == '.':
-            point = True
-        if point:
-            count = count + 1
-    if count == 1:
-        amount = amount + '0'
+    password = request.form['password']
+    success = database.login(session['user'], password)
+    if not success:
+        flash("Incorrect password.  Try again")
+        return redirect('/redeemBalance')
+    amount = utils.formatCurrency(amount)
+    if amount < database.getBalance(session['user']):
+        flash("you do not have enough funds in your balance." "error")
+        return redirect('/redeemBalance')
     payoutSuccess = paypalAPI.balanceRedeem(email,amount)
     if payoutSuccess:
         database.reduceBalance(session['user'], amount)

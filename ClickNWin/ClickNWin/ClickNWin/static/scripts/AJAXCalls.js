@@ -148,6 +148,18 @@ function drawCard(id)//uses HTML canvas to draw card design by using AJAX call t
     ctx.fillText(cardType + " Game", 350, 100);
     ctx.fillText("Great Prizes", 350, 150)
 
+    if (cardType == "") {
+        var canvas = document.getElementById("card");
+        var ctx = canvas.getContext("2d");
+        ctx.fillStyle = "#000000";
+        ctx.fillRect(0, 0, 600, 300);
+        ctx.font = "15px Engravers MT";
+        ctx.fillStyle = "white";
+        ctx.textAlign = "left";
+        ctx.fillText("No card to redeem", 350, 50);
+    }
+
+
     while (panelArray.length > 0) {
         pick = Math.floor(Math.random() * (panelArray.length)) + 0;
         ctx.fillText("€" + panelArray[pick], x, y);

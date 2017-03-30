@@ -3,7 +3,8 @@
 {% block content %}
 
 <h1>Redeem Balance</h1><br />
-<h3>Enter the email address of your paypal account<br /> and the selected amount will be refunded to it</h3><br />
+<h3>Enter the email address of your paypal account<br /> and the selected amount will be refunded to it.
+    <br />Enter your password to confirm the redemption</h3><br />
 {% with messages = get_flashed_messages(with_categories=true) %}
 {% if messages %}
 {% for category, message in messages %}
@@ -24,6 +25,12 @@
             <label class="col-md-1 col-form-label form-label">Amount</label>
             <div class="col-md-2">
                 <input type="number" required name="amount" id="amount" step="0.01" pattern="[0-9]{1,}+[.]+[0-9]{2}" />
+            </div>
+        </div>
+        <div class="row">
+            <label class="col-md-1 col-form-label form-label">Password</label>
+            <div class="col-md-2">
+                <input type="number" required name="password" id="password" maxlength="20" />
             </div>
         </div>
         <div class="row">
