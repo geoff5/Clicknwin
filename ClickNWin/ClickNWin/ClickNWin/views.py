@@ -185,11 +185,11 @@ def balanceRedeemed():
     password = request.form['password']
     success = database.login(session['user'], password)
     if not success:
-        flash("Incorrect password.  Try again")
+        flash("Incorrect password.  Try again", "error")
         return redirect('/redeemBalance')
     amount = utils.formatCurrency(amount)
-    if amount < database.getBalance(session['user']):
-        flash("you do not have enough funds in your balance." "error")
+    if float(amount) > float(database.getBalance(session['user'])):
+        flash("you do not have enough funds in your balance.", "error")
         return redirect('/redeemBalance')
     payoutSuccess = paypalAPI.balanceRedeem(email,amount)
     if payoutSuccess:

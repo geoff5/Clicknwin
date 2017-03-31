@@ -11,17 +11,22 @@
             </div>
         </div><br />
         <div class="row">
-            <label class="col-md-2 col-form-label form-label">password</label>
+            <label class="col-md-2 col-form-label form-label">Password</label>
             <div class="col-md-4">
-                <input type="password" required id="password" name="password" maxlength="20" /><br />
+                <input type="password" required id="password" name="password" maxlength="20" /><br /><span id="passMatch1"></span>
             </div>
         </div>
         <br />
         <div class="row">
-            <div class="row row-centered">
-                <input class="btn btn-primary btn-lg" type="submit" value="Submit">
+            <label class="col-md-2 col-form-label form-label">Confirm Password</label>
+            <div class="col-md-4">
+                <input type="password" required id="cpassword" name="cpassword" maxlength="20" /><span id="passMatch2"></span>
             </div>
-        </div>
+                <div class="row">
+                    <div class="row row-centered">
+                        <input class="btn btn-primary btn-lg" type="submit" value="Submit">
+                    </div>
+                </div>
     </form>
 </div>
 

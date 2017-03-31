@@ -23,6 +23,13 @@
         document.getElementById("passMatch2").innerText = "Passwords do not match";
         return false;
     }
+    else
+    {
+        document.getElementById("passMatch1").className = ""
+        document.getElementById("passMatch2").className = ""
+        document.getElementById("passMatch1").innerText = "";
+        document.getElementById("passMatch2").innerText = "";
+    }
     if(user != "")//if user error message still displayed, then do not submit form
     {
         return false;
@@ -34,12 +41,22 @@
         document.getElementById("ageError").innerText = "Incorrect date entered";
         return false
     }
+    else
+    {
+        document.getElementById("ageError").className = "";
+        document.getElementById("ageError").innerText = "";
+    }
 
     if(age < 18)//if age is too low, do not submit form and output error message
     {
         document.getElementById("ageError").className = "error";
         document.getElementById("ageError").innerText = "Your age must be 18 or greater";
         return false;
+    }
+    else
+    {
+        document.getElementById("ageError").className = "";
+        document.getElementById("ageError").innerText = "";
     }
 
 }
@@ -243,6 +260,23 @@ function addAdminValidation()//validates the new admin form
     if(error != "")
     {
         return false
+    }
+    var pass1 = document.getElementById("password").value;
+    var pass2 = document.getElementById("cpassword").value;
+
+    if (pass1 != pass2) {
+        document.getElementById("passMatch1").className = "error"
+        document.getElementById("passMatch2").className = "error"
+        document.getElementById("passMatch1").innerText = "Passwords do not match";
+        document.getElementById("passMatch2").innerText = "Passwords do not match";
+        return false;
+    }
+    else
+    {
+        document.getElementById("passMatch1").className = ""
+        document.getElementById("passMatch2").className = ""
+        document.getElementById("passMatch1").innerText = "";
+        document.getElementById("passMatch2").innerText = "";
     }
 }
 
