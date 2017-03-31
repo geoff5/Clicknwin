@@ -309,10 +309,8 @@ function calcNoWinChance()//when an admin is adding or modifying games, calculat
     prizes = [prize1, prize2, prize3, prize4]
     for (var i = 0; i < prizes.length; i++)
     {
-        alert(prizes[i])
         for(var innerI = 0; innerI < prizes[i].length;innerI++)
         {
-            alert(prizes[i].charAt(innerI))
             if(prizes[i].charAt(innerI) == 'e' || prizes[i].charAt(innerI) == 'E')
             {
                 prizes[i] = prizes[i].substring(0, innerI - 1);
