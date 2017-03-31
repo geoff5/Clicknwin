@@ -30,11 +30,7 @@
         document.getElementById("passMatch1").innerText = "";
         document.getElementById("passMatch2").innerText = "";
     }
-    if(user != "")//if user error message still displayed, then do not submit form
-    {
-        return false;
-    }
-
+   
     if (diff < 0)
     {
         document.getElementById("ageError").className = "error";
@@ -58,6 +54,11 @@
         document.getElementById("ageError").className = "";
         document.getElementById("ageError").innerText = "";
     }
+    if (user != "")//if user error message still displayed, then do not submit form
+    {
+        return false;
+    }
+
 
 }
 
@@ -256,11 +257,7 @@ function confirmTopUp()//confirm the decison to top up balance
 
 function addAdminValidation()//validates the new admin form
 {
-    var error = document.getElementById("userError").innerText;
-    if(error != "")
-    {
-        return false
-    }
+    
     var pass1 = document.getElementById("password").value;
     var pass2 = document.getElementById("cpassword").value;
 
@@ -277,6 +274,11 @@ function addAdminValidation()//validates the new admin form
         document.getElementById("passMatch2").className = ""
         document.getElementById("passMatch1").innerText = "";
         document.getElementById("passMatch2").innerText = "";
+    }
+    var error = document.getElementById("userError").innerText;
+    if (error != "")
+    {
+        return false
     }
 }
 
