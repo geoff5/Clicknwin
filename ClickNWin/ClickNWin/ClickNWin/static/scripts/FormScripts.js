@@ -314,7 +314,7 @@ function calcNoWinChance()//when an admin is adding or modifying games, calculat
         noWin -= prizes[i]
     }
 
-    noWin.toFixed(2);
+    noWin = noWin.toFixed(2);
     noWin = noWin.toString();
     document.getElementById("notAWin").value = noWin;
 }
