@@ -309,7 +309,8 @@ function calcNoWinChance()//when an admin is adding or modifying games, calculat
     prizes = [prize1, prize2, prize3, prize4]
 
     var noWin = 1
-    for (var i = 0; i < prizes.length; i++) {
+    for (var i = 0; i < prizes.length; i++)
+    {
         noWin -= prizes[i]
     }
     noWin = noWin.toString();

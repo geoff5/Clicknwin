@@ -85,7 +85,6 @@ def addPaymentCard():
 
 @app.route('/logout', methods=['GET'])
 def logout():
-    loggedInUsers.pop(session['user'])
     session.pop('isLoggedIn')
     session.pop('user')
     return redirect('/home')
