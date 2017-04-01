@@ -10,7 +10,7 @@
             <label class="col-md-2 col-form-label form-label">Select a Game to Modify</label>
             <div class="col-md-4">
                 <select id="games" required onchange="getGame(this.value);">
-                    <option disabled selected >Select a game...</option>
+                    <option disabled selected>Select a game...</option>
                     {% for i in games %}
                     <option value="{{i[0]}}">{{i[0]}}</option>
                     {% endfor %}
@@ -33,10 +33,15 @@
             <div class="col-md-4">
                 <input type="number" required id="prize1" name="prize1" step="1" min="5000" max="100000" />
             </div>
-
             <label class="col-md-2 col-form-label form-label">1st Prize Chance</label>
             <div class="col-md-4">
-                <input type="number" required id="prize1Chance" value="0.00" name="prize1Chance" step="0.01" min="0.01" max="0.08" oninput="calcNoWinChance();" />
+                <select required id="prize1Chance" name="prize1Chance" onchange="calcNoWinChance();">
+                    <option>0.01</option>
+                    <option>0.02</option>
+                    <option>0.03</option>
+                    <option>0.04</option>
+                    <option>0.05</option>
+                </select>
             </div>
         </div>
         <br />
@@ -45,10 +50,15 @@
             <div class="col-md-4">
                 <input type="number" required id="prize2" name="prize2" step="1" min="2000" max="30000" />
             </div>
-
             <label class="col-md-2 col-form-label form-label">2nd Prize Chance</label>
             <div class="col-md-4">
-                <input type="number" required value="0.00" id="prize2Chance" name="prize2Chance" step="0.01" min="0.03" max="0.15" oninput="calcNoWinChance();" />
+                <select required id="prize2Chance" name="prize2Chance" onchange="calcNoWinChance();">
+                    <option>0.06</option>
+                    <option>0.07</option>
+                    <option>0.08</option>
+                    <option>0.09</option>
+                    <option>0.10</option>
+                </select>
             </div>
         </div>
         <br />
@@ -59,7 +69,13 @@
             </div>
             <label class="col-md-2 col-form-label form-label">3rd Prize Chance</label>
             <div class="col-md-4">
-                <input type="number" required value="0.00" id="prize3Chance" name="prize3Chance" step="0.01" min="0.09" max="0.17" oninput="calcNoWinChance();" />
+                <select required id="prize3Chance" name="prize3Chance" onchange="calcNoWinChance();">
+                    <option>0.11</option>
+                    <option>0.12</option>
+                    <option>0.13</option>
+                    <option>0.14</option>
+                    <option>0.15</option>
+                </select>
             </div>
         </div>
         <br />
@@ -70,7 +86,13 @@
             </div>
             <label class="col-md-2 col-form-label form-label">4th Prize Chance</label>
             <div class="col-md-4">
-                <input type="number" value="0.00" required id="prize4Chance" name="prize4Chance" step="0.01" min="0.10" max="0.23" oninput="calcNoWinChance();" />
+                <select required id="prize4Chance" name="prize4Chance" onchange="calcNoWinChance();">
+                    <option>0.16</option>
+                    <option>0.17</option>
+                    <option>0.18</option>
+                    <option>0.19</option>
+                    <option>0.20</option>
+                </select>
             </div>
         </div>
         <br />
@@ -84,10 +106,7 @@
         <div class="row row-centered">
             <input class="btn btn-primary btn-lg" type="submit" value="Submit" id="sButton" disabled>
         </div>
-
     </form>
 </div>
-
-
 
 {% endblock %}
