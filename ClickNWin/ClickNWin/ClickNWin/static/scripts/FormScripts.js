@@ -300,27 +300,16 @@ function newGameValidation()//ensures that newly created games have an overall c
     }
 }
 
-function calcNoWinChance()//when an admin is adding or modifying games, calculates the chance a card will not be a winner based on prize chances 
+function calcNoWinChance()//when an admin is adding or modifying games, calculates the chance a card will not be a winner based on prize chances
 {
     var prize1 = document.getElementById("prize1Chance").value;
     var prize2 = document.getElementById("prize2Chance").value;
     var prize3 = document.getElementById("prize3Chance").value;
     var prize4 = document.getElementById("prize4Chance").value;
     prizes = [prize1, prize2, prize3, prize4]
-    for (var i = 0; i < prizes.length; i++)
-    {
-        for(var innerI = 0; innerI < prizes[i].length;innerI++)
-        {
-            if(prizes[i].charAt(innerI) == 'e' || prizes[i].charAt(innerI) == 'E')
-            {
-                prizes[i] = prizes[i].substring(0, innerI - 1);
-            }
-        }
-    }
 
     var noWin = 1
-    for (var i = 0; i < prizes.length; i++)
-    {
+    for (var i = 0; i < prizes.length; i++) {
         noWin -= prizes[i]
     }
     noWin = noWin.toString();
