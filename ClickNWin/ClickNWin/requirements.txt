@@ -1,1 +1,5 @@
-Flask<1
+flask
+flask_sslify
+pycrypto
+DBcm
+paypalrestsdk
