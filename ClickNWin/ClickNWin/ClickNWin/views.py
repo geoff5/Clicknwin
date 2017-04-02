@@ -6,7 +6,7 @@ from flask import render_template, session, request, redirect, flash
 from ClickNWin import app, database, utils
 
 
-def isLoggedIn(func):
+def isLoggedIn(func):#decorator to ensure only logged in users can access certain pages
     @wraps(func)
     def wrapped_function(*args, **kwargs):
         if 'isLoggedIn' in session:
@@ -14,7 +14,7 @@ def isLoggedIn(func):
         return redirect('/home')
     return wrapped_function
 
-def keepToLogin(func):
+def keepToLogin(func):#decorator to keep logged in users away from certain pages
     @wraps(func)
     def wrapped_function(*args, **kwargs):
         if 'isLoggedIn' in session:

@@ -73,16 +73,13 @@ def balanceRedeem(email, amount):
         return False
 
 def pay(amount):
-    # Payment
-    # A Payment Resource; create one using
-    # the above types and intent as 'sale'
     payment = Payment({
         "intent": "sale",
 
         "payer": {
             "payment_method": "paypal"},
 
-        # Redirect URLs
+        # Url's that users will be redirected to after finishing their payment
         "redirect_urls": {
             "return_url": "https://clicknwin.pythonanywhere.com/paypalStoreReturn",
             "cancel_url": "https://clicknwin.pythonanywhere.com"},
@@ -97,21 +94,16 @@ def pay(amount):
                     "currency": "EUR",
                     "quantity": 1}]},
 
-            # Amount
-            # Let's you specify a payment amount.
+
             "amount": {
                 "total": amount,
                 "currency": "EUR"},
             "description": "This is the payment transaction description."}]})
 
-    # Create Payment and return status
     if payment.create():
         print("Payment[%s] created successfully" % (payment.id))
-        # Redirect the user to given approval url
         for link in payment.links:
             if link.method == "REDIRECT":
-                # Convert to str to avoid google appengine unicode issue
-                # https://github.com/paypal/rest-api-sdk-python/pull/58
                 redirect_url = str(link.href)
                 data = [redirect_url, payment.id]
                 return data

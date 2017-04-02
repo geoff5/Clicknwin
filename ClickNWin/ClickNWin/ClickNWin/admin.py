@@ -5,7 +5,7 @@ from functools import wraps
 from flask import render_template, session, request, redirect, flash
 from ClickNWin import app, database
 
-def isAdmin(func):
+def isAdmin(func):#decorator to ensure only logged in admins can access admin pages
     @wraps(func)
     def wrapped_function(*args, **kwargs):
         if 'isAdmin' in session:
