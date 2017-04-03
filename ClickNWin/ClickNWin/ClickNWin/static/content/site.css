@@ -102,5 +102,5 @@ button.cardPanel{
     height:40px;
     width: 70px;
     z-index:2;
-    position:absolute;
+    position:fixed;
 }
