@@ -3,7 +3,7 @@
 from datetime import datetime
 from functools import wraps
 from flask import render_template, session, request, redirect, flash
-from ClickNWin import app, database, utils
+from ClickNWin import app, database, utils, paypalAPI
 
 
 def isLoggedIn(func):#decorator to ensure only logged in users can access certain pages
