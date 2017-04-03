@@ -24,14 +24,7 @@
             </div>
             <label class="col-md-2 col-form-label form-label">1st Prize Chance</label>
             <div class="col-md-4">
-                <select required id="prize1Chance" name="prize1Chance" onchange="calcNoWinChance();">
-                    <option selected disabled value="">Select a Chance</option>
-                    <option>0.01</option>
-                    <option>0.02</option>
-                    <option>0.03</option>
-                    <option>0.04</option>
-                    <option>0.05</option>
-                </select>
+                <input type="number" required id="prize1Chance" name="prize1Chance" onchange="calcNoWinChance();" step="0.01" min="0.01" max="0.06" pattern="[0]{1}+[.]+[0-9]{2}">
             </div>
         </div>
         <br />
