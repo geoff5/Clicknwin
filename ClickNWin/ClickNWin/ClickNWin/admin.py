@@ -32,7 +32,7 @@ def adminLoggedIn():
     return redirect('/adminLogin')  
 
 @app.route('/adminLogout', methods=['GET'])
-def logout():
+def adminLogout():
     session.pop('isAdmin')
     session.pop('admin')
     return redirect('/adminLogin')
