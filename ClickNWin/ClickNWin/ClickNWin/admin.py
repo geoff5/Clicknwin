@@ -26,9 +26,16 @@ def adminLoggedIn():
     success = database.adminLogin(admin)
     if success:
         session['isAdmin'] = True
+        session['admin'] = admin['user']
         return redirect('adminHome')
     flash("Username or password is incorrect.  Please try again")
     return redirect('/adminLogin')  
+
+@app.route('/adminLogout', methods=['GET'])
+def logout():
+    session.pop('isAdmin')
+    session.pop('admin')
+    return redirect('/adminLogin')
 
 @app.route('/adminHome')
 @isAdmin
