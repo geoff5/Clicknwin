@@ -163,7 +163,8 @@ def addFunds():
         cvv = request.form['cvv']  
         data = utils.processCardPayment(session['user'], cardID, amount, cvv)
         if data:
-            return render_template('fundsAdded.html',data = data, year = datetime.now().year, balance=database.getBalance(session['user']))
+            session['paymentData'] = data
+            return redirect('/receipt')
     elif request.form['payBy'] == "paypal":
        data = utils.processPaypalPayment(session['user'], amount)
        if data:
@@ -217,3 +218,10 @@ def paypalStoreReturn():
 @app.route('/terms', methods=['GET'])
 def terms():
     return render_template('terms.html', title='ClickNWin')   
+
+@app.route('/receipt', methods = ['GET'])
+@isLoggedIn
+def receipt():
+    data = session['paymentData']
+    session.pop('paymentData')
+    return render_template('fundsAdded.html',data = data, year = datetime.now().year, balance=database.getBalance(session['user']))
