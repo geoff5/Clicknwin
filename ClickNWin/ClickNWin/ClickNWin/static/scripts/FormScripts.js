@@ -229,6 +229,8 @@ function checkBalance(balance)//ensures user is able to redeem the requested amo
     {
         return false;
     }
+    document.getElementById("submit").disabled = true;
+    return true;
 }
 
 function topUpFormInput()//display elements for card payments or payapl payments
@@ -330,9 +332,5 @@ function confirmRedeem()//confirm the decison to top up balance
 {
     var amount = document.getElementById("amount").value;
     var result = confirm("Are you sure you wish to redeem €" + amount + " to your account.  Press Ok to continue or Cancel to return.");
-    if (result == true)
-    {
-        document.getElementById("submit").disabled = true;
-    }
     return result;
 }
