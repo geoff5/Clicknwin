@@ -209,6 +209,9 @@ function validateCardPurchase()//validates scratch card purchases
     if (user != "") {
         return false;
     }
+
+    document.getElementById("submit").disabled = true;
+    return true;
 }
 
 function checkBalance(balance)//ensures user is able to redeem the requested amount from their balance

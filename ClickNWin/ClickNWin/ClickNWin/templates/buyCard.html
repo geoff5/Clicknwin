@@ -4,6 +4,13 @@
 
 <h1 align="center">Buy a Scratch Card</h1>
 <br><br><br />
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% if messages %}
+{% for category, message in messages %}
+<span class="{{category}}">{{message}}</span>
+{% endfor %}
+{% endif %}
+{% endwith %}<br />
 <div class="container">
     <form class="form-inline" method="post" action="/cardsBought" onsubmit="return validateCardPurchase();">
 
@@ -47,7 +54,7 @@
                 </div>
             </div>
             <div class="row row-centered">
-                <input class="btn btn-primary btn-lg" type="submit" value="Submit">
+                <input class="btn btn-primary btn-lg" id="submit" type="submit" value="Submit">
             </div>
 </form>
 </div>

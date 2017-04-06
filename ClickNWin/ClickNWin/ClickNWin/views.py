@@ -111,6 +111,10 @@ def buyCards():
 @app.route('/cardsBought', methods=['POST', 'GET'])
 @isLoggedIn
 def cardsBought():
+    price = request.form['price']
+    if price > database.getBalance(session['user']):
+        flash("You do not have enough funds in your account to buy these cards", "error")
+        return redirect("/buyCards")
     sCards = {}
     
     if request.form['selectedUser'] == "":
@@ -122,7 +126,6 @@ def cardsBought():
     sCards['boughtBy'] = session['user']
     sCards['boughtOn'] = str(datetime.now())
     utils.newCards(sCards)
-    price = request.form['price']
     database.reduceBalance(session['user'], price)
     return redirect("/myCards")
 
