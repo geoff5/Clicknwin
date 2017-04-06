@@ -257,7 +257,7 @@ function confirmTopUp()//confirm the decison to top up balance
     var result = confirm("Are you sure you wish to top up your balance by €" + amount + ".  Press Ok to continue or Cancel to return.");
     if (result == true)
     {
-        document.getElementById(submit).disabled = true;
+        document.getElementById("submit").disabled = true;
     }
     return result;
 }
@@ -330,5 +330,9 @@ function confirmRedeem()//confirm the decison to top up balance
 {
     var amount = document.getElementById("amount").value;
     var result = confirm("Are you sure you wish to redeem €" + amount + " to your account.  Press Ok to continue or Cancel to return.");
+    if (result == true)
+    {
+        document.getElementById("submit").disabled = true;
+    }
     return result;
 }
