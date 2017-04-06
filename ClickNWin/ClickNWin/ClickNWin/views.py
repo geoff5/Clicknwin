@@ -223,5 +223,4 @@ def terms():
 @isLoggedIn
 def receipt():
     data = session['paymentData']
-    session.pop('paymentData')
     return render_template('fundsAdded.html',data = data, year = datetime.now().year, balance=database.getBalance(session['user']))
