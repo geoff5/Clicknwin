@@ -255,6 +255,10 @@ function confirmTopUp()//confirm the decison to top up balance
 {
     var amount = document.getElementById("amount").value;
     var result = confirm("Are you sure you wish to top up your balance by €" + amount + ".  Press Ok to continue or Cancel to return.");
+    if (result == true)
+    {
+        document.getElementById(submit).disabled = true;
+    }
     return result;
 }
 

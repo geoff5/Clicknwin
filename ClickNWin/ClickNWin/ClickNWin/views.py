@@ -112,7 +112,7 @@ def buyCards():
 @isLoggedIn
 def cardsBought():
     price = request.form['price']
-    if price > database.getBalance(session['user']):
+    if float(price[1:]) > float(database.getBalance(session['user'])):
         flash("You do not have enough funds in your account to buy these cards", "error")
         return redirect("/buyCards")
     sCards = {}
