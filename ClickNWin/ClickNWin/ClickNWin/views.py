@@ -197,7 +197,7 @@ def balanceRedeemed():
     if payoutSuccess:
         database.reduceBalance(session['user'], amount)
         flash("Your payout was successful.  The requested funds will be available in your account shortly.")
-        return render_template('loginHome.html', year = datetime.now().year, balance=database.getBalance(session['user']))
+        return redirect("/loginHome")
     else:
         flash("Payout Error.  Please check your details and try again", "error")
         return redirect('/redeemBalance')
